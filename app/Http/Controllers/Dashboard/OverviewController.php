@@ -7,6 +7,7 @@ use App\Models\Transactions;
 use App\Models\Reviews;
 use App\Http\Controllers\AuthController;
 use App\Models\Product;
+use App\Models\Sellers;
 
 class OverviewController extends Controller
 {
@@ -22,7 +23,6 @@ class OverviewController extends Controller
 				$query->where('id_seller', AuthController::getJWT()->sub);
 			});
 		})->limit(4)->get();
-		$avg_rating = $reviews->avg('star') > 0 ? $reviews->avg('star') : 0;
 
 		return view('dashboard.overview', [
 			'title' => 'Overview',
@@ -37,7 +37,7 @@ class OverviewController extends Controller
 				$query->where('id_seller', AuthController::getJWT()->sub);
 			})->get(),
 			'total_income' => $total_income,
-			'avg_rating' => floor($avg_rating),
+			'seller' => Sellers::where('id', AuthController::getJWT()->sub)->first(),
 		]);
 	}
 }

@@ -13,6 +13,7 @@ class Store extends Model
     protected $table = 'stores';
     protected $fillable = [
         'id_seller',
+        'id_gameserver',
         'id_theme',
         'name',
         'description',
@@ -32,6 +33,11 @@ class Store extends Model
     public function seller()
     {
         return $this->belongsTo(Seller::class, 'id_seller', 'id');
+    }
+    
+    public function gameserver()
+    {
+        return $this->belongsTo(Gameserver::class, 'id_gameserver', 'id');
     }
 
     public function theme()

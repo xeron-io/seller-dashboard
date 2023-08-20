@@ -88,5 +88,11 @@ Route::middleware('jwt.auth')->group(function () {
 	Route::delete('/domain/{id}', [DomainController::class, 'delete'])->name('dash.domain.delete');
 
 	// Setup
-	Route::get('/setup', [SetupController::class, 'index'])->name('dash.setup');
+	Route::get('/setup/1', [SetupController::class, 'step1'])->name('dash.setup1');
+	Route::get('/setup/2', [SetupController::class, 'step2'])->name('dash.setup2');
+	Route::get('/setup/3', [SetupController::class, 'step3'])->name('dash.setup3');
+	Route::get('/setup/4', [SetupController::class, 'step4'])->name('dash.setup4');
+
+	// Ping
+	Route::get('/ping/{ip}/{port}', [GameServerController::class, 'ping'])->name('dash.ping');
 });

@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserVerification;
 use App\Mail\ResetPassword;
+use App\Models\Store;
 
 class AuthController extends Controller
 {
@@ -48,6 +49,11 @@ class AuthController extends Controller
 
          $jwt = JWT::encode($payload, env('JWT_KEY'), 'HS256');
          $request->session()->put('token', $jwt);
+
+         $store = Store::where('id_seller', $seller->id)->first();
+         if(!$store) {
+            return redirect()->route('dash.setup1');
+         }
 
          return redirect()->route('dash.overview');
       } else {

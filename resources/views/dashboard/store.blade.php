@@ -17,6 +17,7 @@
 						<tr>
 							<th>No</th>
 							<th>Nama</th>
+							<th>Server</th>
 							<th>Theme</th>
 							<th>Logo</th>
 							<th>Domain</th>
@@ -29,6 +30,7 @@
 							<tr>
 								<td>{{ $loop->iteration }}</td>
 								<td>{{ $item->name }}</td>
+								<td>{{ $item->gameserver->name }}</td>
 								<td>{{ $item->theme->name }}</td>
 								<td>
 									<a href="{{ $item->logo }}" target="_blank">
@@ -93,6 +95,14 @@
           <div class="modal-body">
 						<div class="row">
 							<div class="col-lg-6 col-12">
+								<label>Pilih Game Server:</label>
+								<div class="form-group">
+									<select name="id_gameserver" class="form-control" required>
+										@foreach($gameserver as $item)
+											<option value="{{ $item->id }}">{{ $item->name }}</option>
+										@endforeach
+									</select>
+								</div>
 								<label>Nama Toko: </label>
 								<div class="form-group">
 									<input type="text" name="name" placeholder="Nama toko" class="form-control" value="{{ old('name') }}" minlength="4" required>
@@ -175,6 +185,14 @@
           <div class="modal-body">
 						<div class="row">
 							<div class="col-lg-6 col-12">
+								<label>Pilih Game Server:</label>
+								<div class="form-group">
+									<select name="id_gameserver" class="form-control" required>
+										@foreach ($gameserver as $item)
+											<option value="{{ $item->id }}">{{ $item->name }}</option>
+										@endforeach
+									</select>
+								</div>
 								<label>Nama Toko: </label>
 								<div class="form-group">
 									<input type="text" name="name" placeholder="Nama toko" class="form-control" value="{{ old('name') }}" minlength="4" required>
@@ -252,6 +270,9 @@
 				// remove xeron.io from domain
 				const domain = data.domain.split('.')[0];
 				$('#editStore form input[name="domain"]').val(domain);
+
+				// game server
+				$('#editStore form select[name="id_gameserver"]').val(data.id_gameserver);
 
 				$('#editStore form input[name="youtube"]').val(data.youtube);
 				$('#editStore form input[name="instagram"]').val(data.instagram);
