@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
+use App\Models\Wallets;
+use App\Http\Controllers\AuthController;
 
 class BankController extends Controller
 {
@@ -15,28 +17,30 @@ class BankController extends Controller
 		return view('dashboard.bank', [
 			'title' => 'Rekening Bank',
 			'subtitle' => 'Lihat rekening bank yang anda daftarkan disini',
-			'bank' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/withdraw/bank')->json()['data'],
+			'wallet' => Wallets::where('id_seller', AuthController::getJWT()->sub)->first(),
+			'banks' => json_decode(file_get_contents(base_path('/public/Assets/json/banks.json')), true),
 		]);
 	}
 
 	public function create(Request $request)
 	{
 		$request->validate([
-			'bankName' => 'required',
-			'bankAccountNumber' => 'required',
-			'bankAccountOwner' => 'required',
+			'name' => 'required',
+			'number' => 'required',
+			'owner' => 'required',
 		]);
 
-		$response = Http::withToken(session('token'))->post(env('BACKEND_URL').'/seller/withdraw/bank', [
-			'bankName' => $request->bankName,
-			'bankAccountNumber' => $request->bankAccountNumber,
-			'bankAccountOwner' => $request->bankAccountOwner,
-		])->json();
+		// split data from $request->name with delimiter ;
+		$split = explode(';', $request->name);
 
-		if($response['success'] == 'true') {
-			return redirect()->route('dash.bank')->with('success', 'Rekening Bank anda berhasil ditambahkan');
-		} else {
-			return redirect()->route('dash.bank')->withInput()->with('api_errors', $response['errors']);
-		}
+		Wallets::create([
+			'id_seller' => AuthController::getJWT()->sub,
+			'name' => $split[1],
+			'code' => $split[0],
+			'number' => $request->number,
+			'owner' => ucwords($request->owner),
+		]);
+
+		return redirect()->back()->with('success', 'Berhasil menambahkan rekening bank');
 	}
 }

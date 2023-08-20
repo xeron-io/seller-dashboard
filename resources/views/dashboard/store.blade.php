@@ -18,6 +18,7 @@
 							<th>No</th>
 							<th>Nama</th>
 							<th>Theme</th>
+							<th>Logo</th>
 							<th>Domain</th>
 							<th>Status</th>
 							<th>Aksi</th>
@@ -30,7 +31,12 @@
 								<td>{{ $item->name }}</td>
 								<td>{{ $item->theme->name }}</td>
 								<td>
-									<a href="https://{{ $item->domain }}">
+									<a href="{{ $item->logo }}" target="_blank">
+										lihat
+									</a>
+								</td>
+								<td>
+									<a href="https://{{ $item->domain }}" target="_blank">
 										{{ $item->domain }}
 									</a>
 								</td>
@@ -40,7 +46,7 @@
 									@elseif($item->status == 'pending')
 										<span class="badge bg-warning">Pending</span>
 									@else
-										<span class="badge bg-danger">{{ $item->status }}</span>
+										<span class="badge bg-danger">{{ ucwords($item->status) }}</span>
 									@endif
 								</td>
 								<td>				
@@ -56,7 +62,7 @@
 										class="dropdown-menu fade"
 										aria-labelledby="dropdownMenuButton"
 									>
-										<a class="dropdown-item" href="#">Edit</a>
+										<button type="button" id="editBtn" class="dropdown-item" data-bs-toggle="modal" value="{{ $item->id }}" data-bs-target="#editStore" fdprocessedid="gjh7mli">Edit</button>
 										<hr style="margin: 0;padding: 0;">
 										<form action="{{ route('dash.store.delete', $item->id) }}">
 											<button type="submit" onclick="confirm()" class="dropdown-item">Delete</button>
@@ -102,8 +108,11 @@
 								</div>
 								<label>Logo Toko: </label>
 								<div class="form-group">
-									<input type="file" name="logo" class="form-control" value="{{ old('logo') }}" minlength="4" required>
+									<input type="file" name="logo" class="form-control" value="{{ old('logo') }}" placeholder="Upload logo toko" accept="image/*" onchange="showPreview(event);" required>
 									<p><small class="text-muted">Recommended Resolution: 512x512 | Max 2 MB</small></p>
+								</div>
+								<div class="col-lg-12">
+									<img src="{{ asset('/Assets/images/image-placeholder.png') }}" id="preview" class="img-thumbnail bg-upload" style="height: 200px;width: 200px;">
 								</div>
 							</div>
 
@@ -128,23 +137,152 @@
 								<div class="form-group">
 									<input type="text" name="phone" placeholder="Nomor telepon toko" class="form-control" value="{{ old('phone') }}">
 								</div>
+								<label>Facebook: (opsional)</label>
+								<div class="form-group">
+									<input type="url" name="facebook" placeholder="Link facebook toko" class="form-control" value="{{ old('facebook') }}">
+								</div>
 							</div>
 						</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Close</span>
+              <span class="d-sm-block">Close</span>
             </button>
             <button type="submit" class="btn btn-primary ml-1">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Create</span>
+              <span class="d-sm-block">Tambah</span>
             </button>
           </div>
         </form>
       </div>
     </div>
 	</div>
+
+	<!-- Modal Edit Store -->
+	<div class="modal modal-lg fade text-left" id="editStore" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">
+            Edit Toko
+          </h4>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+					@csrf
+					@method('PUT')
+          <div class="modal-body">
+						<div class="row">
+							<div class="col-lg-6 col-12">
+								<label>Nama Toko: </label>
+								<div class="form-group">
+									<input type="text" name="name" placeholder="Nama toko" class="form-control" value="{{ old('name') }}" minlength="4" required>
+								</div>
+								<label>Deskripsi Toko: </label>
+								<div class="form-group">
+									<textarea type="text" name="description" placeholder="Deskripsi toko" class="form-control" style="height: 100px" minlength="100" required>{{ old('description') }}</textarea>
+								</div>
+								<label>Domain: </label>
+								<div class="input-group mb-2">
+									<input type="text" name="domain" class="form-control" placeholder="Domain toko" value="{{ old('domain') }}" minlength="4" required>
+									<span class="input-group-text" id="domain">{{ env('STORE_DOMAIN') }}</span>
+								</div>
+								<label>Logo Toko: </label>
+								<div class="form-group">
+									<input type="file" name="logo" class="form-control" value="{{ old('logo') }}" placeholder="Upload logo toko" accept="image/*" onchange="showPreview2(event);">
+									<p><small class="text-muted">Recommended Resolution: 512x512 | Max 2 MB</small></p>
+								</div>
+								<div class="col-lg-12">
+									<img src="{{ asset('/Assets/images/image-placeholder.png') }}" id="preview2" class="img-thumbnail bg-upload" style="height: 200px;width: 200px;">
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-12">
+								<label>Youtube: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="youtube" placeholder="Link youtube toko" class="form-control" value="{{ old('youtube') }}">
+								</div>
+								<label>Instagram: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="instagram" placeholder="Link instagram toko" class="form-control" value="{{ old('instagram') }}">
+								</div>
+								<label>Tiktok: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="tiktok" placeholder="Link tiktok toko" class="form-control" value="{{ old('tiktok') }}">
+								</div>
+								<label>Discord: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="discord" placeholder="Link discord toko" class="form-control" value="{{ old('discord') }}">
+								</div>
+								<label>Telepon: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="phone" placeholder="Nomor telepon toko" class="form-control" value="{{ old('phone') }}">
+								</div>
+								<label>Facebook: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="facebook" placeholder="Link facebook toko" class="form-control" value="{{ old('facebook') }}">
+								</div>
+							</div>
+						</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+              <span class="d-sm-block">Close</span>
+            </button>
+            <button type="submit" class="btn btn-primary ml-1">
+              <span class="d-sm-block">Edit</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+	</div>
+
+	<script>
+		$(document).on('click', '#editBtn', function(){
+      const url = '/store/'
+      const id = $(this).val();
+      $.get(url + id, function (data) {
+        $('#editStore').modal('show');
+				$('#editStore form').attr('action', url + id);
+				$('#editStore form input[name="name"]').val(data.name);
+				$('#editStore form textarea[name="description"]').val(data.description);
+				
+				// remove xeron.io from domain
+				const domain = data.domain.split('.')[0];
+				$('#editStore form input[name="domain"]').val(domain);
+
+				$('#editStore form input[name="youtube"]').val(data.youtube);
+				$('#editStore form input[name="instagram"]').val(data.instagram);
+				$('#editStore form input[name="tiktok"]').val(data.tiktok);
+				$('#editStore form input[name="discord"]').val(data.discord);
+				$('#editStore form input[name="phone"]').val(data.phone);
+				$('#editStore form input[name="facebook"]').val(data.facebook);
+				$('#editStore form img').attr('src', data.logo);
+      }) 
+    });
+	</script>
+
+	<script>
+		function showPreview(event){
+			if(event.target.files.length > 0){
+				let src = URL.createObjectURL(event.target.files[0]);
+				let preview = document.getElementById("preview");
+				preview.src = src;
+				preview.style.display = "block";
+			}
+		}
+
+		function showPreview2(event){
+			if(event.target.files.length > 0){
+				let src = URL.createObjectURL(event.target.files[0]);
+				let preview = document.getElementById("preview2");
+				preview.src = src;
+				preview.style.display = "block";
+			}
+		}
+	</script>
 	
 	@if($message = Session::get('success'))
 		<script>
@@ -188,8 +326,8 @@
 			event.preventDefault();
 			let form = event.target.form;
 			Swal.fire({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
+				title: 'Apakah anda yakin?',
+				text: "Semua data yang berhubungan dengan toko ini akan dihapus, seperti produk, stok, transaksi dan lain-lain nya.",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#435EBE',

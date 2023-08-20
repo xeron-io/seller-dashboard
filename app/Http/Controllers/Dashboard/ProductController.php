@@ -2,130 +2,132 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use App\Models\Store;
+use App\Models\Product;
+use App\Models\Category;
+use App\Http\Controllers\AuthController;
 
 class ProductController extends Controller
 {
 	public function index()
 	{
+		$store = Store::where('id_seller', AuthController::getJWT()->sub)->get();
+		$category = Category::whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->get();
+		$product = Product::whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->get();
+
 		return view('dashboard.product', [
 			'title' => 'Product',
 			'subtitle' => 'Lihat semua produk yang toko anda miliki',
-			'product' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/product')->json()['data'],
-			'store' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/store')->json()['data'],
-			'category' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/category')->json()['data'],
+			'product' => $product,
+			'store' => $store,
+			'category' => $category,
 		]);
 	}
 
 	public function detail($id)
 	{
-		$response = Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/product/'.$id)->json()['data'];
-		return $response;
+		$product = Product::where('id', $id)->whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->first();
+		return response()->json($product);
 	}
 
 	public function create(Request $request)
 	{
 		$request->validate([
-			'id_category' => 'required',
-			'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
-			'product_name' => 'required|string|min:3',
-			'product_price' => 'required|numeric|min:5000',
-			'product_description' => 'required|string|min:100',
-			'min_quantity' => 'required|numeric|min:1',
+			'id_category' => 'required|exists:category,id',
+			'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+			'name' => 'required|string|min:3',
+			'price' => 'required|numeric|min:5000',
+			'description' => 'required|string|min:100',
+			'ingame_command' => 'required|string',
 		]);
 
-		$id_category = explode(';', $request->id_category)[0];
-		$id_store = explode(';', $request->id_category)[1];
-		$product_slug = Str::slug($request->product_name, '-');
+		$category = Category::where('id', $request->id_category)->whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->first();
 
 		// upload image to cdn.tokoqu.io/image using form-data
-		$upload = Http::withToken(env('CDN_KEY'))->attach('file', file_get_contents($request->file('product_image')), $request->file('product_image')->getClientOriginalName())->post(env('CDN_URL').'/image')->json();
+		$upload = Http::withToken(env('CDN_KEY'))->attach('file', file_get_contents($request->file('image')), $request->file('image')->getClientOriginalName())->post(env('CDN_URL').'/image')->json();
 
 		if($upload['success'] == false) {
 			return redirect()->route('dash.product')->withInput()->with('api_errors', 'Gagal mengunggah gambar');
 		} 
 		$img_url = $upload['data']['url'];
 
-		$response = Http::withToken(session('token'))->post(env('BACKEND_URL').'/seller/product', [
-			'idCategory' => $id_category,
-			'idStore' => $id_store,
-			'productName' => $request->product_name,
-			'productSlug' => $product_slug,
-			'productDescription' => $request->product_description,
-			'productPrice' => $request->product_price,
-			'productImage' => $img_url,
-			'minQuantity' => $request->min_quantity,
-		])->json();
+		Product::create([
+			'id_category' => $category->id,
+			'id_store' => $category->id_store,
+			'name' => $request->name,
+			'slug' => Str::slug($request->name),
+			'description' => $request->description,
+			'price' => $request->price,
+			'image' => $img_url,
+			'ingame_command' => $request->ingame_command,
+		]);
 
-		if($response['success'] == 'true') {
-			return redirect()->route('dash.product')->with('success', 'Produk anda berhasil dibuat');
-		} else {
-			return redirect()->route('dash.product')->withInput()->with('api_errors', $response['errors']);
-		}
+		return redirect()->route('dash.product')->with('success', 'Produk berhasil ditambahkan');
 	}
 
 	public function edit(Request $request, $id)
 	{
-		$oldData = Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/product/'.$id)->json()['data'];
-		$request->file('product_image') ? $rules_img = 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120' : $rules_img = '';
+		$rules_image = $request->file('image') ? 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048' : '';
 		$request->validate([
-			'id_category' => 'required',
-			'product_image' => $rules_img,
-			'product_name' => 'required|string|min:3',
-			'product_price' => 'required|numeric|min:5000',
-			'product_description' => 'required|string|min:100',
-			'min_quantity' => 'required|numeric|min:1',
+			'id_category' => 'required|exists:category,id',
+			'image' => $rules_image,
+			'name' => 'required|string|min:3',
+			'price' => 'required|numeric|min:5000',
+			'description2' => 'required|string|min:100',
+			'ingame_command' => 'required|string',
 		]);
 
-		$id_category = explode(';', $request->id_category)[0];
-		$id_store = explode(';', $request->id_category)[1];
-		$product_slug = Str::slug($request->product_name, '-');
-		$img_url = '';
+		$category = Category::where('id', $request->id_category)->whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->first();
+		$oldData = Product::where('id', $id)->whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->first();
 
-		if($request->file('product_image')) {
+		// check if new image is uploaded
+		if($request->file('image')) {
 			// upload image to cdn.tokoqu.io/image using form-data
-			$upload = Http::withToken(env('CDN_KEY'))->attach('file', file_get_contents($request->file('product_image')), $request->file('product_image')->getClientOriginalName())->post(env('CDN_URL').'/image')->json();
+			$upload = Http::withToken(env('CDN_KEY'))->attach('file', file_get_contents($request->file('image')), $request->file('image')->getClientOriginalName())->post(env('CDN_URL').'/image')->json();
 
 			if($upload['success'] == false) {
 				return redirect()->route('dash.product')->withInput()->with('api_errors', 'Gagal mengunggah gambar');
-			}
+			} 
 			$img_url = $upload['data']['url'];
 		}
-		else {
-			$img_url = $oldData['product_image'];
-		}
 
-		$response = Http::withToken(session('token'))->put(env('BACKEND_URL').'/seller/product/'.$id, [
-			'idCategory' => $id_category,
-			'idStore' => $id_store,
-			'productName' => $request->product_name,
-			'productSlug' => $product_slug,
-			'productDescription' => $request->product_description,
-			'productPrice' => $request->product_price,
-			'productImage' => $img_url,
-			'minQuantity' => $request->min_quantity,
-		])->json();
+		Product::where('id', $id)->update([
+			'id_category' => $category->id,
+			'id_store' => $category->id_store,
+			'name' => $request->name,
+			'slug' => Str::slug($request->name, '-'),
+			'description' => $request->description2,
+			'price' => $request->price,
+			'image' => $request->file('image') ? $img_url : $oldData->image,
+			'ingame_command' => $request->ingame_command,
+		]);
 
-		if($response['success'] == 'true') {
-			return redirect()->route('dash.product')->with('success', 'Produk anda berhasil diubah');
-		} else {
-			return redirect()->route('dash.product')->withInput()->with('api_errors', $response['errors']);
-		}
+		return redirect()->route('dash.product')->with('success', 'Produk berhasil diubah');
 	}
 
 	public function delete($id)
 	{
-		$response = Http::withToken(session('token'))->delete(env('BACKEND_URL').'/seller/product/'.$id)->json();
+		$product = Product::where('id', $id)->whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->delete();
+		$product->delete();
 
-		if($response['success'] == 'true') {
-			return redirect()->route('dash.product')->with('success', 'Produk anda berhasil dihapus');
-		} else {
-			return redirect()->route('dash.product')->withInput()->with('api_errors', $response['errors']);
-		}
+		return redirect()->route('dash.product')->with('success', 'Produk berhasil dihapus');
 	}
 }

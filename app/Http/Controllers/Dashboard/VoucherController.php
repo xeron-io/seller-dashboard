@@ -2,100 +2,115 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
+use App\Models\Store;
+use App\Models\Voucher;
+use App\Http\Controllers\AuthController;
+use App\Models\Product;
 
 class VoucherController extends Controller
 {
 	public function index()
 	{
+		$store = Store::where('id_seller', AuthController::getJWT()->sub)->get();
+		$voucher = Voucher::whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->with('store')->get();
+
 		return view('dashboard.voucher', [
 			'title' => 'Voucher',
 			'subtitle' => 'Lihat semua voucher yang toko anda miliki',
-			'store' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/store')->json()['data'],
-			'product' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/product')->json()['data'],
-			'voucher' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/coupon?expired=false')->json()['data'],
-			'voucher_expire' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/coupon?expired=true')->json()['data'],
+			'store' => $store,
+			'voucher' => $voucher,
 		]);
 	}
 
 	public function detail($id)
 	{
-		$response = Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/coupon/'.$id)->json()['data'];
-		return $response;
+		$voucher = Voucher::where('id', $id)->whereHas('store', function($q) {
+			$q->where('id_seller', AuthController::getJWT()->sub);
+		})->with('store')->first();
+
+		return response()->json($voucher);
 	}
 
 	public function create(Request $request)
 	{
 		$type = ['percent', 'fixed'];
+
+		// check coupon type
+		if($request->type == 'percent') {
+			$rules_nominal = 'required|numeric|min:1|max:100';
+		} elseif($request->type == 'fixed') {
+			$rules_nominal = 'required|numeric|min:1000';
+		}
+
+		$rules_expire = $request->not_expired == '1' ? '' : 'required|date|after:today';
+
 		$request->validate([
-			'id_product' => 'required',
-			'coupon_code' => 'required',
-			'coupon_type' => 'required|in:'.implode(',', $type),
-			'coupon_amount' => 'required|numeric',
-			'coupon_expire' => 'required|date',
+			'id_store' => 'required|numeric|exists:stores,id',
+			'code' => 'required|unique:voucher,code|string|min:5|max:20',
+			'type' => 'required|in:'.implode(',', $type),
+			'nominal' => $rules_nominal,
+			'limit' => 'required|numeric',
+			'expired_at' => $rules_expire,
 		]);
 
-		$id_product = explode(';', $request->id_product)[0];
-		$id_store = explode(';', $request->id_product)[1];
+		// insert to database
+		Voucher::create([
+			'id_store' => $request->id_store,
+			'code' => $request->code,
+			'type' => $request->type,
+			'amount' => $request->nominal,
+			'limit' => $request->limit,
+			'expired_at' => $request->expired_at ? date('Y-m-d H:i:s', strtotime($request->expired_at)) : null,
+		]);
 
-		$response = Http::withToken(session('token'))->post(env('BACKEND_URL').'/seller/coupon', [
-			'idProduct' => $id_product,
-			'idStore' => $id_store,
-			'couponCode' => $request->coupon_code,
-			'couponType' => $request->coupon_type,
-			'couponAmount' => $request->coupon_amount,
-			'couponExpiredAt' => $request->coupon_expire,
-		])->json();
-
-		if($response['success'] == 'true') {
-			return redirect()->route('dash.voucher')->with('success', 'Voucher anda berhasil dibuat');
-		} else {
-			return redirect()->route('dash.voucher')->withInput()->with('api_errors', $response['errors']);
-		}
+		return redirect()->route('dash.voucher')->with('success', 'Voucher anda berhasil dibuat');
 	}
 
 	public function edit(Request $request, $id)
 	{
 		$type = ['percent', 'fixed'];
+
+		// check coupon type
+		if($request->type == 'percent') {
+			$rules_nominal = 'required|numeric|min:1|max:100';
+		} elseif($request->type == 'fixed') {
+			$rules_nominal = 'required|numeric|min:1000';
+		}
+
+		$rules_expire = $request->not_expired == '1' ? '' : 'required|date|after:today';
+
 		$request->validate([
-			'id_product' => 'required',
-			'coupon_code' => 'required',
-			'coupon_type' => 'required|in:'.implode(',', $type),
-			'coupon_amount' => 'required|numeric',
-			'coupon_expire' => 'required|date',
+			'id_store' => 'required|numeric|exists:stores,id',
+			'code' => 'required|string|min:5|max:20|unique:voucher,code,'.$id,
+			'type' => 'required|in:'.implode(',', $type),
+			'nominal' => $rules_nominal,
+			'limit' => 'required|numeric',
+			'expired_at' => $rules_expire,
 		]);
 
-		$id_product = explode(';', $request->id_product)[0];
-		$id_store = explode(';', $request->id_product)[1];
+		// update to database
+		Voucher::where('id', $id)->update([
+			'id_store' => $request->id_store,
+			'code' => $request->code,
+			'type' => $request->type,
+			'amount' => $request->nominal,
+			'limit' => $request->limit,
+			'expired_at' => $request->expired_at ? date('Y-m-d H:i:s', strtotime($request->expired_at)) : null,
+		]);
 
-		$response = Http::withToken(session('token'))->put(env('BACKEND_URL').'/seller/coupon/'.$id, [
-			'idProduct' => $id_product,
-			'idStore' => $id_store,
-			'couponCode' => $request->coupon_code,
-			'couponType' => $request->coupon_type,
-			'couponAmount' => $request->coupon_amount,
-			'couponExpiredAt' => $request->coupon_expire,
-		])->json();
-
-		if($response['success'] == 'true') {
-			return redirect()->route('dash.voucher')->with('success', 'Voucher anda berhasil diubah');
-		} else {
-			return redirect()->route('dash.voucher')->withInput()->with('api_errors', $response['errors']);
-		}
+		return redirect()->route('dash.voucher')->with('success', 'Voucher anda berhasil di update');
 	}
 
 	public function delete($id)
 	{
-		$response = Http::withToken(session('token'))->delete(env('BACKEND_URL').'/seller/coupon/'.$id)->json();
+		// delete from database
+		Voucher::where('id', $id)->delete();
 
-		if($response['success'] == 'true') {
-			return redirect()->route('dash.voucher')->with('success', 'Voucher anda berhasil dihapus');
-		} else {
-			return redirect()->route('dash.voucher')->withInput()->with('api_errors', $response['errors']);
-		}
+		return redirect()->route('dash.voucher')->with('success', 'Voucher anda berhasil di hapus');
 	}
 }

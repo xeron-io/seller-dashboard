@@ -3,7 +3,7 @@
 @section('content')
 	<section class="section">
 		<div class="card col-md-8">
-			@if($bank)	
+			@if($wallet)
 				<div class="card-body">
 					<h4>Ingin mengubah rekening bank anda?</h4>
 					<p class="text-muted">
@@ -16,7 +16,7 @@
 							<div class="col-md-12">
 								<label>Nama Bank: </label>
 								<div class="form-group">
-									<input type="text" name="bankName" class="form-control mb-1" value="{{ $bank['bank_name'] }}" readonly>
+									<input type="text" name="name" class="form-control mb-1" value="{{ $wallet->name }}" readonly>
 								</div>
 							</div>
 						</div>
@@ -25,7 +25,7 @@
 							<div class="col-md-12">
 								<label>No Rekening Bank: </label>
 								<div class="form-group">
-									<input type="text" name="bankAccountNumber" class="form-control mb-1" value="{{ $bank['bank_account_number'] }}" readonly>
+									<input type="text" name="number" class="form-control mb-1" value="{{ $wallet->number }}" readonly>
 								</div>
 							</div>
 						</div>
@@ -34,7 +34,7 @@
 							<div class="col-md-12">
 								<label>Nama Pemilik Rekening: </label>
 								<div class="form-group">
-									<input type="text" name="bankAccountOwner" class="form-control mb-1" value="{{ $bank['bank_account_owner'] }}" readonly>
+									<input type="text" name="owner" class="form-control mb-1" value="{{ $wallet->owner }}" readonly>
 								</div>
 							</div>
 						</div>
@@ -42,23 +42,25 @@
 				</div>
 			@else
 				<div class="card-body text-center">
-					<h3>
-						<i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i><br>
-						Anda belum menambahkan Rekening Bank
-					</h3>
-					<p class="text-muted">
-						Ayo segera tambahkan rekening bank anda agar dapat melakukan penarikan saldo dari penjualan produk anda.
-					</p>
-					<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStore">
-						Tambah Rekening Bank
-					</button>
+					<div class="text-center">
+						<i class="fa fa-question fa-5x text-muted"></i>
+						<h6 class="mt-3 text-muted">
+							Anda belum menambahkan rekening bank
+						</h6>
+						<p class="text-muted">
+							Silahkan tambahkan rekening bank anda untuk memulai menarik saldo dari penjualan produk anda.
+						</p>
+						<a href="#" data-bs-toggle="modal" data-bs-target="#createWallet" class="btn btn-primary">
+							Tambah Rekening Bank
+						</a>
+					</div>
 				</div>
 			@endif
 		</div>
 	</section>
 
 	<!-- Modal Create Bank -->
-	<div class="modal fade text-left" id="createStore" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+	<div class="modal fade text-left" id="createWallet" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -74,17 +76,22 @@
           <div class="modal-body">
 						<label>Nama Bank: </label>
             <div class="form-group">
-              <input type="text" name="bankName" class="form-control mb-1" required>
+              {{-- use choice.js --}}
+							<select name="name" class="choices form-select" required>
+								@foreach($banks as $bank)
+									<option value="{{ $bank['bank_code'] }};{{ $bank['name'] }}">{{ $bank['name'] }}</option>
+								@endforeach
+							</select>
             </div>
 
 						<label>No Rekening Bank: </label>
             <div class="form-group">
-              <input type="text" name="bankAccountNumber" class="form-control mb-1" required>
+              <input type="text" name="number" class="form-control mb-1" required>
             </div>
 
 						<label>Nama Pemilik Rekening: </label>
             <div class="form-group">
-              <input type="text" name="bankAccountOwner" class="form-control mb-1" required>
+              <input type="text" name="owner" class="form-control mb-1" required>
 							<p><small class="text-muted">
 								Perhatian:
 								Pastikan data yang anda masukkan sudah benar, karena data ini akan digunakan untuk penarikan saldo dari penjualan produk anda. Untuk mengubah data penarikan rekening bank, anda dapat menghubungi admin.
@@ -93,12 +100,10 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Close</span>
+              <span class="d-sm-block">Close</span>
             </button>
             <button type="submit" class="btn btn-primary ml-1">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Tambah</span>
+              <span class="d-sm-block">Tambah</span>
             </button>
           </div>
         </form>

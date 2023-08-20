@@ -8,7 +8,7 @@
 					<select name="filter_store" id="filter_store" class="form-select border-0 py-2 px-3">
 						<option value="">- Semua Toko -</option>
 						@foreach($store as $item)
-							<option value="{{ $item['store_name'] }}">{{ $item['store_name'] }}</option>
+							<option value="{{ $item->name }}">{{ $item->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -23,7 +23,7 @@
 			<div class="card-header">
 				<div class="d-flex justify-content-between">
 					<h4 class="card-title">Daftar Produk</h4>
-					<button type="button" class="btn btn-primary btn-sm ml-auto" data-bs-toggle="modal" data-bs-target="#createStore" fdprocessedid="gjh7mli">
+					<button type="button" class="btn btn-primary btn-sm ml-auto" data-bs-toggle="modal" data-bs-target="#createProduct" fdprocessedid="gjh7mli">
 						<i class="fa fa-plus"></i> Tambah Produk
 					</button>
 				</div>
@@ -34,10 +34,10 @@
 						<tr>
 							<th>No</th>
 							<th>Nama</th>
+							<th>Harga</th>
 							<th>Deskripsi</th>
 							<th>Kategori</th>
 							<th>Toko</th>
-							<th>Stok</th>
 							<th>Gambar</th>
 							<th>Aksi</th>
 						</tr>
@@ -46,15 +46,13 @@
 						@foreach($product as $item)
 							<tr>
 								<td>{{ $loop->iteration }}</td>
-								<td>{{ $item['product_name'] }}</td>
-								<td>{{ Str::substr($item['product_description'], 0, 50) . '...' }}</td>
-								<td>{{ $item['category']['category_name'] }}</td>
-								<td>{{ $item['store']['store_name'] }}</td>
+								<td>{{ $item->name }}</td>
+								<td>@currency($item->price)</td>
+								<td>{{ Str::limit(strip_tags($item->description), 50) }}</td>
+								<td>{{ $item->category->name }}</td>
+								<td>{{ $item->store->name }}</td>
 								<td>
-									<span class="badge bg-success">0</span>
-								</td>
-								<td>
-									<a href="{{ $item['product_image'] }}" target="_blank">
+									<a href="{{ $item->image }}" target="_blank">
 										click here
 									</a>
 								</td>
@@ -71,9 +69,9 @@
 										class="dropdown-menu fade"
 										aria-labelledby="dropdownMenuButton"
 									>
-										<button type="button" id="editBtn" class="dropdown-item" data-bs-toggle="modal" value="{{ $item['id_product'] }}" data-bs-target="#editProduct" fdprocessedid="gjh7mli">Edit</button>
+										<button type="button" id="editBtn" class="dropdown-item" data-bs-toggle="modal" value="{{ $item->id }}" data-bs-target="#editProduct" fdprocessedid="gjh7mli">Edit</button>
 										<hr style="margin: 0;padding: 0;">
-										<form action="{{ route('dash.product.delete', $item['id_product']) }}">
+										<form action="{{ route('dash.product.delete', $item->id) }}">
 											<button type="submit" onclick="confirm()" class="dropdown-item">Delete</button>
 										</form>
 								</td>
@@ -85,8 +83,8 @@
 		</div>
 	</section>
 
-	<!-- Modal Create Category -->
-	<div class="modal fade text-left" id="createStore" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+	<!-- Modal Create Product -->
+	<div class="modal modal-lg fade text-left" id="createProduct" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -100,47 +98,47 @@
         <form action="{{ route('dash.product.create') }}" method="POST" enctype="multipart/form-data">
 					@csrf
           <div class="modal-body">
-						<label>Upload Gambar: </label>
-						<div class="form-group">
-              <input type="file" name="product_image" class="form-control" placeholder="Upload gambar produk" value="{{ old('product_image') }}" accept="image/*" onchange="showPreview(event);" required>
-            </div>
-						<div class="col-lg-6 mb-3">
-							<img src="{{ asset('/Assets/images/image-placeholder.png') }}" id="preview" class="img-thumbnail bg-upload">
-						</div>
             <label>Pilih Kategory: </label>
             <div class="form-group">
               <select name="id_category" class="form-select">
 								@foreach($category as $item)
-                	<option value="{{ $item['id_category'] }};{{ $item['store']['id_store'] }}">{{ $item['category_name'] }} ({{ $item['store']['store_name'] }})</option>
+                	<option value="{{ $item->id }}">{{ $item->name }} ({{ $item->store->name }})</option>
 								@endforeach
               </select>
             </div>
 						<label>Nama Produk: </label>
             <div class="form-group">
-              <input type="text" name="product_name" class="form-control" placeholder="Nama produk" value="{{ old('product_name') }}" minlength="4" required>
+              <input type="text" name="name" class="form-control" placeholder="Nama produk" value="{{ old('name') }}" minlength="4" required>
             </div>
 						<label>Deskripsi Produk: </label>
             <div class="form-group">
-              <textarea type="text" name="product_description" placeholder="Deskripsi produk" class="form-control" style="height: 100px" value="{{ old('product_description') }}" minlength="100" required></textarea>
+							<div id="editor" style="height: 100px;">{{ strip_tags(old('description')) }}</div>
+							<input type="hidden" name="description" id="description" value="{{ old('description') }}">
             </div>
 						<label>Harga Produk: </label>
             <div class="form-group">
-              <input type="number" name="product_price" class="form-control" placeholder="Harga produk" value="{{ old('product_price') }}" min="5000" required>
+              <input type="number" name="price" class="form-control" placeholder="Insert product price without dot (.)" value="{{ old('price') }}" min="5000" required>
             </div>
-						<label>Min Quantity: </label>
-            <div class="form-group">
-              <input type="number" name="min_quantity" class="form-control" placeholder="Minimal Kuantitas" value="1" min="1" required>
-							<p><small class="text-muted">Minimal kuantitas adalah jumlah minimal produk yang dapat dibeli dalam satu kali transaksi</small></p>
+						<label>Ingame Command: </label>
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">When the product is purchased:</span>
+              <input type="text" name="ingame_command" class="form-control" placeholder="Insert ingame command without slash (/)." value="{{ old('ingame_command') }}">
             </div>
+						<p><small class="text-muted">Gunakan variabel <b>{id}</b> untuk mendapatkan user ingame id</small></p>
+						<label>Gambar Produk: </label>
+						<div class="form-group">
+              <input type="file" name="image" class="form-control" placeholder="Upload gambar produk" value="{{ old('image') }}" accept="image/*" onchange="showPreview(event);" required>
+            </div>
+						<div class="col-lg-6 mb-3">
+							<img src="{{ asset('/Assets/images/image-placeholder.png') }}" id="preview" class="img-thumbnail bg-upload" style="height: 200px;width: 200px;">
+						</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Close</span>
+              <span class="d-sm-block">Close</span>
             </button>
             <button type="submit" class="btn btn-primary ml-1">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Tambah</span>
+              <span class="d-sm-block">Tambah</span>
             </button>
           </div>
         </form>
@@ -148,8 +146,8 @@
     </div>
 	</div>
 
-	<!-- Modal Edit Category -->
-	<div class="modal fade text-left" id="editProduct" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+	<!-- Modal Edit Product -->
+	<div class="modal modal-lg fade text-left" id="editProduct" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -164,47 +162,47 @@
 					@csrf
 					@method('PUT')
           <div class="modal-body">
-						<label>Upload Gambar: </label>
-						<div class="form-group">
-              <input type="file" name="product_image" class="form-control" placeholder="Upload gambar produk" value="{{ old('product_image') }}" accept="image/*" onchange="showPreview2(event);">
-            </div>
-						<div class="col-lg-6 mb-3">
-							<img src="{{ asset('/Assets/images/image-placeholder.png') }}" id="preview2" class="img-thumbnail bg-upload">
-						</div>
             <label>Pilih Kategory: </label>
             <div class="form-group">
               <select name="id_category" class="form-select">
 								@foreach($category as $item)
-                	<option value="{{ $item['id_category'] }};{{ $item['store']['id_store'] }}">{{ $item['category_name'] }} ({{ $item['store']['store_name'] }})</option>
+                	<option value="{{ $item->id }}">{{ $item->name }} ({{ $item->store->name }})</option>
 								@endforeach
               </select>
             </div>
 						<label>Nama Produk: </label>
             <div class="form-group">
-              <input type="text" name="product_name" class="form-control" placeholder="Nama produk" value="{{ old('product_name') }}" minlength="4" required>
+              <input type="text" name="name" class="form-control" placeholder="Nama produk" value="{{ old('name') }}" minlength="4" required>
             </div>
 						<label>Deskripsi Produk: </label>
             <div class="form-group">
-              <textarea type="text" name="product_description" placeholder="Deskripsi produk" class="form-control" style="height: 100px" value="{{ old('product_description') }}" minlength="100" required></textarea>
+							<div id="editor2" style="height: 100px;"></div>
+							<input type="hidden" name="description2" id="description">
             </div>
 						<label>Harga Produk: </label>
             <div class="form-group">
-              <input type="number" name="product_price" class="form-control" placeholder="Harga produk" value="{{ old('product_price') }}" min="5000" required>
+              <input type="number" name="price" class="form-control" placeholder="Insert product price without dot (.)" value="{{ old('price') }}" min="5000" required>
             </div>
-						<label>Min Quantity: </label>
-            <div class="form-group">
-              <input type="number" name="min_quantity" class="form-control" placeholder="Minimal Kuantitas" value="1" min="1" required>
-							<p><small class="text-muted">Minimal kuantitas adalah jumlah minimal produk yang dapat dibeli dalam satu kali transaksi</small></p>
+						<label>Ingame Command: </label>
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">When the product is purchased:</span>
+              <input type="text" name="ingame_command" class="form-control" placeholder="Insert ingame command without slash (/)." value="{{ old('ingame_command') }}">
             </div>
+						<p><small class="text-muted">Gunakan variabel <b>{id}</b> untuk mendapatkan user ingame id</small></p>
+						<label>Gambar Produk: </label>
+						<div class="form-group">
+              <input type="file" name="image" class="form-control" placeholder="Upload gambar produk" value="{{ old('image') }}" accept="image/*" onchange="showPreview2(event);">
+            </div>
+						<div class="col-lg-6 mb-3">
+							<img src="{{ asset('/Assets/images/image-placeholder.png') }}" id="preview2" class="img-thumbnail bg-upload" style="height: 200px;width: 200px;">
+						</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Close</span>
+              <span class="d-sm-block">Close</span>
             </button>
             <button type="submit" class="btn btn-primary ml-1">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Edit</span>
+              <span class="d-sm-block">Edit</span>
             </button>
           </div>
         </form>
@@ -275,19 +273,39 @@
 	</script>
 
 	<script>
+		var quill = new Quill('#editor', {
+			theme: 'snow'
+		});
+
+		quill.on('text-change', function(delta, oldDelta, source) {
+			document.querySelector("input[name='description']").value = quill.root.innerHTML;
+		});
+	</script>
+
+	<script>
+		var quill2 = new Quill('#editor2', {
+			theme: 'snow'
+		});
+
+		quill2.on('text-change', function(delta, oldDelta, source) {
+			document.querySelector("input[name='description2']").value = quill2.root.innerHTML;
+		});
+	</script>
+
+	<script>
 		$(document).on('click', '#editBtn', function(){
       const url = "/product/";
-      const productID = $(this).val();
-      $.get(url + productID, function (data) {
+      const id = $(this).val();
+      $.get(url + id, function (data) {
         $('#editProduct').modal('show');
-				$('#editProduct form').attr('action', url + productID);
-				$('#editProduct form input[name="product_name"]').val(data.product_name);
-				$('#editProduct form input[name="product_price"]').val(data.product_price);
-				$('#editProduct form textarea[name="product_description"]').val(data.product_description);
-				$('#editProduct form input[name="min_quantity"]').val(data.min_quantity);
-				$('#editProduct form input[name="id_category"]').val(data.id_category + ';' + data.id_store);
-				$('#editProduct form img').attr('src', data.product_image);
-      }) 
+				$('#editProduct form').attr('action', url + id);
+				$('#editProduct form input[name="name"]').val(data.name);
+				$('#editProduct form input[name="price"]').val(data.price);
+				$('#editProduct form input[name="ingame_command"]').val(data.ingame_command);
+				$('#editProduct form img').attr('src', data.image);
+				$('#editProduct form input[name="description2"]').val(data.description);
+				quill2.root.innerHTML = data.description;
+			})
     });
 	</script>
 	
@@ -296,8 +314,8 @@
 			event.preventDefault();
 			let form = event.target.form;
 			Swal.fire({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
+				title: 'Apakah anda yakin?',
+				text: "Semua data yang berhubungan dengan produk ini akan dihapus, seperti stok, transaksi dan lain-lain nya.",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#435EBE',

@@ -13,6 +13,7 @@ class JwtAuth
    {
       if(!$request->session()->has('token')) return redirect()->route('login');
       if(is_null(AuthController::getJWT())) return redirect()->route('login');
+      if(!AuthController::getJWT()) return redirect()->route('login');
       return $next($request);
    }  
 }

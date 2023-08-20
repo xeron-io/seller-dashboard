@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\OverviewController;
+use App\Http\Controllers\Dashboard\GameServerController;
 use App\Http\Controllers\Dashboard\StoreController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProfileController;
@@ -10,6 +11,10 @@ use App\Http\Controllers\Dashboard\VoucherController;
 use App\Http\Controllers\Dashboard\BankController;
 use App\Http\Controllers\Dashboard\MembershipController;
 use App\Http\Controllers\Dashboard\TransactionController;
+use App\Http\Controllers\Dashboard\WithdrawController;
+use App\Http\Controllers\Dashboard\DomainController;
+use App\Http\Controllers\Dashboard\ReviewController;
+use App\Http\Controllers\Dashboard\SetupController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('jwt.auth')->group(function () {
@@ -20,14 +25,19 @@ Route::middleware('jwt.auth')->group(function () {
 	Route::put('/profile/basic', [ProfileController::class, 'profile_save_basic'])->name('dash.profile.save.basic');
 	Route::put('/profile/password', [ProfileController::class, 'profile_save_password'])->name('dash.profile.save.password');
 
+	// Game Server
+	Route::get('/gameserver', [GameServerController::class, 'index'])->name('dash.gameserver');
+	Route::post('/gameserver', [GameServerController::class, 'create'])->name('dash.gameserver.create');
+	Route::get('/gameserver/{id}', [GameServerController::class, 'detail'])->name('dash.gameserver.detail');
+	Route::put('/gameserver/{id}', [GameServerController::class, 'edit'])->name('dash.gameserver.edit');
+	Route::get('/gameserver/delete/{id}', [GameServerController::class, 'delete'])->name('dash.gameserver.delete');
+
 	// Store
 	Route::get('/store', [StoreController::class, 'index'])->name('dash.store');
-	Route::get('/store/edit/{id}', [StoreController::class, 'edit'])->name('dash.store.edit');
-	Route::get('/store/theme/{id}', [StoreController::class, 'theme'])->name('dash.store.theme');
 	Route::post('/store', [StoreController::class, 'create'])->name('dash.store.create');	
-	Route::put('/store/{id}', [StoreController::class, 'edit_store'])->name('dash.store.edit_save');
+	Route::get('/store/{id}', [StoreController::class, 'detail'])->name('dash.store.detail');
+	Route::put('/store/{id}', [StoreController::class, 'edit'])->name('dash.store.edit');
 	Route::get('/store/delete/{id}', [StoreController::class, 'delete'])->name('dash.store.delete');
-	Route::post('/store/theme/{id}', [StoreController::class, 'theme_save'])->name('dash.store.theme_save');
 
 	// Category
 	Route::get('/category', [CategoryController::class, 'index'])->name('dash.category');
@@ -44,19 +54,15 @@ Route::middleware('jwt.auth')->group(function () {
 	Route::put('/product/{id}', [ProductController::class, 'edit'])->name('dash.product.edit');
 	Route::get('/product/delete/{id}', [ProductController::class, 'delete'])->name('dash.product.delete');
 
-	// Stock
-	Route::get('/stock', [StockController::class, 'index'])->name('dash.stock');
-	Route::get('/stock/{id}', [StockController::class, 'detail'])->name('dash.stock.detail');
-	Route::post('/stock', [StockController::class, 'create'])->name('dash.stock.create');
-	Route::put('/stock/{id}', [StockController::class, 'edit'])->name('dash.stock.edit');
-	Route::get('/stock/delete/{id}', [StockController::class, 'delete'])->name('dash.stock.delete');
-
 	// Voucher
 	Route::get('/voucher', [VoucherController::class, 'index'])->name('dash.voucher');
 	Route::get('/voucher/{id}', [VoucherController::class, 'detail'])->name('dash.voucher.detail');
 	Route::post('/voucher', [VoucherController::class, 'create'])->name('dash.voucher.create');
 	Route::put('/voucher/{id}', [VoucherController::class, 'edit'])->name('dash.voucher.edit');
 	Route::get('/voucher/delete/{id}', [VoucherController::class, 'delete'])->name('dash.voucher.delete');
+
+	// Review
+	Route::get('/review', [ReviewController::class, 'index'])->name('dash.review');
 
 	// Bank
 	Route::get('/bank', [BankController::class, 'index'])->name('dash.bank');
@@ -67,5 +73,20 @@ Route::middleware('jwt.auth')->group(function () {
 
 	// Transaction
 	Route::get('/transaction', [TransactionController::class, 'index'])->name('dash.transaction');
-	Route::get('/transaction/cancel/{id}', [TransactionController::class, 'cancel'])->name('dash.transaction.cancel');
+	Route::get('/transaction/{id}', [TransactionController::class, 'detail'])->name('dash.transaction.detail');
+	Route::post('/transaction/cancel/{id}', [TransactionController::class, 'cancel'])->name('dash.transaction.cancel');
+	Route::post('/transaction/refund/{id}', [TransactionController::class, 'refund'])->name('dash.transaction.refund');
+	Route::post('/transaction/resend/{id}', [TransactionController::class, 'resend'])->name('dash.transaction.resend');
+
+	// Withdraw
+	Route::get('/withdraw', [WithdrawController::class, 'index'])->name('dash.withdraw');
+	Route::post('/withdraw', [WithdrawController::class, 'create'])->name('dash.withdraw.create');
+
+	// Custom Domain
+	Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');
+	Route::post('/domain', [DomainController::class, 'create'])->name('dash.domain.create');
+	Route::delete('/domain/{id}', [DomainController::class, 'delete'])->name('dash.domain.delete');
+
+	// Setup
+	Route::get('/setup', [SetupController::class, 'index'])->name('dash.setup');
 });

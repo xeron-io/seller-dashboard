@@ -15,6 +15,7 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserVerification;
+use App\Mail\ResetPassword;
 
 class AuthController extends Controller
 {
@@ -39,6 +40,10 @@ class AuthController extends Controller
             'sub' => $seller->id,
             'iat' => time(), 
             'exp' => $request->remember ? time() + 604800 : time() + 3600,
+            'initial' => strtoupper($seller->firstname[0].$seller->lastname[0]),
+            'name' => $seller->firstname.' '.$seller->lastname,
+            'email' => $seller->email,
+            'membership' => $seller->membership->name,
          ];
 
          $jwt = JWT::encode($payload, env('JWT_KEY'), 'HS256');
@@ -60,9 +65,9 @@ class AuthController extends Controller
    public function RequestRegister(RegisterRequest $request)
    {
       $seller = Sellers::create([
-         'firstname' => $request->firstname,
-         'lastname' => $request->lastname,
-         'email' => $request->email,
+         'firstname' => strtolower($request->firstname),
+         'lastname' => strtolower($request->lastname),
+         'email' => strtolower($request->email),
          'password' => Hash::make($request->password),
          'phone' => $request->phone,
          'verification_token' => Str::uuid(),
@@ -72,120 +77,68 @@ class AuthController extends Controller
       return redirect()->route('register')->with('success', 'Akun anda berhasil dibuat. Silahkan cek email anda untuk verifikasi.');
    }
 
-   public function ResendEmail()
-   {
-      return Inertia::render('Auth/ResendEmail', [
-         'title' => 'Resend Email',
-      ]);  
-   }
-
-   
-   public function RequestResendEmail(Request $request)
-   {
-      if($request->session()->get('resend_email') > now()) {
-         return Inertia::render('Auth/ResendEmail', [
-            'title' => 'Resend Email',
-            'msg' => 'Tunggu 1 menit untuk mengirimkan ulang email verifikasi',
-         ]);
-      }
-
-      $request->validate([
-         'email' => 'required|email',
-      ]);
-
-      $response = Http::post('http://127.0.0.1:3000/api/seller/auth/resend_email', [
-         'email' => $request->email,
-      ])->json();
-
-      if($response['success'] == true) {
-         $request->session()->put('resend_email', now()->addMinute());
-
-         return Inertia::render('Auth/ResendEmail', [
-            'title' => 'Resend Email',
-            'success' => 'Email verifikasi berhasil dikirim ulang',
-         ]);
-      } 
-      else {
-         return Inertia::render('Auth/ResendEmail', [
-            'title' => 'Resend Email',
-            'msg' => $response['message'],
-         ]);
-      }
-   }
-
    public function ForgetPassword()
    {
-      return Inertia::render('Auth/ForgetPassword', [
+      return view('auth.forget', [
          'title' => 'Forget Password',
-      ]);  
+      ]);
    }
 
    public function RequestForgetPassword(Request $request)
    {
       if($request->session()->get('forget_password') > now()) {
-         return Inertia::render('Auth/ForgetPassword', [
-            'title' => 'Forget Password',
-            'msg' => 'Tunggu 1 menit untuk mengirimkan ulang email forget password',
-         ]);
+         return back()->withErrors(['email' => 'Tunggu 1 menit untuk mengirimkan ulang email reset password']);
       }
+
+      $messages = [
+         'email.required' => 'Email harus diisi',
+         'email.email' => 'Email tidak valid',
+         'email.exists' => 'Email anda tidak terdaftar',
+      ];
 
       $request->validate([
-         'email' => 'required|email',
-      ]);
+         'email' => 'required|email|exists:sellers,email',
+      ], $messages);
 
-      $response = Http::post('http://127.0.0.1:3000/api/seller/auth/forget_password', [
-         'email' => $request->email,
-      ])->json();
+      $seller = Sellers::where('email', $request->email)->first();
+      if($seller) {
+         $seller->forget_password_token = Str::uuid();
+         $seller->save();
 
-      if($response['success'] == true) {
+         Mail::to($seller->email)->send(new ResetPassword($seller));
          $request->session()->put('forget_password', now()->addMinute());
 
-         return Inertia::render('Auth/ForgetPassword', [
-            'title' => 'Forget Password',
-            'success' => 'Silahkan cek email anda untuk mereset password',
-         ]);
-      } 
-      else {
-         return Inertia::render('Auth/ForgetPassword', [
-            'title' => 'Forget Password',
-            'msg' => $response['message'],
-         ]);
+         return back()->with('success', 'Email reset password berhasil dikirim');
       }
+      
+      return back()->withErrors(['email' => 'Email anda tidak terdaftar']);
    }
 
    public function ResetPassword($token)
    {
-      return Inertia::render('Auth/ResetPassword', [
+      return view('auth.reset', [
          'title' => 'Reset Password',
          'token' => $token,
-      ]);  
+      ]);
    }
 
-   public function RequestResetPassword(Request $request)
+   public function RequestResetPassword(Request $request, $token)
    {
       $request->validate([
-         'token' => 'required',
          'password' => 'required|string|min:8|max:255',
          'confirm_password' => 'required|string|min:8|max:255|same:password',
       ]);
 
-      $response = Http::put('http://127.0.0.1:3000/api/seller/auth/reset_password', [
-         'forgetPasswordToken' => $request->token,
-         'password' => $request->password,
-      ])->json();
+      $seller = Sellers::where('forget_password_token', $token)->first();
+      if($seller) {
+         $seller->password = Hash::make($request->password);
+         $seller->forget_password_token = '';
+         $seller->save();
 
-      if($response['success'] == true) {
-         return Inertia::render('Auth/ResetPassword', [
-            'title' => 'Reset Password',
-            'success' => true,
-         ]);
-      } 
-      else {
-         return Inertia::render('Auth/ResetPassword', [
-            'title' => 'Reset Password',
-            'msg' => $response['message'],
-         ]);
+         return redirect()->route('login')->with('success', 'Password anda berhasil di reset');
       }
+
+      return back()->withErrors(['password' => 'Token anda tidak valid']);
    }
 
    public function logout(Request $request)
@@ -199,16 +152,9 @@ class AuthController extends Controller
    {
       try {
          if(!session()->has('token')) return redirect()->route('login');
-         $decoded = JWT::decode(session('token'), new Key(env('JWT_KEY'), 'HS256'));
-
-         // check if token is expired
-         if($decoded->exp < time()) {
-            return redirect()->route('login');
-         }
-
-         return $decoded;
+         return JWT::decode(session('token'), new Key(env('JWT_KEY'), 'HS256'));
       } catch (ExpiredException) {
-         return redirect()->route('login');
+         return false;
       }
    }
 

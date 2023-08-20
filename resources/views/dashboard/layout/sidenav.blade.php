@@ -71,17 +71,14 @@
 			</div>
 			</div>
 		</div>
-		<a href="{{ route('dash.profile') }}">
-			<div class="d-flex align-items-center px-4 py-3 mt-4 mx-4 bg-primary rounded-4">
-				<div class="avatar avatar-xl me-2">
-					<img src="{{ asset('/Assets/images/faces/2.jpg') }}" alt="Face 2" />
-				</div>
-				<div class="ms-2 name">
-					<h6 class="font-bold text-white">Jagad Raya</h6>
-					<span class="badge bg-info rounded-4 px-2 py-1">Free</span>
-				</div>
-			</div>
-		</a>
+		{{-- <div class="align-items-center px-4 py-4 mt-4 mx-4 bg-primary rounded-4">
+			<div class="progress progress-success">
+        <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="75" aria-valuemin="0"aria-valuemax="100"></div>
+      </div>
+			<a href="#" class="btn btn-light btn-block mt-3">
+				Continue Setup
+			</a>
+		</div> --}}
 		<div class="sidebar-menu mt-0">
 			<ul class="menu">
 				<li class="sidebar-item {{ $title == 'Overview' ? 'active' : '' }}">
@@ -92,6 +89,13 @@
 				</li>
 
 				<li class="sidebar-title">Menu</li>
+
+				<li class="sidebar-item {{ $title == 'Game Server' ? 'active' : '' }}">
+					<a href="{{ route('dash.gameserver') }}" class="sidebar-link">
+						<i class="fa fa-server" aria-hidden="true"></i>
+						<span>Game Server</span>
+					</a>
+				</li>
 
 				<li class="sidebar-item {{ $title == 'Store' ? 'active' : '' }}">
 					<a href="{{ route('dash.store') }}" class="sidebar-link">
@@ -114,17 +118,10 @@
 					</a>
 				</li>
 				
-				<li class="sidebar-item {{ $title == 'Stock' ? 'active' : '' }}">
-					<a href="{{ route('dash.stock') }}" class="sidebar-link">
-						<i class="bi bi-boxes"></i>
-						<span>Stok <span class="badge bg-success">4</span></span>
-					</a>
-				</li>
-
 				<li class="sidebar-item {{ $title == 'Transaction' ? 'active' : '' }}">
 					<a href="{{ route('dash.transaction') }}" class="sidebar-link">
 						<i class="bi bi-handbag-fill"></i>
-						<span>Pembelian <span class="badge bg-danger">4</span></span>
+						<span>Pembelian</span>
 					</a>
 				</li>
 
@@ -135,8 +132,8 @@
 					</a>
 				</li>
 				
-				<li class="sidebar-item">
-					<a href="index.html" class="sidebar-link">
+				<li class="sidebar-item {{ $title == 'Reviews' ? 'active' : '' }}">
+					<a href="{{ route('dash.review') }}" class="sidebar-link">
 						<i class="bi bi-star-fill"></i>
 						<span>Review</span>
 					</a>
@@ -144,10 +141,17 @@
 
 				<li class="sidebar-title">Addons</li>
 
-				<li class="sidebar-item">
-					<a href="index.html" class="sidebar-link">
+				<li class="sidebar-item {{ $title == 'Domain' ? 'active' : '' }}">
+					<a href="{{ route('dash.domain') }}" class="sidebar-link">
 						<i class="bi bi-globe"></i>
 						<span>Custom Domain</span>
+					</a>
+				</li>
+
+				<li class="sidebar-item">
+					<a href="index.html" class="sidebar-link">
+						<i class="fa fa-picture-o" aria-hidden="true"></i>
+						<span>Custom Theme</span>
 					</a>
 				</li>
 
@@ -160,8 +164,8 @@
 					</a>
 				</li>
 
-				<li class="sidebar-item">
-					<a href="index.html" class="sidebar-link">
+				<li class="sidebar-item {{ $title == 'Penarikan Saldo' ? 'active' : '' }}">
+					<a href="{{ route('dash.withdraw') }}" class="sidebar-link">
 						<i class="bi bi-cash-stack"></i>
 						<span>Tarik Saldo</span>
 					</a>

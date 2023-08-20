@@ -6,7 +6,6 @@
     <title>{{ env('APP_NAME') }} | {{ $title }}</title>
 
 		<link rel="stylesheet" href="{{ asset('/Assets/css/main/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('/Assets/css/main/app-dark.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('/Assets/css/pages/auth.css') }}"/>
   </head>
 
@@ -96,7 +95,7 @@
 								<a href="{{ route('register') }}" class="font-bold"> Daftar</a>.
 							</p>
 							<p>
-								<a class="font-bold" href="#">
+								<a class="font-bold" href="{{ route('forget_password') }}">
 									Lupa password?
 								</a>.
 							</p>
@@ -110,5 +109,6 @@
 				</div>
 			</div>
     </div>
+		<script src="https://kit.fontawesome.com/b632dc8495.js" crossorigin="anonymous"></script>
   </body>
 </html>

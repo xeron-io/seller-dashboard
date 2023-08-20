@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'stores';
     protected $fillable = [
         'id_seller',
@@ -15,6 +17,7 @@ class Store extends Model
         'name',
         'description',
         'domain',
+        'custom_domain',
         'youtube',
         'instagram',
         'tiktok',
@@ -23,6 +26,7 @@ class Store extends Model
         'discord',
         'status',
         'logo',
+        'api_key',
     ];
 
     public function seller()

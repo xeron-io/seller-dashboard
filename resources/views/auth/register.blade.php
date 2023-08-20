@@ -6,7 +6,6 @@
     <title>{{ env('APP_NAME') }} | {{ $title }}</title>
 
 		<link rel="stylesheet" href="{{ asset('/Assets/css/main/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('/Assets/css/main/app-dark.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('/Assets/css/pages/auth.css') }}"/>
   </head>
 
@@ -171,5 +170,6 @@
 				</div>
 			</div>
     </div>
+		<script src="https://kit.fontawesome.com/b632dc8495.js" crossorigin="anonymous"></script>
   </body>
 </html>

@@ -2,22 +2,42 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
+use App\Models\Transactions;
+use App\Models\Reviews;
+use App\Http\Controllers\AuthController;
+use App\Models\Product;
 
 class OverviewController extends Controller
 {
 	public function index()
 	{
-		// return Inertia::render('Dashboard/Overview', [
-		// 	'title' => 'Overview',
-		// ]);
+		$transactions = Transactions::whereHas('store', function ($query) {
+			$query->where('id_seller', AuthController::getJWT()->sub);
+		})->get();
+		$total_income = $transactions->sum('amount');
+
+		$reviews = Reviews::whereHas('transaction', function ($query) {
+			$query->whereHas('store', function ($query) {
+				$query->where('id_seller', AuthController::getJWT()->sub);
+			});
+		})->limit(4)->get();
+		$avg_rating = $reviews->avg('star') > 0 ? $reviews->avg('star') : 0;
 
 		return view('dashboard.overview', [
 			'title' => 'Overview',
-			'subtitle' => ''
+			'subtitle' => '',
+			'transactions' => $transactions,
+			'reviews' => Reviews::whereHas('transaction', function ($query) {
+				$query->whereHas('store', function ($query) {
+					$query->where('id_seller', AuthController::getJWT()->sub);
+				});
+			})->get(),
+			'products' => Product::whereHas('store', function ($query) {
+				$query->where('id_seller', AuthController::getJWT()->sub);
+			})->get(),
+			'total_income' => $total_income,
+			'avg_rating' => floor($avg_rating),
 		]);
 	}
 }

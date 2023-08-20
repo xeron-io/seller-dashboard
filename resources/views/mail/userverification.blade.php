@@ -124,7 +124,7 @@
           <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
             <tr>
               <td align="center" valign="top" style="padding-top: 30px;">
-                <a href="https://vote.himatikauty.com/" target="_blank" style="display: inline-block;">
+                <a href="https://xeron.io/" target="_blank" style="display: inline-block;">
                   <img src="https://himatikauty.com/assets/images/logo%201%20-%20big.png" alt="Logo" border="0" width="150" style="display: block; width: 100px; max-width: 100px; min-width: 100px;margin-bottom: 20px;">
                 </a>
               </td>
@@ -263,7 +263,7 @@
             <!-- start unsubscribe -->
             <tr>
               <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                <p style="margin: 0;">&copy;2023
+                <p style="margin: 0;">&copy; 2023
                   <a href="https://Xeron.io/" target="_blank">Xeron.io</a>. All rights reserved.
                 </p>
               </td>

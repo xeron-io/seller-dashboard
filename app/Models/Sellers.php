@@ -23,4 +23,9 @@ class Sellers extends Model
         'isVerified',
         'forget_password_token',
     ];
+
+    public function membership()
+    {
+        return $this->belongsTo(Membership::class, 'id_membership', 'id');
+    }
 }

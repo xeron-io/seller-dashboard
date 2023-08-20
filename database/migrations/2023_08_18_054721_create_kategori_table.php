@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('stores', function (Blueprint $table) {
-            //
+        Schema::create('category', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('id_store')->constrained('stores')->onDelete('cascade');
+            $table->string('name');
+            $table->string('slug');
+            $table->string('description');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('stores', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('category');
     }
 };

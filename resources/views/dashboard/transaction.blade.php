@@ -8,7 +8,7 @@
 					<select name="filter_store" id="filter_store" class="form-select border-0 py-2 px-3">
 						<option value="">- Semua Toko -</option>
 						@foreach($store as $item)
-							<option value="{{ $item['store_name'] }}">{{ $item['store_name'] }}</option>
+							<option value="{{ $item->name }}">{{ $item->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -22,7 +22,7 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="d-flex justify-content-between">
-					<h4 class="card-title">Daftar Kategori</h4>
+					<h4 class="card-title">Daftar Transaksi</h4>
 				</div>
 			</div>
 			<div class="card-body table-responsive">
@@ -32,10 +32,9 @@
 							<th>No</th>
 							<th>Toko</th>
 							<th>Produk</th>
-							<th>Nama</th>
-							<th>Email</th>
-							<th>No HP</th>
+							<th>Nama Pembeli</th>
 							<th>Jumlah</th>
+							<th>Total Harga</th>
 							<th>Status</th>
 							<th>Aksi</th>
 						</tr>
@@ -44,14 +43,19 @@
 						@foreach($transactions as $item)
 							<tr>
 								<td>{{ $loop->iteration }}</td>
-								<td>{{ $item['store']['store_name'] }}</td>
-								<td>{{ $item['product']['product_name'] }}</td>
-								<td>{{ $item['buyer_name'] }}</td>
-								<td>{{ $item['buyer_email'] }}</td>
-								<td>{{ $item['buyer_phone'] }}</td>
-								<td>{{ $item['quantity'] }}</td>
+								<td>{{ $item->store->name }}</td>
+								<td>{{ $item->product->name }}</td>
+								<td>{{ $item->buyer_name }}</td>
+								<td>{{ $item->quantity }}</td>
+								<td>{{ $item->amount }}</td>
 								<td>
-									<span class="badge bg-success">{{ $item['status'] }}</span>
+									@if($item->status == 'paid')
+										<span class="badge bg-success">Paid</span>
+									@elseif($item->status == 'pending')
+										<span class="badge bg-warning">Pending</span>
+									@else
+										<span class="badge bg-danger">{{ ucwords($item->status) }}</span>
+									@endif
 								</td>
 								<td>				
 									<button type="button" class="btn btn-sm btn-primary dropdown-toggle me-1"
@@ -66,11 +70,26 @@
 										class="dropdown-menu fade"
 										aria-labelledby="dropdownMenuButton"
 									>
-										<button type="button" id="editBtn" class="dropdown-item" data-bs-toggle="modal" value="{{ $item['id_transaction'] }}" data-bs-target="#editStore" fdprocessedid="gjh7mli">Edit</button>
-										<hr style="margin: 0;padding: 0;">
-										<form action="{{ route('dash.transaction.cancel', $item['id_transaction']) }}">
-											<button type="submit" onclick="confirm()" class="dropdown-item">Batalkan</button>
-										</form>
+										<button type="button" id="editBtn" class="dropdown-item" data-bs-toggle="modal" value="{{ $item->id }}" data-bs-target="#detail" fdprocessedid="gjh7mli">Detail</button>
+										@if(strtolower($item->status) == 'paid')
+											<hr style="margin: 0;padding: 0;">
+											<form action="{{ route('dash.transaction.refund', $item->id) }}" method="POST">
+												@csrf
+												<button type="submit" onclick="confirm()" class="dropdown-item">Refund</button>
+											</form>
+
+											<form action="{{ route('dash.transaction.resend', $item->id) }}" method="POST">
+												@csrf
+												<button type="submit" onclick="confirm()" class="dropdown-item">Resend</button>
+											</form>
+										@elseif(strtolower($item->status) == 'unpaid')
+											<hr style="margin: 0;padding: 0;">
+											<form action="{{ route('dash.transaction.cancel', $item->id) }}" method="POST">
+												@csrf
+												<button type="submit" onclick="confirm()" class="dropdown-item">Batalkan</button>
+											</form>
+										@endif
+									</div>
 								</td>
 							</tr>
 						@endforeach
@@ -80,53 +99,75 @@
 		</div>
 	</section>
 
-	{{-- <!-- Modal Edit Category -->
-	<div class="modal fade text-left" id="editStore" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+	<!-- Modal Edit Category -->
+	<div class="modal fade text-left" id="detail" tabindex="-1" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="myModalLabel33">
-            Edit Kategori
+            Detail Transaksi
           </h4>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
-        <form action="" method="POST">
+        <form>
 					@csrf
-					@method('PUT')
           <div class="modal-body">
-            <label>Pilih Toko: </label>
-            <div class="form-group">
-              <select name="id_store" class="form-select">
-								@foreach($store as $item)
-                	<option value="{{ $item['id_store'] }}">{{ $item['store_name'] }}</option>
-								@endforeach
-              </select>
-            </div>
-						<label>Nama Kategori: </label>
+						<label>Reference: </label>
+						<div class="form-group mb-3">
+							<input type="text" name="reference" id="reference" class="form-control" value="" readonly>
+						</div>
+						<label>Merchant Ref: </label>
+						<div class="form-group">
+							<input type="text" name="merchant_ref" id="merchant_ref" class="form-control" value="" readonly>
+						</div>
+						<label>Ingame ID: </label>
+						<div class="form-group">
+							<input type="text" name="ingame_id" id="ingame_id" class="form-control" value="" readonly>
+						</div>
+						<label>Store: </label>
             <div class="form-group mb-3">
-              <input type="text" name="category_name" class="form-control" placeholder="Nama kategori" value="{{ old('category_name') }}" minlength="4" required>
+              <input type="text" name="store" id="store" class="form-control" value="" readonly>
             </div>
-						<label>Deskripsi Kategori: </label>
+						<label>Product: </label>
             <div class="form-group">
-              <textarea type="text" name="category_description" placeholder="Deskripsi kategori" class="form-control" style="height: 100px" value="{{ old('category_description') }}" minlength="50" required></textarea>
+              <input type="text" name="product" id="product" class="form-control" value="" readonly>
             </div>
+						<label>Buyer Name: </label>
+            <div class="form-group">
+              <input type="text" name="buyer_name" id="buyer_name" class="form-control" value="" readonly>
+            </div>
+						<label>Buyer Email: </label>
+            <div class="form-group">
+              <input type="text" name="buyer_email" id="buyer_email" class="form-control" value="" readonly>
+            </div>
+						<label>Buyer Phone: </label>
+						<div class="form-group">
+							<input type="text" name="buyer_phone" id="buyer_phone" class="form-control" value="" readonly>
+						</div>
+						<label>Quantity: </label>
+						<div class="form-group">
+							<input type="text" name="quantity" id="quantity" class="form-control" value="" readonly>
+						</div>
+						<label>Amount: </label>
+						<div class="form-group">
+							<input type="text" name="amount" id="amount" class="form-control" value="" readonly>
+						</div>
+						<label>Payment Method: </label>
+						<div class="form-group">
+							<input type="text" name="payment_method" id="payment_method" class="form-control" value="" readonly>
+						</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Close</span>
-            </button>
-            <button type="submit" class="btn btn-primary ml-1">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Edit</span>
+              <span class="d-sm-block">Close</span>
             </button>
           </div>
         </form>
       </div>
     </div>
-	</div> --}}
+	</div>
 	
 	@if($message = Session::get('success'))
 		<script>
@@ -174,14 +215,21 @@
 
 	<script>
 		$(document).on('click', '#editBtn', function(){
-      const url = "/dashboard/category/";
-      const categoryID = $(this).val();
-      $.get(url + categoryID, function (data) {
-        $('#editStore').modal('show');
-				$('#editStore form').attr('action', url + categoryID);
-				$('#editStore form input[name="category_name"]').val(data.data.category_name);
-				$('#editStore form textarea[name="category_description"]').val(data.data.category_description);
-				$('#editStore form select[name="id_store"]').val(data.data.id_store).change();
+      const url = "/transaction/";
+      const id = $(this).val();
+      $.get(url + id, function (data) {
+        $('#detail').modal('show');
+				$('#reference').val(data.reference);
+				$('#merchant_ref').val(data.merchant_ref);
+				$('#ingame_id').val(data.ingame_id);
+				$('#store').val(data.store.name);
+				$('#product').val(data.product.name);
+				$('#buyer_name').val(data.buyer_name);
+				$('#buyer_email').val(data.buyer_email);
+				$('#buyer_phone').val(data.buyer_phone);
+				$('#quantity').val(data.quantity);
+				$('#amount').val(data.amount);
+				$('#payment_method').val(data.payment_method);
       }) 
     });
 	</script>
@@ -191,13 +239,13 @@
 			event.preventDefault();
 			let form = event.target.form;
 			Swal.fire({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
+				title: 'Apakah anda yakin?',
+				text: "Anda tidak akan dapat membatalkan ini!",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#435EBE',
 				cancelButtonColor: '#DC3545',
-				confirmButtonText: 'Yes, delete it!'
+				confirmButtonText: 'Yes!'
 			}).then((result) => {
 				if (result.isConfirmed) {
 					form.submit();

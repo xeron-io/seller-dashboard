@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use App\Models\Sellers;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -13,52 +15,52 @@ class ProfileController extends Controller
 		return view('dashboard.profile', [
 			'title' => 'My Profile',
 			'subtitle' => 'Edit profile anda disini',
-			'profile' => Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/myprofile')->json()['data'],
+			'profile' => Sellers::where('id', AuthController::getJWT()->sub)->first(),
 		]);
 	}
 
 	public function profile_save_basic(Request $request)
 	{
-		$oldData = Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/myprofile')->json()['data'];
 		$request->validate([
-			'firstname' => 'required|min:3|alpha',
-			'lastname' => 'required|min:3|alpha',
-			'email' => 'required|email',
-			'phone' => 'required',
+			'firstname' => 'required|min:3|string',
+			'lastname' => 'required|min:3|string',
+			'email' => 'required|email|unique:sellers,email,'.AuthController::getJWT()->sub.',id',
+			'phone' => 'required|numeric|unique:sellers,phone,'.AuthController::getJWT()->sub.',id',
 		]);
 
-		$response = Http::withToken(session('token'))->put(env('BACKEND_URL').'/seller/myprofile', [
+		Sellers::where('id', AuthController::getJWT()->sub)->update([
 			'firstname' => $request->firstname,
 			'lastname' => $request->lastname,
 			'email' => $request->email,
 			'phone' => $request->phone,
-		])->json();
+		]);
 
-		if ($response['success'] == 'true') {
-			return redirect()->route('dash.profile')->with('success', $response['message']);
-		} else {
-			return redirect()->route('dash.profile')->withInput()->with('api_errors', $response['errors'] ? $response['errors'] : $response['message']);
-		}
+		return redirect()->route('dash.profile')->with('success', 'Profile anda berhasil di update');
 	}
 
 	public function profile_save_password(Request $request)
 	{
-		$oldData = Http::withToken(session('token'))->get(env('BACKEND_URL').'/seller/myprofile')->json()['data'];
+		$seller = Sellers::where('id', AuthController::getJWT()->sub)->first();
 		$request->validate([
-			'old_password' => 'required',
+			'old_password' => 'required|min:8',
 			'new_password' => 'required|min:8',
-			'confirm_new_password' => 'required|same:new_password',
+			'confirm_new_password' => 'required|min:8|same:new_password',
 		]);
 
-		$response = Http::withToken(session('token'))->put(env('BACKEND_URL').'/seller/myprofile/password', [
-			'oldPassword' => $request->old_password,
-			'newPassword' => $request->new_password,
-		])->json();
-
-		if ($response['success'] == 'true') {
-			return redirect()->route('dash.profile')->with('success', $response['message']);
-		} else {
-			return redirect()->route('dash.profile')->withInput()->with('api_errors', $response['errors'] ? $response['errors'] : $response['message']);
+		// check if old password is match with password in database
+		if (!Hash::check($request->old_password, $seller->password)) {
+			return redirect()->route('dash.profile')->with('api_errors', 'Password lama anda tidak sesuai');
 		}
+
+		// check if new password is match with old password
+		if (Hash::check($request->new_password, $seller->password)) {
+			return redirect()->route('dash.profile')->with('api_errors', 'Password baru anda sama dengan password lama');
+		}
+
+		Sellers::where('id', AuthController::getJWT()->sub)->update([
+			'password' => Hash::make($request->new_password),
+		]);
+
+		return redirect()->route('dash.profile')->with('success', 'Password anda berhasil di update');
 	}
 }
