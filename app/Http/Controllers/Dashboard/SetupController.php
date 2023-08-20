@@ -13,17 +13,18 @@ class SetupController extends Controller
 {
 	public function step1()
 	{
+		$gameserver = GameServer::where('id_seller', AuthController::getJWT()->sub)->first();
 		return view('wizzard.step1', [
 			'title' => 'Setup Your Account',
-			'gameserver' => GameServer::find(session('gameserver')),
+			'gameserver' => $gameserver,
 		]);
 	}
 
 	public function step2()
 	{
-		$gameserver = GameServer::find(session('gameserver'));
+		$gameserver = GameServer::where('id_seller', AuthController::getJWT()->sub)->first();
 		if (!$gameserver) {
-			return redirect()->route('setup.step1');
+			return redirect()->route('dash.step1');
 		}
 
 		return view('wizzard.step2', [
@@ -34,19 +35,19 @@ class SetupController extends Controller
 
 	public function step3()
 	{
+		$store = Store::where('id_seller', AuthController::getJWT()->sub)->first();
+		if ($store) {
+			return redirect()->route('dash.setup4');
+		}
+
 		return view('wizzard.step3', [
 			'title' => 'Setup Your Store',
-			'gameserver' => GameServer::find(session('gameserver')),
+			'gameserver' => GameServer::where('id_seller', AuthController::getJWT()->sub)->first(),
 		]);
 	}
 
 	public function step4()
 	{
-		$store = Store::where('id_seller', AuthController::getJWT()->sub)->first();
-		if ($store) {
-			return redirect()->route('dash.overview');
-		}
-
 		return view('wizzard.step4', [
 			'title' => 'Setup Your Store',
 		]);

@@ -28,20 +28,20 @@ class StoreController extends Controller
 			'id_gameserver' => 'required|exists:gameservers,id',
 			'name' => 'required|min:4|max:20|unique:stores,name',
 			'description' => 'required|min:100|max:255',
-			'domain' => 'required|min:4',
+			'domain' => 'required|min:4|max:20|regex:/^[a-zA-Z0-9]+$/',
 			'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
 
 		// check if domain is taken
 		$check_domain = Store::where('domain', $request->domain . '.' . env('STORE_DOMAIN'))->first();
 		if($check_domain) {
-			return redirect()->route('dash.store')->withInput()->with('api_errors', 'Domain sudah digunakan');
+			return redirect()->back()->withInput()->with('api_errors', 'Domain sudah digunakan');
 		}
 
 		// check if gameserver is owned by seller
 		$check_gameserver = GameServer::where('id', $request->id_gameserver)->where('id_seller', AuthController::getJWT()->sub)->first();
 		if(!$check_gameserver) {
-			return redirect()->route('dash.store')->withInput()->with('api_errors', 'Server tidak ditemukan');
+			return redirect()->back()->withInput()->with('api_errors', 'Server tidak ditemukan');
 		}
 
 		// upload image to cdn.tokoqu.io/image using form-data
@@ -87,7 +87,7 @@ class StoreController extends Controller
 			'id_gameserver' => 'required|exists:gameservers,id',
 			'name' => 'required|min:4|max:20|unique:stores,name,'.$id.',id',
 			'description' => 'required|min:100|max:255',
-			'domain' => 'required|min:4',
+			'domain' => 'required|min:4|max:20|regex:/^[a-zA-Z0-9]+$/',
 			'logo' => $rules_logo,
 		]);
 

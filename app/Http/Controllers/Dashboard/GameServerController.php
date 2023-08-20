@@ -60,7 +60,6 @@ class GameServerController extends Controller
 			'api_key' => Str::uuid()
 		]);
 
-		session()->put('gameserver', $gameserver->id);
 		return redirect()->back()->with('success', 'Berhasil menambahkan game server baru');
 	}
 
