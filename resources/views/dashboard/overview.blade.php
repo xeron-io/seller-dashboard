@@ -90,10 +90,10 @@
 				<div class="col-12">
 					<div class="card">
 						<div class="card-header">
-							<h4>Penjualan Toko</h4>
+							<h4>Penjualan Toko Tahun Ini</h4>
 						</div>
 						<div class="card-body">
-						<div id="chart-profile-visit"></div>
+						<div id="chart-transactions2"></div>
 						</div>
 					</div>
 				</div>
@@ -160,6 +160,54 @@
 			</div>
 		</div>
 	</section>
+	<script>
+		async function main() {
+			async function getData() {
+				const response = await fetch('/transactions/year')
+				const data = await response.json()
+				return data
+			}
+
+			const data = await getData();
+
+			var optionsTrans = {
+				annotations: {
+					position: "back",
+				},
+				dataLabels: {
+					enabled: false,
+				},
+				chart: {
+					type: "bar",
+					height: 300,
+				},
+				fill: {
+					opacity: 1,
+				},
+				plotOptions: {},
+				series: [
+					{
+						name: "transactions",
+						data: data.map((item) => item.total),
+					},
+				],
+				colors: "#435ebe",
+				xaxis: {
+					// looping votes
+					categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct' , 'Nov', 'Dec'],
+				},
+			}
+
+			var chartTrans = new ApexCharts(
+				document.getElementById("chart-transactions2"),
+				optionsTrans
+			)
+
+			chartTrans.render()
+		}
+
+		main()
+	</script>
 	<script src="{{ asset('/Assets/js/pages/dashboard.js') }}"></script>
 @endsection
 					

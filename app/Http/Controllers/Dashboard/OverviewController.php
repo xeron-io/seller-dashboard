@@ -28,16 +28,39 @@ class OverviewController extends Controller
 			'title' => 'Overview',
 			'subtitle' => '',
 			'transactions' => $transactions,
-			'reviews' => Reviews::whereHas('transaction', function ($query) {
-				$query->whereHas('store', function ($query) {
-					$query->where('id_seller', AuthController::getJWT()->sub);
-				});
-			})->get(),
+			'reviews' => $reviews,
 			'products' => Product::whereHas('store', function ($query) {
 				$query->where('id_seller', AuthController::getJWT()->sub);
 			})->get(),
 			'total_income' => $total_income,
 			'seller' => Sellers::where('id', AuthController::getJWT()->sub)->first(),
 		]);
+	}
+
+	public function getTransactions()
+	{
+		$transactions = Transactions::whereHas('store', function ($query) {
+			$query->where('id_seller', AuthController::getJWT()->sub);
+		})->get();
+
+		// get transaction of the year per month (jan - dec) and if there is no transaction in a month, it will be 0
+		$transaction_categorized = [];
+		for ($i = 1; $i <= 12; $i++) {
+			$transaction_categorized[$i] = 0;
+		}
+
+		foreach ($transactions as $transaction) {
+			$transaction_categorized[$transaction->created_at->month] += 1;
+		}
+
+		$transaction_of_the_year = [];
+		foreach ($transaction_categorized as $key => $value) {
+			$transaction_of_the_year[] = [
+				'month' => date('F', mktime(0, 0, 0, $key, 10)),
+				'total' => $value
+			];
+		}
+
+		return response()->json($transaction_of_the_year);
 	}
 }

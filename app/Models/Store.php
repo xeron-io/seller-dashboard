@@ -37,7 +37,8 @@ class Store extends Model
     
     public function gameserver()
     {
-        return $this->belongsTo(Gameserver::class, 'id_gameserver', 'id');
+        // get trashed data too
+        return $this->belongsTo(GameServer::class, 'id_gameserver', 'id')->withTrashed();
     }
 
     public function theme()

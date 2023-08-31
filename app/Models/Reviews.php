@@ -21,6 +21,6 @@ class Reviews extends Model
 
     public function transaction()
     {
-        return $this->belongsTo(Transactions::class, 'id_transaction', 'id');
+        return $this->belongsTo(Transactions::class, 'id_transaction', 'id')->withTrashed();
     }
 }

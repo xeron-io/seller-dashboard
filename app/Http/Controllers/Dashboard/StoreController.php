@@ -17,6 +17,7 @@ class StoreController extends Controller
 		return view('dashboard.store', [
 			'title' => 'Store',
 			'subtitle' => 'Lihat semua toko yang anda miliki',
+			// get all store where id_seller = AuthController::getJWT()->sub and eager load gameserver
 			'store' => Store::where('id_seller', AuthController::getJWT()->sub)->with('gameserver')->get(),
 			'gameserver' => GameServer::where('id_seller', AuthController::getJWT()->sub)->get(),
 		]);
@@ -33,7 +34,7 @@ class StoreController extends Controller
 		]);
 
 		// check if domain is taken
-		$check_domain = Store::where('domain', $request->domain . '.' . env('STORE_DOMAIN'))->first();
+		$check_domain = Store::where('domain', strtolower($request->domain) . '.' . env('STORE_DOMAIN'))->first();
 		if($check_domain) {
 			return redirect()->back()->withInput()->with('api_errors', 'Domain sudah digunakan');
 		}
@@ -58,14 +59,14 @@ class StoreController extends Controller
 			'id_theme' => env('DEFAULT_THEME_ID'),
 			'name' => $request->name,
 			'description' => $request->description,
-			'domain' => $request->domain . '.' . env('STORE_DOMAIN'),
+			'domain' => strtolower($request->domain . '.' . env('STORE_DOMAIN')),
 			'youtube' => $request->youtube ? $request->youtube : '-',
 			'instagram' => $request->instagram ? $request->instagram : '-',
 			'tiktok' => $request->tiktok ? $request->tiktok : '-',
 			'discord' => $request->discord ? $request->discord : '-',
 			'phone' => $request->phone ? $request->phone : '-',
 			'facebook' => $request->facebook ? $request->facebook : '-',
-			'status' => 'pending', // 'pending', 'active', 'suspended
+			'status' => 'active', // 'pending', 'active', 'suspended
 			'logo' => $img_url,
 			'api_key' => Str::uuid(),
 		]);
@@ -95,7 +96,7 @@ class StoreController extends Controller
 		$oldData = Store::where('id', $id)->first();
 		if($oldData->domain != $request->domain . '.' . env('STORE_DOMAIN')) {
 			// check if domain is taken
-			$check_domain = Store::where('domain', $request->domain . '.' . env('STORE_DOMAIN'))->first();
+			$check_domain = Store::where('domain', strtolower($request->domain) . '.' . env('STORE_DOMAIN'))->first();
 			if($check_domain) {
 				return redirect()->route('dash.store')->withInput()->with('api_errors', 'Domain sudah digunakan');
 			}
@@ -123,7 +124,7 @@ class StoreController extends Controller
 			'id_gameserver' => $request->id_gameserver,
 			'name' => $request->name,
 			'description' => $request->description,
-			'domain' => $request->domain . '.' . env('STORE_DOMAIN'),
+			'domain' => strtolower($request->domain . '.' . env('STORE_DOMAIN')),
 			'youtube' => $request->youtube ? $request->youtube : '-',
 			'instagram' => $request->instagram ? $request->instagram : '-',
 			'tiktok' => $request->tiktok ? $request->tiktok : '-',

@@ -29,7 +29,7 @@
 								<td>{{ $item->name }}</td>
 								<td>{{ $item->custom_domain }}</td>
 								<td>
-									@if($item->status == 'success')
+									@if($item->status == 'active')
 										<span class="badge bg-success">Active</span>
 									@elseif($item->status == 'pending')
 										<span class="badge bg-warning">Pending</span>

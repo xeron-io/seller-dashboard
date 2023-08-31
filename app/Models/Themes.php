@@ -16,4 +16,9 @@ class Themes extends Model
       'thumbnail',
       'preview',
    ];
+
+   public function membership()
+   {
+      return $this->belongsTo(Membership::class, 'id_membership', 'id')->withTrashed();
+   }
 }

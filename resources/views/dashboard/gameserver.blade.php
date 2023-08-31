@@ -106,7 +106,7 @@
 							
 							{{-- button loading --}}
 							<button type="button" class="btn btn-sm btn-primary testConnectionLoading d-none" disabled>
-								<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+								<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
 								Loading...
 							</button>
 
@@ -178,7 +178,7 @@
 							
 							{{-- button loading --}}
 							<button type="button" class="btn btn-sm btn-primary testConnectionLoading d-none" disabled>
-								<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+								<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
 								Loading...
 							</button>
 

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('jwt.auth')->group(function () {
 	Route::get('/', [OverviewController::class, 'index'])->name('dash.overview');
+	Route::get('/transactions/year', [OverviewController::class, 'getTransactions']);
 
 	// Profile
 	Route::get('/profile', [ProfileController::class, 'profile'])->name('dash.profile');

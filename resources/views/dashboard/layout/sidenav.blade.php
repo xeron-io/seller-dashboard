@@ -100,7 +100,7 @@
 				<li class="sidebar-item {{ $title == 'Store' ? 'active' : '' }}">
 					<a href="{{ route('dash.store') }}" class="sidebar-link">
 						<i class="bi bi-shop-window"></i>
-						<span>Toko Saya</span>
+						<span>Webstore</span>
 					</a>
 				</li>
 

@@ -24,7 +24,7 @@ class DomainController extends Controller
 	{
 		$request->validate([
 			'id_store' => 'required|numeric|exists:stores,id',
-			'domain' => 'required',
+			'domain' => 'required|min:4|max:20|regex:/^[a-zA-Z0-9.-]+$/|unique:stores,custom_domain',
 		]);
 
 		$store = Store::where('id_seller', AuthController::getJWT()->sub)->where('id', $request->id_store)->first();
@@ -37,7 +37,7 @@ class DomainController extends Controller
 		}
 
 		$store->update([
-			'custom_domain' => $request->domain,
+			'custom_domain' => strtolower($request->domain),
 		]);
 
 		return redirect()->back()->with('success', 'Berhasil menambahkan custom domain');

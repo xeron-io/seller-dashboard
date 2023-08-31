@@ -27,6 +27,6 @@ class Withdraw extends Model
     
     public function wallet()
     {
-        return $this->belongsTo(Wallets::class, 'id_wallet', 'id');
+        return $this->belongsTo(Wallets::class, 'id_wallet', 'id')->withTrashed();
     }
 }
