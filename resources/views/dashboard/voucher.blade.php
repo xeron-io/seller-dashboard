@@ -138,9 +138,9 @@
 
 						<label>Limit Voucher: </label>
             <div class="form-group">
-              <input type="number" name="limit" id="limit" class="form-control mb-1" placeholder="0" required>
+              <input type="number" name="limit" id="limit" class="form-control mb-1" placeholder="1" required>
 							<p><small class="text-muted">
-								Limit voucher digunakan untuk menentukan berapa kali voucher dapat digunakan. Gunakan limit voucher 0 untuk membuat voucher dapat digunakan tanpa batas.
+								Limit voucher digunakan untuk menentukan berapa kali voucher dapat digunakan.
 							</small></p>
             </div>
 
@@ -232,9 +232,9 @@
 
 						<label>Limit Voucher: </label>
             <div class="form-group">
-              <input type="number" name="limit" id="limit" class="form-control mb-1" placeholder="0" required>
+              <input type="number" name="limit" id="limit" class="form-control mb-1" placeholder="1" required>
 							<p><small class="text-muted">
-								Limit voucher digunakan untuk menentukan berapa kali voucher dapat digunakan. Gunakan limit voucher 0 untuk membuat voucher dapat digunakan tanpa batas.
+								Limit voucher digunakan untuk menentukan berapa kali voucher dapat digunakan.
 							</small></p>
             </div>
 
