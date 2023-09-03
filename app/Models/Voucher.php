@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Transactions;
 
 class Voucher extends Model
 {
@@ -24,5 +25,10 @@ class Voucher extends Model
     public function store()
     {
         return $this->belongsTo(Store::class, 'id_store', 'id');
+    }
+
+    public function getUsage()
+    {
+        return Transactions::where('id_voucher', $this->id)->count();
     }
 }

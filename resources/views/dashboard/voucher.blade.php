@@ -37,6 +37,7 @@
 							<th>Kode</th>
 							<th>Tipe</th>
 							<th>Nominal</th>
+							<th>Usage</th>
 							<th>Expired At</th>
 							<th>Aksi</th>
 						</tr>
@@ -51,6 +52,12 @@
 								</td>
 								<td>{{ $item->type }}</td>
 								<td>{{ $item->amount }}</td>
+								<td>
+									@php
+										$usage = $item->getUsage();
+										echo $usage;
+									@endphp
+								</td>
 								<td>{{ $item->expired_at ? date('d-m-Y H:i:s', strtotime($item->expired_at)) : '-' }}</td>
 								<td>				
 									<button type="button" class="btn btn-sm btn-primary dropdown-toggle me-1"

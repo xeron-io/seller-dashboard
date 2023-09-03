@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
 use App\Models\Store;
 use App\Models\Voucher;
+use App\Models\Transactions;
 use App\Http\Controllers\AuthController;
 use App\Models\Product;
 

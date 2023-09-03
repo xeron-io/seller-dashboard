@@ -58,6 +58,7 @@ Route::middleware('jwt.auth')->group(function () {
 	// Voucher
 	Route::get('/voucher', [VoucherController::class, 'index'])->name('dash.voucher');
 	Route::get('/voucher/{id}', [VoucherController::class, 'detail'])->name('dash.voucher.detail');
+	Route::get('/voucher/usage/{id}', [VoucherController::class, 'usage'])->name('dash.voucher.usage');
 	Route::post('/voucher', [VoucherController::class, 'create'])->name('dash.voucher.create');
 	Route::put('/voucher/{id}', [VoucherController::class, 'edit'])->name('dash.voucher.edit');
 	Route::get('/voucher/delete/{id}', [VoucherController::class, 'delete'])->name('dash.voucher.delete');
