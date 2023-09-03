@@ -123,9 +123,12 @@
 													<div class="avatar avatar-md">
 														{{-- generate random string 1-8 --}}
 														@php
-															$random = rand(1,8);
+															$default = "https://www.gravatar.com/avatar/00000000000000000000000000000000";
+															$size = 100;
+
+															$grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $review->transaction->buyer_email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
 														@endphp
-														<img src="Assets/images/faces/{{ $random }}.jpg" />
+														<img src="{{ $grav_url }}" />
 													</div>
 													<p class="font-bold ms-3 mb-0">{{ ucwords($review->transaction->buyer_name) }}</p>
 													</div>
