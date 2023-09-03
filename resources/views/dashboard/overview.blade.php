@@ -125,7 +125,7 @@
 														@php
 															$random = rand(1,8);
 														@endphp
-														<img src="assets/images/faces/{{ $random }}.jpg" />
+														<img src="Assets/images/faces/{{ $random }}.jpg" />
 													</div>
 													<p class="font-bold ms-3 mb-0">{{ ucwords($review->transaction->buyer_name) }}</p>
 													</div>
