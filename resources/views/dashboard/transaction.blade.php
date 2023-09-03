@@ -49,7 +49,7 @@
 								<td>{{ $item->quantity }}</td>
 								<td>{{ $item->amount }}</td>
 								<td>
-									@if($item->status == 'paid')
+									@if($item->status == 'PAID')
 										<span class="badge bg-success">Paid</span>
 									@elseif($item->status == 'pending')
 										<span class="badge bg-warning">Pending</span>
