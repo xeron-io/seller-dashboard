@@ -84,11 +84,6 @@ Route::middleware('jwt.auth')->group(function () {
 	Route::get('/withdraw', [WithdrawController::class, 'index'])->name('dash.withdraw');
 	Route::post('/withdraw', [WithdrawController::class, 'create'])->name('dash.withdraw.create');
 
-	// Custom Domain
-	Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');
-	Route::post('/domain', [DomainController::class, 'create'])->name('dash.domain.create');
-	Route::delete('/domain/{id}', [DomainController::class, 'delete'])->name('dash.domain.delete');
-
 	// Setup
 	Route::get('/setup/1', [SetupController::class, 'step1'])->name('dash.setup1');
 	Route::get('/setup/2', [SetupController::class, 'step2'])->name('dash.setup2');
@@ -97,4 +92,12 @@ Route::middleware('jwt.auth')->group(function () {
 
 	// Ping
 	Route::get('/ping/{ip}/{port}', [GameServerController::class, 'ping'])->name('dash.ping');
+
+	Route::middleware('is.premium')->group(function () {
+		
+		// Custom Domain
+		Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');
+		Route::post('/domain', [DomainController::class, 'create'])->name('dash.domain.create');
+		Route::delete('/domain/{id}', [DomainController::class, 'delete'])->name('dash.domain.delete');
+	});
 });
