@@ -93,11 +93,15 @@ Route::middleware('jwt.auth')->group(function () {
 	// Ping
 	Route::get('/ping/{ip}/{port}', [GameServerController::class, 'ping'])->name('dash.ping');
 
-	Route::middleware('is.premium')->group(function () {
-		
-		// Custom Domain
-		Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');
-		Route::post('/domain', [DomainController::class, 'create'])->name('dash.domain.create');
-		Route::delete('/domain/{id}', [DomainController::class, 'delete'])->name('dash.domain.delete');
-	});
+	// Route::middleware('is.premium')->group(function () {
+
+	// 	// Custom Domain
+	// 	// Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');
+	// 	// Route::post('/domain', [DomainController::class, 'create'])->name('dash.domain.create');
+	// 	// Route::delete('/domain/{id}', [DomainController::class, 'delete'])->name('dash.domain.delete');
+	// });
+
+	Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');
+	Route::post('/domain', [DomainController::class, 'create'])->name('dash.domain.create');
+	Route::delete('/domain/{id}', [DomainController::class, 'delete'])->name('dash.domain.delete');
 });
