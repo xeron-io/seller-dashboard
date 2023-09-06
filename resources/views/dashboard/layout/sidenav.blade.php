@@ -139,21 +139,23 @@
 					</a>
 				</li>
 
-				<li class="sidebar-title">Addons</li>
+				@if ($token->membership == 'Premium')
+					<li class="sidebar-title">Addons</li>
 
-				<li class="sidebar-item {{ $title == 'Domain' ? 'active' : '' }}">
-					<a href="{{ route('dash.domain') }}" class="sidebar-link">
-						<i class="bi bi-globe"></i>
-						<span>Custom Domain</span>
-					</a>
-				</li>
+					<li class="sidebar-item {{ $title == 'Domain' ? 'active' : '' }}">
+						<a href="{{ route('dash.domain') }}" class="sidebar-link">
+							<i class="bi bi-globe"></i>
+							<span>Custom Domain</span>
+						</a>
+					</li>
 
-				<li class="sidebar-item">
-					<a href="index.html" class="sidebar-link">
-						<i class="fa fa-picture-o" aria-hidden="true"></i>
-						<span>Custom Theme</span>
-					</a>
-				</li>
+					<li class="sidebar-item">
+						<a href="index.html" class="sidebar-link">
+							<i class="fa fa-picture-o" aria-hidden="true"></i>
+							<span>Custom Theme</span>
+						</a>
+					</li>
+				@endif
 
 				<li class="sidebar-title">Penarikan</li>
 

@@ -28,12 +28,28 @@ class ProfileController extends Controller
 			'phone' => 'required|numeric|unique:sellers,phone,'.AuthController::getJWT()->sub.',id',
 		]);
 
-		Sellers::where('id', AuthController::getJWT()->sub)->update([
+		$seller = Sellers::where('id', AuthController::getJWT()->sub)->first();
+		$seller->update([
 			'firstname' => $request->firstname,
 			'lastname' => $request->lastname,
 			'email' => $request->email,
 			'phone' => $request->phone,
 		]);
+
+		// generate new token
+		$payload = [
+      'iss' => "xeron.io",
+      'sub' => $seller->id,
+      'iat' => time(), 
+      'exp' => $request->remember ? time() + 604800 : time() + 3600,
+      'initial' => strtoupper($seller->firstname[0].$seller->lastname[0]),
+      'name' => $seller->firstname.' '.$seller->lastname,
+      'email' => $seller->email,
+      'membership' => $seller->membership->name,
+    ];
+
+		$token = AuthController::generateJWT($payload);
+		$request->session()->put('token', $token);
 
 		return redirect()->route('dash.profile')->with('success', 'Profile anda berhasil di update');
 	}
