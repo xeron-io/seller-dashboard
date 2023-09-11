@@ -28,6 +28,7 @@ class Store extends Model
         'status',
         'logo',
         'api_key',
+        'private_key'
     ];
 
     public function seller()

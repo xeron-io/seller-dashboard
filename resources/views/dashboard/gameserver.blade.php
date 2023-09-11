@@ -80,7 +80,8 @@
 						<label>Tipe Game: </label>
             <div class="form-group">
               <select name="game" class="form-control" required>
-								<option value="fivem">FiveM</option>
+								<option value="FiveM">FiveM</option>
+								<option value="Minecraft">Minecraft</option>
 							</select>
             </div>
 						<div class="row">
@@ -152,7 +153,8 @@
 						<label>Tipe Game: </label>
             <div class="form-group">
               <select name="game" class="form-control" required>
-								<option value="fivem">FiveM</option>
+								<option value="FiveM">FiveM</option>
+								<option value="Minecraft">Minecraft</option>
 							</select>
             </div>
 						<div class="row">

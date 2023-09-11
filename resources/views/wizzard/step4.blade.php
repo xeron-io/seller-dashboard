@@ -27,8 +27,8 @@
                        	<div class="card-body">
 							<ul id="progressbar" class="text-center">
                                 <li class="active" id="server"><strong>Game Server</strong></li>
-                                <li class="active" id="config"><strong>Configuration</strong></li>
-                                <li class="active" id="webstore"><strong>Webstore</strong></li>
+								<li class="active" id="webstore"><strong>Webstore</strong></li>
+                                <li class="active" id="config"><strong>Configuration</strong></li> 
                                 <li class="active" id="confirm"><strong>Finish</strong></li>
                             </ul>
 					   	</div>

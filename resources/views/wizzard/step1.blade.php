@@ -25,8 +25,8 @@
                        	<div class="card-body">
 							<ul id="progressbar" class="text-center">
                                 <li class="active" id="server"><strong>Game Server</strong></li>
-                                <li id="config"><strong>Configuration</strong></li>
-                                <li id="webstore"><strong>Webstore</strong></li>
+								<li id="webstore"><strong>Webstore</strong></li>
+                                <li id="config"><strong>Configuration</strong></li> 
                                 <li id="confirm"><strong>Finish</strong></li>
                             </ul>
 
@@ -39,6 +39,7 @@
 											<input type="text" id="name" class="form-control" placeholder="Server Name" name="name" 
 											@if($gameserver)
 												value="{{ $gameserver->name }}"
+												readOnly
 											@endif
 											>
 										</div>
@@ -47,7 +48,12 @@
 										<div class="form-group">
 											<label>Server Game</label>
 											<select class="form-select" name="game" id="game">
-												<option selected>FiveM</option>
+												@if($gameserver)
+													<option value="{{ $gameserver->game }}" selected>{{ $gameserver->game }}</option>
+												@else
+													<option value="FiveM">FiveM</option>
+													<option value="Minecraft">Minecraft</option>
+												@endif
 											</select>
 										</div>
 									</div>
@@ -59,6 +65,7 @@
 											<input type="text" id="ip" class="form-control" placeholder="Server IP" name="ip"
 											@if($gameserver)
 												value="{{ $gameserver->ip }}"
+												readonly
 											@endif
 											>
 										</div>
@@ -69,6 +76,7 @@
 											<input type="number" id="port" class="form-control" placeholder="Server Port" name="port"
 											@if($gameserver)
 												value="{{ $gameserver->port }}"
+												readonly
 											@endif
 											>
 										</div>
@@ -103,11 +111,12 @@
 												<i class="fa fa-arrow-right me-1" aria-hidden="true"></i>
 												Next
 											</button>
+
+											<button type="reset" class="btn btn-light-secondary me-1 mb-1">
+												<i class="fa fa-ban me-1" aria-hidden="true"></i>
+												Reset
+											</button>
 										@endif
-										<button type="reset" class="btn btn-light-secondary me-1 mb-1">
-											<i class="fa fa-ban me-1" aria-hidden="true"></i>
-											Reset
-										</button>
 									</div>
 								</div>
 							</form>

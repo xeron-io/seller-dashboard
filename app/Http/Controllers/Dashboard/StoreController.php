@@ -57,7 +57,6 @@ class StoreController extends Controller
 
 		$payload = [
 			'iss' => "xeron.io",
-			'id_store' => $check_domain->id,
 			'id_seller' => AuthController::getJWT()->sub,
     ];
 

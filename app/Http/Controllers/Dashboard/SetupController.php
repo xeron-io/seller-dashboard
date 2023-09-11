@@ -22,27 +22,25 @@ class SetupController extends Controller
 
 	public function step2()
 	{
-		$gameserver = GameServer::where('id_seller', AuthController::getJWT()->sub)->first();
-		if (!$gameserver) {
-			return redirect()->route('dash.step1');
-		}
+		$store = Store::where('id_seller', AuthController::getJWT()->sub)->first();
 
 		return view('wizzard.step2', [
 			'title' => 'Setup Your Store',
-			'gameserver' => $gameserver,
+			'gameserver' => GameServer::where('id_seller', AuthController::getJWT()->sub)->first(),
+			'store' => $store,
 		]);
 	}
 
 	public function step3()
 	{
 		$store = Store::where('id_seller', AuthController::getJWT()->sub)->first();
-		if ($store) {
-			return redirect()->route('dash.setup4');
+		if (!$store) {
+			return redirect()->route('dash.step1');
 		}
 
 		return view('wizzard.step3', [
-			'title' => 'Setup Your Store',
-			'gameserver' => GameServer::where('id_seller', AuthController::getJWT()->sub)->first(),
+			'title' => 'Configure Your Server',
+			'store' => $store,
 		]);
 	}
 
