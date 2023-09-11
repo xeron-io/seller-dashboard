@@ -9,6 +9,8 @@ use App\Models\Store;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Str;
 use App\Models\GameServer;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class StoreController extends Controller
 {
@@ -53,6 +55,14 @@ class StoreController extends Controller
 		} 
 		$img_url = $upload['data']['url'];
 
+		$payload = [
+			'iss' => "xeron.io",
+			'id_store' => $check_domain->id,
+			'id_seller' => AuthController::getJWT()->sub,
+    ];
+
+    $api_key = JWT::encode($payload, env('JWT_KEY'), 'HS256');
+
 		Store::create([
 			'id_seller' => AuthController::getJWT()->sub,
 			'id_gameserver' => $request->id_gameserver,
@@ -68,7 +78,8 @@ class StoreController extends Controller
 			'facebook' => $request->facebook ? $request->facebook : '-',
 			'status' => 'active', // 'pending', 'active', 'suspended
 			'logo' => $img_url,
-			'api_key' => Str::uuid(),
+			'api_key' => $api_key,
+			'private_key' => Str::uuid(),
 		]);
 
 		return redirect()->back()->with('success', 'Toko anda berhasil dibuat');
