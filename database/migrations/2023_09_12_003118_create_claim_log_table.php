@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_transaction')->constrained('transactions');
             $table->string('ip_address', 45);
-            $table->timestamps();
+            $table->timestamp('claimed_at')->useCurrent();
+            $table->softDeletes('deleted_at', 0)->nullable();
         });
     }
 
