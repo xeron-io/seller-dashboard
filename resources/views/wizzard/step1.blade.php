@@ -82,6 +82,19 @@
 										</div>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-md-12 col-12">
+										<div class="form-group">
+											<label>Server Domain (optional)</label>
+											<input type="text" id="domain" class="form-control" placeholder="Server Domain" name="domain"
+											@if($gameserver)
+												value="{{ $gameserver->domain }}"
+												readonly
+											@endif
+											>
+										</div>
+									</div>
+								</div>
 								<div class="row mt-4">
 									<div class="col-6 d-flex justify-content-start">
 										<button type="button" class="btn btn-sm btn-primary testConnection">

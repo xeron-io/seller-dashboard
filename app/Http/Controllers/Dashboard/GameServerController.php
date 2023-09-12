@@ -44,11 +44,13 @@ class GameServerController extends Controller
 
 	public function create(Request $request)
 	{
+		$rules_domain = $request->domain ? 'required|string|min:3|max:255' : 'nullable';
 		$request->validate([
 			'name' => 'required|string|min:3|max:255',
 			'game' => 'required|string|max:255',
 			'ip' => 'required|string|max:255',
-			'port' => 'required|string|max:25'
+			'port' => 'required|string|max:25',
+			'domain' => $rules_domain,
 		]);
 
 		$gameserver = GameServer::create([
@@ -57,7 +59,7 @@ class GameServerController extends Controller
 			'game' => $request->game,
 			'ip' => $request->ip,
 			'port' => $request->port,
-			'api_key' => Str::uuid()
+			'domain' => $request->domain ? $request->domain : null,
 		]);
 
 		return redirect()->back()->with('success', 'Berhasil menambahkan game server baru');

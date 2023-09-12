@@ -54,9 +54,24 @@
 								</div>
 								<div class="row">
 									{{-- Tutorial --}}
-									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe suscipit pariatur enim explicabo obcaecati veritatis cupiditate distinctio commodi! Aliquam quos esse vel illum, sint expedita id ab illo asperiores numquam earum explicabo, laboriosam impedit labore sed tenetur ipsam veritatis et nulla cupiditate pariatur, libero nisi autem optio. Voluptatem, eos dicta?</p>
-
-									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nostrum aliquam inventore suscipit veritatis placeat iste maiores voluptatem aliquid recusandae.</p>
+									<h5 class="mb-2">Cara Mengintegrasikan Webstore dengan Game Server</h5>
+									<h6 class="mb-1">● Instalasi Plugin</h6>
+									<p class="mb-0">Silahkan download plugin dari link berikut:</p>
+									<ul class="ms-4 mb-1">
+										<li>FiveM: <a href="https://github.com/xeron-io/fivem-plugin/releases">https://github.com/xeron-io/fivem-plugin/releases</a></li>
+										<li>Minecraft: <a href="#">Segera hadir</a></li>
+									</ul>
+									<p class="mb-0">Setelah itu, silahkan ikuti langkah-langkah berikut:</p>
+									<p class="mb-0">1. Extract file tersebut dan copy ke folder resources pada server FiveM anda.</p>
+									<p class="mb-2">2. Rename folder tersebut menjadi <strong>xeron</strong>.</p>
+									<h6 class="mb-1">● Konfigurasi Rcon</h6>
+									<p class="mb-2">3. Buka file <strong>server.cfg</strong> yang terletak pada root direktori server anda dan tambahkan baris baru berikut: <strong>rcon_password "passwordAnda"</strong>. Ubah password sesuai dengan yang anda inginkan.</p>
+									<h6 class="mb-1">● Konfigurasi Config</h6>
+									<p class="mb-0">4. Ubah nama file <strong>config.json.example</strong> menjadi <strong>config.json</strong> yang berada pada folder <strong>conf</strong>.</p>
+									<p class="mb-0">5. Kemudian buka file tersebut dan isikan <strong>apiKey</strong> & <strong>privateKey</strong> sesuai dengan data yang terdapat diatas halaman ini.</p>
+									<p class="mb-0">6. Isikan juga <strong>rconPassword</strong> sesuai dengan password yang anda buat pada langkah ke-3.</p>
+									<p class="mb-0">7. Tambahkan baris <strong>ensure xeron</strong> pada file <strong>server.cfg</strong> yang terletak pada root direktori server anda.</p>
+									<p class="mb-0">8. Restart server anda.</p>
 								</div>
 								<div class="row mt-4">
 									<div class="col-12 d-flex justify-content-end">

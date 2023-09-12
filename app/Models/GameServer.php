@@ -17,7 +17,7 @@ class GameServer extends Model
         'game',
         'ip',
         'port',
-        'api_key'
+        'domain'
     ];
 
     public function seller()

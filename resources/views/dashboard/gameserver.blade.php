@@ -20,6 +20,7 @@
 							<th>Game</th>
 							<th>Ip</th>
 							<th>Port</th>
+							<th>Domain</th>
 							<th>Aksi</th>
 						</tr>
 					</thead>
@@ -31,6 +32,7 @@
 								<td>{{ $item->game }}</td>
 								<td>{{ $item->ip }}</td>
 								<td>{{ $item->port }}</td>
+								<td>{{ $item->domain ? $item->domain : '' }}</td>
 								<td>				
 									<button type="button" class="btn btn-sm btn-primary dropdown-toggle me-1"
 										id="dropdownMenuButton"
@@ -96,6 +98,14 @@
 								<label>Port Server: </label>
 								<div class="form-group">
 									<input type="number" name="port" class="form-control" placeholder="Port server" value="{{ old('port') }}" maxlength="255" required>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-12">
+								<label>Domain Server: </label>
+								<div class="form-group">
+									<input type="text" name="domain" class="form-control" placeholder="Domain server" value="{{ old('domain') }}" maxlength="255" required>
 								</div>
 							</div>
 						</div>
@@ -172,6 +182,16 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="row">
+							<div class="col-lg-12 col-12">
+								<label>Domain Server: </label>
+								<div class="form-group">
+									<input type="text" name="domain" class="form-control" placeholder="Domain server" value="{{ old('domain') }}" maxlength="255" required>
+								</div>
+							</div>
+						</div>
+
 						<div class="form-group d-flex">
 							<button type="button" class="btn btn-sm btn-primary testConnection">
 								<i class="fa fa-signal me-1" aria-hidden="true"></i>
@@ -251,6 +271,7 @@
 				$('#editServer select[name="game"]').val(data.game);
 				$('#editServer input[name="ip"]').val(data.ip);
 				$('#editServer input[name="port"]').val(data.port);
+				$('#editServer input[name="domain"]').val(data.domain);
       }) 
     });
 	</script>

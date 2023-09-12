@@ -24,11 +24,11 @@ class Product extends Model
 
     public function store()
     {
-        return $this->belongsTo(Store::class, 'id_store', 'id');
+        return $this->belongsTo(Store::class, 'id_store', 'id')->withTrashed();
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'id_category', 'id');
+        return $this->belongsTo(Category::class, 'id_category', 'id')->withTrashed();
     }
 }

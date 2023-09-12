@@ -41,7 +41,7 @@
 									<div class="col-md-6 col-12">
 										<div class="form-group">
 											<label>Store Name</label>
-											@if($store->name)
+											@if($store)
 												<input type="text" id="name" class="form-control" placeholder="Store Name" name="name" value="{{ $store->name }}" readonly>
 											@else
 												<input type="text" id="name" class="form-control" placeholder="Store Name" name="name" value="{{ old('name') }}" required>
@@ -51,7 +51,7 @@
 									<div class="col-md-6 col-12">
 										<label>Store Domain: </label>
 										<div class="input-group">
-											@if($store->domain)
+											@if($store)
 												<input type="text" name="domain" class="form-control" placeholder="Store Domain" value="{{ $store->domain }}" minlength="4" readonly>
 												<span class="input-group-text" id="domain">{{ env('STORE_DOMAIN') }}</span>
 											@else
@@ -64,7 +64,7 @@
 								<div class="col-md-12 col-12">
 									<div class="form-group">
 										<label>Store Description</label>
-										@if($store->description)
+										@if($store)
 											<textarea type="text" name="description" placeholder="Deskripsi toko" class="form-control" style="height: 100px" minlength="100" readonly>{{ $store->description }}</textarea>
 										@else
 											<textarea type="text" name="description" placeholder="Deskripsi toko" class="form-control" style="height: 100px" minlength="100" required>{{ old('description') }}</textarea>
@@ -74,14 +74,14 @@
 								<div class="col-md-12 col-12">
 									<label>Store Logo: </label>
 									<div class="form-group">
-										@if(!$store->logo)
+										@if(!$store)
 											<input type="file" name="logo" class="form-control" value="{{ old('logo') }}" placeholder="Upload logo toko" accept="image/*" onchange="showPreview(event);" required>
 											<p><small class="text-muted">Recommended Resolution: 512x512 | Max 2 MB</small></p>
 										@endif
 									</div>
 								</div>
 								<div class="col-lg-12">
-									@if($store->logo)
+									@if($store)
 										<img src="{{ $store->logo }}" id="preview" class="img-thumbnail bg-upload" style="height: 200px;width: 200px;">
 									@else
 										<img src="{{ asset('/Assets/images/image-placeholder.png') }}" id="preview" class="img-thumbnail bg-upload" style="height: 200px;width: 200px;">
@@ -129,6 +129,14 @@
 <script src="{{ asset('/Assets/extensions/jquery/jquery.min.js') }}"></script>
 @if($message = Session::get('success'))
 	<script>
+		Toastify({
+			text: 'Toko anda berhasil dibuat!',
+			duration: 3000,
+			close: true,
+			gravity: "top",
+			position: "right",
+			backgroundColor: "#4dbd74",
+		}).showToast()
 		window.location.href = "{{ route('dash.setup3') }}";
 	</script>
 @elseif($message = Session::get('errors'))

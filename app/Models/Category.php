@@ -20,6 +20,6 @@ class Category extends Model
 
     public function store()
     {
-        return $this->belongsTo(Store::class, 'id_store', 'id');
+        return $this->belongsTo(Store::class, 'id_store', 'id')->withTrashed();
     }
 }
