@@ -108,11 +108,11 @@
             </div>
 						<label>Nama Kategori: </label>
             <div class="form-group">
-              <input type="text" name="name" class="form-control" placeholder="Nama kategori" value="{{ old('name') }}" minlength="4" maxlength="255" required>
+              <input type="text" name="name" class="form-control" placeholder="Nama kategori" value="{{ old('name') }}" minlength="3" maxlength="255" required>
             </div>
 						<label>Deskripsi Kategori: </label>
             <div class="form-group">
-              <textarea type="text" name="description" placeholder="Deskripsi kategori" class="form-control" style="height: 100px" value="{{ old('description') }}" minlength="50" maxlength="255" required></textarea>
+              <textarea type="text" name="description" placeholder="Deskripsi kategori" class="form-control" style="height: 100px" value="{{ old('description') }}" minlength="30" maxlength="255" required></textarea>
             </div>
           </div>
           <div class="modal-footer">
@@ -154,11 +154,11 @@
             </div>
 						<label>Nama Kategori: </label>
             <div class="form-group mb-3">
-              <input type="text" name="name" class="form-control" placeholder="Nama kategori" value="{{ old('name') }}" minlength="4" maxlength="255" required>
+              <input type="text" name="name" class="form-control" placeholder="Nama kategori" value="{{ old('name') }}" minlength="3" maxlength="255" required>
             </div>
 						<label>Deskripsi Kategori: </label>
             <div class="form-group">
-              <textarea type="text" name="description" placeholder="Deskripsi kategori" class="form-control" style="height: 100px" value="{{ old('description') }}" minlength="50" maxlength="255" required></textarea>
+              <textarea type="text" name="description" placeholder="Deskripsi kategori" class="form-control" style="height: 100px" value="{{ old('description') }}" minlength="30" maxlength="255" required></textarea>
             </div>
           </div>
           <div class="modal-footer">

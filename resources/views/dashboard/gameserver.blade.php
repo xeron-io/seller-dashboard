@@ -103,9 +103,9 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12 col-12">
-								<label>Domain Server: </label>
+								<label>Domain Server (optional): </label>
 								<div class="form-group">
-									<input type="text" name="domain" class="form-control" placeholder="Domain server" value="{{ old('domain') }}" maxlength="255" required>
+									<input type="text" name="domain" class="form-control" placeholder="Domain server" value="{{ old('domain') }}" maxlength="255">
 								</div>
 							</div>
 						</div>
@@ -185,9 +185,9 @@
 
 						<div class="row">
 							<div class="col-lg-12 col-12">
-								<label>Domain Server: </label>
+								<label>Domain Server (optional): </label>
 								<div class="form-group">
-									<input type="text" name="domain" class="form-control" placeholder="Domain server" value="{{ old('domain') }}" maxlength="255" required>
+									<input type="text" name="domain" class="form-control" placeholder="Domain server" value="{{ old('domain') }}" maxlength="255">
 								</div>
 							</div>
 						</div>

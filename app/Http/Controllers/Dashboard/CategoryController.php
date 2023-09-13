@@ -41,8 +41,8 @@ class CategoryController extends Controller
 	{
 		$request->validate([
 			'id_store' => 'required|exists:stores,id',
-			'name' => 'required|min:4|max:50',
-			'description' => 'required|min:50|max:255',
+			'name' => 'required|min:3|max:50',
+			'description' => 'required|min:30|max:255',
 		]);
 
 		// check if id_store is belongs to AuthController::getJWT()->sub
@@ -65,8 +65,8 @@ class CategoryController extends Controller
 	{
 		$request->validate([
 			'id_store' => 'required|exists:stores,id',
-			'name' => 'required|min:4|max:50',
-			'description' => 'required|min:50|max:255',
+			'name' => 'required|min:3|max:50',
+			'description' => 'required|min:30|max:255',
 		]);
 
 		// check if id_store is belongs to AuthController::getJWT()->sub
