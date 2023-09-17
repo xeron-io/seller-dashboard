@@ -16,15 +16,15 @@
 							<div
 							class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start"
 							>
-							<div class="stats-icon purple mb-2">
+							<div class="stats-icon green mb-2">
 								<i class="fa fa-usd" aria-hidden="true"></i>
 							</div>
 							</div>
 							<div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
 							<h6 class="text-muted font-semibold">
-								Pendapatan
+								Saldo Tersedia
 							</h6>
-							<h6 class="font-extrabold mb-0">@currency($total_income)</h6>
+							<h6 class="font-extrabold mb-0">@currency($seller->balance)</h6>
 							</div>
 						</div>
 						</div>
@@ -37,15 +37,15 @@
 							<div
 							class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start"
 							>
-							<div class="stats-icon green mb-2">
+							<div class="stats-icon purple mb-2">
 								<i class="fa fa-usd" aria-hidden="true"></i>
 							</div>
 							</div>
 							<div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
 							<h6 class="text-muted font-semibold">
-								Saldo Tersedia
+								Pendapatan
 							</h6>
-							<h6 class="font-extrabold mb-0">@currency($seller->balance)</h6>
+							<h6 class="font-extrabold mb-0">@currency($total_income)</h6>
 							</div>
 						</div>
 						</div>

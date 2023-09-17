@@ -16,7 +16,7 @@ class OverviewController extends Controller
 		$transactions = Transactions::whereHas('store', function ($query) {
 			$query->where('id_seller', AuthController::getJWT()->sub);
 		})->get();
-		$total_income = $transactions->sum('amount');
+		$total_income = $transactions->sum('amount_bersih');
 
 		$reviews = Reviews::whereHas('transaction', function ($query) {
 			$query->whereHas('store', function ($query) {
