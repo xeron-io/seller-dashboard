@@ -130,6 +130,7 @@
 							<p><small class="text-muted">
 								- Percent: Voucher akan mengurangi harga produk dengan persentase yang ditentukan<br />
 								- Fixed: Voucher akan mengurangi harga produk dengan nominal yang tetap	
+								Catatan: Apabila nominal transaksi kurang dari Rp 10.000, maka transaksi tidak dapat dilakukan.
 							</small></p>
             </div>
 
