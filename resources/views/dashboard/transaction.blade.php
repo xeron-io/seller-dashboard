@@ -32,9 +32,11 @@
 							<th>No</th>
 							<th>Toko</th>
 							<th>Produk</th>
-							<th>Nama Pembeli</th>
 							<th>Jumlah</th>
-							<th>Total Harga</th>
+							<th>Nama Pembeli</th>
+							<th>Pendapatan Kotor</th>
+							<th>Pajak</th>
+							<th>Pendapatan Bersih</th>
 							<th>Status</th>
 							<th>Aksi</th>
 						</tr>
@@ -44,10 +46,12 @@
 							<tr>
 								<td>{{ $loop->iteration }}</td>
 								<td>{{ $item->store->name }}</td>
-								<td>{{ $item->product->name }}</td>
-								<td>{{ $item->buyer_name }}</td>
+								<td>{{ Str::limit($item->product->name, 30, '...') }}</td>
 								<td>{{ $item->quantity }}</td>
-								<td>{{ $item->amount }}</td>
+								<td>{{ $item->buyer_name }}</td>
+								<td>Rp {{ number_format($item->amount) }}</td>
+								<td>Rp {{ number_format($item->pajak) }}</td>
+								<td>Rp {{ number_format($item->amount_bersih) }}</td>
 								<td>
 									@if($item->status == 'PAID')
 										<span class="badge bg-success">Paid</span>
@@ -122,10 +126,6 @@
 						<div class="form-group">
 							<input type="text" name="merchant_ref" id="merchant_ref" class="form-control" value="" readonly>
 						</div>
-						<label>Ingame ID: </label>
-						<div class="form-group">
-							<input type="text" name="ingame_id" id="ingame_id" class="form-control" value="" readonly>
-						</div>
 						<label>Store: </label>
             <div class="form-group mb-3">
               <input type="text" name="store" id="store" class="form-control" value="" readonly>
@@ -150,9 +150,17 @@
 						<div class="form-group">
 							<input type="text" name="quantity" id="quantity" class="form-control" value="" readonly>
 						</div>
-						<label>Amount: </label>
+						<label>Pendapatan Kotor: </label>
 						<div class="form-group">
 							<input type="text" name="amount" id="amount" class="form-control" value="" readonly>
+						</div>
+						<label>Pajak: </label>
+						<div class="form-group">
+							<input type="text" name="pajak" id="pajak" class="form-control" value="" readonly>
+						</div>
+						<label>Pendapatan Bersih: </label>
+						<div class="form-group">
+							<input type="text" name="amount_bersih" id="amount_bersih" class="form-control" value="" readonly>
 						</div>
 						<label>Payment Method: </label>
 						<div class="form-group">
@@ -221,7 +229,6 @@
         $('#detail').modal('show');
 				$('#reference').val(data.reference);
 				$('#merchant_ref').val(data.merchant_ref);
-				$('#ingame_id').val(data.ingame_id);
 				$('#store').val(data.store.name);
 				$('#product').val(data.product.name);
 				$('#buyer_name').val(data.buyer_name);
@@ -229,6 +236,8 @@
 				$('#buyer_phone').val(data.buyer_phone);
 				$('#quantity').val(data.quantity);
 				$('#amount').val(data.amount);
+				$('#pajak').val(data.pajak);
+				$('#amount_bersih').val(data.amount_bersih);
 				$('#payment_method').val(data.payment_method);
       }) 
     });

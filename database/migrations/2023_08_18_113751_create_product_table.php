@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('id_store')->constrained('stores')->onDelete('cascade');
             $table->string('name');
             $table->string('slug');
-            $table->string('description');
+            $table->longText('description')->comment('Product description in HTML format')->nullable();
             $table->integer('price');
             $table->string('image');
             $table->string('ingame_command');
