@@ -1,6 +1,11 @@
 @extends('dashboard.layout.app')
 
 @section('content')
+	<link	
+  	rel="stylesheet"
+    href="{{ asset('/Assets/extensions/toastify-js/src/toastify.css') }}"
+  />
+	<script src="{{ asset('/Assets/extensions/toastify-js/src/toastify.js') }}"></script>
 	<section class="section">
 		<div class="card">
 			<div class="card-header">
@@ -241,6 +246,22 @@
 								<div class="form-group">
 									<input type="text" name="facebook" placeholder="Link facebook toko" class="form-control" value="{{ old('facebook') }}">
 								</div>
+								<label>Api Key:</label>
+								<div class="input-group mb-2">
+									<input type="text" class="form-control" value="{{ old('api_key') }}" name="api_key" id="api_key" readonly>
+
+									<button class="btn btn-primary" type="button" id="copy">
+										<i class="fa fa-clipboard" aria-hidden="true"></i>
+									</button>
+								</div>
+								<label>Private Key:</label>
+								<div class="input-group mb-3">
+									<input type="text" class="form-control" value="{{ old('private_key') }}" name="private_key" id="private_key" readonly>
+
+									<button class="btn btn-primary" type="button" id="copy2">
+										<i class="fa fa-clipboard" aria-hidden="true"></i>
+									</button>
+								</div>
 							</div>
 						</div>
           </div>
@@ -256,7 +277,6 @@
       </div>
     </div>
 	</div>
-
 	<script>
 		$(document).on('click', '#editBtn', function(){
       const url = '/store/'
@@ -281,6 +301,8 @@
 				$('#editStore form input[name="phone"]').val(data.phone);
 				$('#editStore form input[name="facebook"]').val(data.facebook);
 				$('#editStore form img').attr('src', data.logo);
+				$('#editStore form input[name="api_key"]').val(data.api_key);
+				$('#editStore form input[name="private_key"]').val(data.private_key);
       }) 
     });
 	</script>
@@ -299,6 +321,15 @@
 			if(event.target.files.length > 0){
 				let src = URL.createObjectURL(event.target.files[0]);
 				let preview = document.getElementById("preview2");
+				preview.src = src;
+				preview.style.display = "block";
+			}
+		}
+		
+		function showPreview3(event){
+			if(event.target.files.length > 0){
+				let src = URL.createObjectURL(event.target.files[0]);
+				let preview = document.getElementById("preview3");
 				preview.src = src;
 				preview.style.display = "block";
 			}
@@ -359,6 +390,45 @@
 					form.submit();
 				}
 			})
+		}
+	</script>
+	<script>
+		const copy = document.querySelector('#copy');
+		copy.onclick = function() {
+			// select by name
+			var input = document.querySelector('#api_key');
+			input.select();
+			document.execCommand('copy');
+			input.setSelectionRange(0, 0);
+
+			// show toast
+			Toastify({
+				text: 'API Key copied to clipboard',
+				duration: 3000,
+				close: true,
+				gravity: "top",
+				position: "right",
+				backgroundColor: "#4fbe87",
+			}).showToast()
+		}
+	</script>
+	<script>
+		const copy2 = document.querySelector('#copy2');
+		copy2.onclick = function() {
+			var input = document.querySelector('#private_key');
+			input.select();
+			document.execCommand('copy');
+			input.setSelectionRange(0, 0);
+
+			// show toast
+			Toastify({
+				text: 'Private Key copied to clipboard',
+				duration: 3000,
+				close: true,
+				gravity: "top",
+				position: "right",
+				backgroundColor: "#4fbe87",
+			}).showToast()
 		}
 	</script>
 	<script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>

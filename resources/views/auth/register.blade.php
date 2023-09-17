@@ -17,7 +17,7 @@
 					<div id="auth-left">
 						<div class="auth-logo mb-5">
 							<a href="{{ route('login') }}" class="d-flex">
-								<img src="{{ asset('/Assets/logo.png') }}" class="w-10 h-10my-auto" alt="Logo"/>
+								<img src="{{ asset('/Assets/logo.png') }}" class="w-10 h-10 my-auto" alt="Logo"/>
 								<h5 class="ms-2 my-auto">{{ env('APP_NAME') }}</h5>
 							</a>
 						</div>
