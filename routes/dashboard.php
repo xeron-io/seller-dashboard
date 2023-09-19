@@ -15,6 +15,7 @@ use App\Http\Controllers\Dashboard\WithdrawController;
 use App\Http\Controllers\Dashboard\DomainController;
 use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\SetupController;
+use App\Http\Controllers\Dashboard\ThemesController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('jwt.auth')->group(function () {
@@ -94,6 +95,10 @@ Route::middleware('jwt.auth')->group(function () {
 	Route::get('/ping/{ip}/{port}', [GameServerController::class, 'ping'])->name('dash.ping');
 
 	Route::middleware('is.premium')->group(function () {
+		// Custom Themes
+		Route::get('/themes', [ThemesController::class, 'index'])->name('dash.themes');
+		Route::post('/themes/activate/{id}', [ThemesController::class, 'activate'])->name('dash.themes.activate');
+
 		// Custom Domain
 		Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');
 		Route::post('/domain', [DomainController::class, 'create'])->name('dash.domain.create');

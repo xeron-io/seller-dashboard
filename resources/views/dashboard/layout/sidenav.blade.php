@@ -152,7 +152,7 @@
 					</li>
 
 					<li class="sidebar-item">
-						<a href="index.html" class="sidebar-link">
+						<a href="{{ route('dash.themes') }}" class="sidebar-link">
 							<i class="fa fa-picture-o" aria-hidden="true"></i>
 							<span>Custom Theme</span>
 						</a>
