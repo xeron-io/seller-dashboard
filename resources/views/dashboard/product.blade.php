@@ -304,6 +304,7 @@
 				$('#editProduct form input[name="ingame_command"]').val(data.ingame_command);
 				$('#editProduct form img').attr('src', data.image);
 				$('#editProduct form input[name="description2"]').val(data.description);
+				$('#editProduct form select[name="id_category"]').val(data.id_category);
 				quill2.root.innerHTML = data.description;
 			})
     });
