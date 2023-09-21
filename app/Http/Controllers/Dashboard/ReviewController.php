@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AuthController;
+use App\Models\Store;
 use App\Models\Reviews;
 
 class ReviewController extends Controller
@@ -19,6 +20,7 @@ class ReviewController extends Controller
 					$query->where('id_seller', AuthController::getJWT()->sub);
 				});
 			})->with('transaction')->with('transaction.store')->with('transaction.product')->get(),
+			'store' => Store::where('id_seller', AuthController::getJWT()->sub)->get(),
 		]);
 	}
 }

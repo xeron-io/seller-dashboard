@@ -17,12 +17,13 @@ class ThemesController extends Controller
 			'subtitle' => 'Ganti tema website anda disini',
 			'themes' => Themes::all(),
             'active_theme' => Store::where('id_seller', AuthController::getJWT()->sub)->first()->theme,
+            'store' => Store::where('id_seller', AuthController::getJWT()->sub)->get(),
 		]);
 	}
 
-    public function activate($id_theme)
+    public function activate(Request $request, $id_theme)
     {
-        $store = Store::where('id_seller', AuthController::getJWT()->sub)->first();
+        $store = Store::where('id', $request->id_store)->where('id_seller', AuthController::getJWT()->sub)->first();
         if(!$store) {
             return redirect()->back()->with('api_errors', 'Toko tidak ditemukan');
         }
