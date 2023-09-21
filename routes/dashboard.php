@@ -98,6 +98,7 @@ Route::middleware('jwt.auth')->group(function () {
 		// Custom Themes
 		Route::get('/themes', [ThemesController::class, 'index'])->name('dash.themes');
 		Route::post('/themes/activate/{id}', [ThemesController::class, 'activate'])->name('dash.themes.activate');
+		Route::post('/themes/filter', [ThemesController::class, 'filter'])->name('dash.themes.filter');
 
 		// Custom Domain
 		Route::get('/domain', [DomainController::class, 'index'])->name('dash.domain');

@@ -38,4 +38,20 @@ class ThemesController extends Controller
 
         return redirect()->back()->with('success', 'Berhasil mengganti tema');
     }
+
+    public function filter(Request $request)
+    {
+        $request->validate([
+            'id_store' => 'required|exists:stores,id',
+        ]);
+
+        $store = Store::where('id', $request->id_store)->where('id_seller', AuthController::getJWT()->sub)->first();
+        if(!$store) {
+            return redirect()->back()->with('api_errors', 'Toko tidak ditemukan');
+        }
+
+        // return as json
+        return response()->json($store);
+
+    }
 }

@@ -18,70 +18,99 @@
 			</div>
 		</div>
 	</section>
-	<section class="section mt-3" id="theme_section" style="visibility: hidden;">
+	<section class="section" id="noStore">
 		<div class="row">
-			@foreach($themes as $theme)
-				@foreach($store as $item)
-					@if($theme->id == $item->id_theme)
-						@php
-							$store = $item;
-						@endphp
-					@endif
-				@endforeach
-				<div class="col-lg-3 col-12 position-relative">
-					<div class="card {{ $theme->id == $store->id_theme ? 'border border-success border-3' : '' }}">
-						<div class="card-content">
-							<img src="{{ $theme->thumbnail }}" class="card-img-to" style="height: 13rem;width: 100%;border-radius:10px 10px 0px 0px;" alt="singleminded">
-							<div class="card-body">
-								<h5 class="card-title">{{ $theme->name }}</h5>
-								<p class="card-text">{{ $theme->description }}</p>
-
-								{{-- button --}}
-								@if($theme->id == $store->id_theme)
-									<button class="btn btn-success disabled">Activated</button>
-								@else
-									<form action="{{ route('dash.themes.activate', $theme->id) }}" method="POST">
-										@csrf
-										<input type="hidden" name="id_store" value="">
-										<button class="btn btn-success" type="submit">Active</button>
-									</form>
-								@endif
-							</div>
-						</div>
-
-						{{-- checklist circle green on top right --}}
-						<div class="position-absolute me-1 mt-1" style="top: 0;right: 0;">
-							@if($theme->id == $store->id_theme)
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									xmlns:xlink="http://www.w3.org/1999/xlink"
-									aria-hidden="true"
-									role="img"
-									class="iconify iconify--mdi"
-									width="40"
-									height="40"
-									preserveAspectRatio="xMidYMid meet"
-									viewBox="0 0 24 24"
-								>
-								<path
-									d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm5.293 7.293-6 6a.999.999 0 0 1-1.414 0l-3-3a.999.999 0 1 1 1.414-1.414L11 13.586l5.293-5.293a.999.999 0 1 1 1.414 1.414z"
-									fill="#4fbe87"
-								></path>
-								</svg>
-							@endif
+			<div class="col-lg-6">
+				<div class="card">
+					<div class="card-body text-center">
+						<div class="text-center">
+							<i class="fa fa-question fa-4x text-muted"></i>
+							<h6 class="mt-3 text-muted">
+								Pilih Toko Anda
+							</h6>
+							<p class="text-muted">
+								Silahkan pilih toko anda untuk mengubah atau melihat tema yang tersedia.
+							</p>
 						</div>
 					</div>
 				</div>
-			@endforeach
+			</div>
 		</div>
 	</section>
+	@foreach($store as $data)
+		<section class="section mt-3 d-none" id="theme-section-{{ $data->id }}">
+			<div class="row">
+				@foreach($themes as $theme)
+					<div class="col-lg-3 col-12 position-relative">
+						<div class="card {{ $theme->id == $data->id_theme ? 'border border-success border-3' : '' }}">
+							<div class="card-content">
+								<img src="{{ $theme->thumbnail }}" class="card-img-to" style="height: 13rem;width: 100%;border-radius:10px 10px 0px 0px;" alt="singleminded">
+								<div class="card-body">
+									<h5 class="card-title">{{ $theme->name }}</h5>
+									<p class="card-text">{{ $theme->description }}</p>
+
+									{{-- button --}}
+									@if($theme->id == $data->id_theme)
+										<button class="btn btn-success disabled">Activated</button>
+									@else
+										<form action="{{ route('dash.themes.activate', $theme->id) }}" method="POST">
+											@csrf
+											<input type="hidden" name="id_store" value="">
+											<button class="btn btn-success" type="submit">Active</button>
+										</form>
+									@endif
+								</div>
+							</div>
+
+							{{-- checklist circle green on top right --}}
+							<div class="position-absolute me-1 mt-1" style="top: 0;right: 0;">
+								@if($theme->id == $data->id_theme)
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink"
+										aria-hidden="true"
+										role="img"
+										class="iconify iconify--mdi"
+										width="40"
+										height="40"
+										preserveAspectRatio="xMidYMid meet"
+										viewBox="0 0 24 24"
+									>
+									<path
+										d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm5.293 7.293-6 6a.999.999 0 0 1-1.414 0l-3-3a.999.999 0 1 1 1.414-1.414L11 13.586l5.293-5.293a.999.999 0 1 1 1.414 1.414z"
+										fill="#4fbe87"
+									></path>
+									</svg>
+								@endif
+							</div>
+						</div>
+					</div>
+				@endforeach
+			</div>
+		</section>
+	@endforeach
 	
 	<script>
 		$(document).on('click', '#filterBtn', function(){
 			const storeID = $('#filter_store').val();
 			if(storeID != ''){
-				$('#theme_section').css('visibility', 'visible');
-				$('input[name="id_store"]').val(storeID);
+				$.ajax({
+					url: '{{ route('dash.themes.filter') }}',
+					type: 'POST',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"id_store": storeID
+					},
+					success: function(data) {
+						$('section[id^="theme-section-"]').addClass('d-none');
+						$('#theme-section-'+storeID).removeClass('d-none');
+						$('#theme-section-'+storeID+' input[name="id_store"]').val(storeID);
+						$('#noStore').addClass('d-none'); 
+					}
+				});
+			} else {
+				$('section[id^="theme-section-"]').addClass('d-none');
+				$('#noStore').removeClass('d-none');
 			}
     });
 	</script>
