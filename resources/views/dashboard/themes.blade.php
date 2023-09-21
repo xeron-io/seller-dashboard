@@ -29,7 +29,7 @@
 								Pilih Toko Anda
 							</h6>
 							<p class="text-muted">
-								Silahkan pilih toko anda untuk mengubah atau melihat tema yang tersedia.
+								Silahkan pilih toko anda untuk mengubah tema yang tersedia.
 							</p>
 						</div>
 					</div>
@@ -62,15 +62,13 @@
 								</div>
 							</div>
 
-							{{-- checklist circle green on top right --}}
-							<div class="position-absolute me-1 mt-1" style="top: 0;right: 0;">
-								@if($theme->id == $data->id_theme)
+							@if($theme->id == $data->id_theme)
+								<div class="position-absolute me-1 mt-1" style="top: 0;right: 0;">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										xmlns:xlink="http://www.w3.org/1999/xlink"
 										aria-hidden="true"
 										role="img"
-										class="iconify iconify--mdi"
 										width="40"
 										height="40"
 										preserveAspectRatio="xMidYMid meet"
@@ -81,8 +79,8 @@
 										fill="#4fbe87"
 									></path>
 									</svg>
-								@endif
-							</div>
+								</div>
+							@endif
 						</div>
 					</div>
 				@endforeach
