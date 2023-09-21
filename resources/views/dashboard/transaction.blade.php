@@ -53,9 +53,9 @@
 								<td>Rp {{ number_format($item->pajak) }}</td>
 								<td>Rp {{ number_format($item->amount_bersih) }}</td>
 								<td>
-									@if($item->status == 'PAID')
+									@if(strtolower($item->status) == 'paid')
 										<span class="badge bg-success">Paid</span>
-									@elseif($item->status == 'pending')
+									@elseif(strtolower($item->status) == 'pending')
 										<span class="badge bg-warning">Pending</span>
 									@else
 										<span class="badge bg-danger">{{ ucwords($item->status) }}</span>
@@ -86,7 +86,7 @@
 												@csrf
 												<button type="submit" onclick="confirm()" class="dropdown-item">Resend</button>
 											</form>
-										@elseif(strtolower($item->status) == 'unpaid')
+										@elseif(strtolower($item->status) == 'pending')
 											<hr style="margin: 0;padding: 0;">
 											<form action="{{ route('dash.transaction.cancel', $item->id) }}" method="POST">
 												@csrf
