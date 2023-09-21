@@ -50,7 +50,7 @@
 									type="password"
 									name='password'
 									class="form-control form-control-md"
-									placeholder="Password"
+									placeholder="New Password"
 									minlength="8"
 									required
 									value="{{ old('password') }}"
@@ -65,7 +65,7 @@
 									type="password"
 									name='confirm_password'
 									class="form-control form-control-md"
-									placeholder="Confirm Password"
+									placeholder="Confirm New Password"
 									minlength="8"
 									required
 									value="{{ old('confirm_password') }}"
