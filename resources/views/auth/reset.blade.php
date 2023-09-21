@@ -88,7 +88,7 @@
 				</div>
 				<div class="col-lg-7 d-none d-lg-block">
 					<div id="auth-right">
-						{/* <img className='m-auto h-100' src={ilus3}/> */}
+						{{-- <img src="#" alt="Login" class="img-fluid h-100" />  --}}
 					</div>
 				</div>
 			</div>
