@@ -16,7 +16,6 @@ class ThemesController extends Controller
 			'title' => 'Custom Themes',
 			'subtitle' => 'Ganti tema website anda disini',
 			'themes' => Themes::all(),
-            'active_theme' => Store::where('id_seller', AuthController::getJWT()->sub)->first()->theme,
             'store' => Store::where('id_seller', AuthController::getJWT()->sub)->get(),
 		]);
 	}
