@@ -4,6 +4,12 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{{ env('APP_NAME') }} | {{ $title }}</title>
+		<link rel="icon" type="image/x-icon" href="{{ asset('/Assets/favicon.ico') }}">
+
+		{{-- SEO TAGS --}}
+		<meta name="title" content="{{ env('APP_NAME') }} | {{ $title }}" />
+		<meta name="description" content="Monetisasi game server anda secara mudah dan cepat dengan menggunakan layanan kami." />
+		
 
 		<link rel="stylesheet" href="{{ asset('/Assets/css/main/app.css') }}">
 		<link rel="stylesheet" href="{{ asset('/Assets/css/main/app-dark.css') }}">
