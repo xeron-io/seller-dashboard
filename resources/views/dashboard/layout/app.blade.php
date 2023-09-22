@@ -9,6 +9,16 @@
 		{{-- SEO TAGS --}}
 		<meta name="title" content="{{ env('APP_NAME') }} | {{ $title }}" />
 		<meta name="description" content="Monetisasi game server anda secara mudah dan cepat dengan menggunakan layanan kami." />
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<meta content='Monetisasi game server anda secara mudah dan cepat dengan menggunakan layanan kami.' name='keywords' />
+		<meta name="robots" content="index, follow"/>
+		<meta property="og:sitename" content="{{ env('APP_NAME') }}" />
+		<meta property="og:title" content="{{ env('APP_NAME') }} | {{ $title }}n" />
+		<meta property="og:url" content="{{ env('APP_URL') }}" />
+		<meta property="og:description" content="Monetisasi game server anda secara mudah dan cepat dengan menggunakan layanan kami.">
+		<meta property="og:image" content="{{ asset('/Assets/logo.png') }}">
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="id_ID" />
 		
 
 		<link rel="stylesheet" href="{{ asset('/Assets/css/main/app.css') }}">
