@@ -21,7 +21,7 @@ class TransactionController extends Controller
             'subtitle' => 'Lihat semua transaksi yang anda dapatkan',
             'transactions' => Transactions::whereHas('store', function ($query) {
                 $query->where('id_seller', AuthController::getJWT()->sub);
-            })->where('status', '!=', 'UNPAID')->get(),
+            })->where('status', '!=', 'UNPAID')->where('status', '!=', 'EXPIRED')->get(),
             'store' => Store::where('id_seller', AuthController::getJWT()->sub)->get(),
         ]);
     }
