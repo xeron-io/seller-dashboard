@@ -13,7 +13,7 @@
 		<meta content='Monetisasi game server anda secara mudah dan cepat dengan menggunakan layanan kami.' name='keywords' />
 		<meta name="robots" content="index, follow"/>
 		<meta property="og:sitename" content="{{ env('APP_NAME') }}" />
-		<meta property="og:title" content="{{ env('APP_NAME') }} | {{ $title }}n" />
+		<meta property="og:title" content="{{ env('APP_NAME') }} | {{ $title }}" />
 		<meta property="og:url" content="{{ env('APP_URL') }}" />
 		<meta property="og:description" content="Monetisasi game server anda secara mudah dan cepat dengan menggunakan layanan kami.">
 		<meta property="og:image" content="{{ asset('/Assets/logo.png') }}">
