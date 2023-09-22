@@ -16,7 +16,7 @@
 		<meta property="og:title" content="{{ env('APP_NAME') }} | {{ $title }}" />
 		<meta property="og:url" content="{{ env('APP_URL') }}" />
 		<meta property="og:description" content="Monetisasi game server anda secara mudah dan cepat dengan menggunakan layanan kami.">
-		<meta property="og:image" content="{{ asset('/Assets/logo.png') }}">
+		<meta property="og:image" content="https://i.imgur.com/Jv9g62b.png">
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content="id_ID" />
 		
