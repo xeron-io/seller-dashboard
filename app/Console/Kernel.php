@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
                 $seller->balance += $transaction->amount_bersih;
                 $seller->save();
             }
-        })->everyFiveMinutes()->name('clearing_transactions')->withoutOverlapping();
+        })->dailyAt('00:00')->name('clearing_transactions')->withoutOverlapping();
     }
 
     /**
