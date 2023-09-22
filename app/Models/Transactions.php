@@ -24,9 +24,12 @@ class Transactions extends Model
         'checkout_url',
         'quantity',
         'amount',
+        'amount_bersih',
+        'pajak',
         'payment_method',
         'status',
         'review_code',
+        'cleared_at',
     ];
 
     public function voucher()
