@@ -117,7 +117,7 @@
             </div>
 						<label>Harga Produk: </label>
             <div class="form-group">
-              <input type="number" name="price" class="form-control" placeholder="Insert product price without dot (.)" value="{{ old('price') }}" min="5000" required>
+              <input type="number" name="price" class="form-control" placeholder="Insert product price without dot (.)" value="{{ old('price') }}" min="10000" required>
             </div>
 						<label>Ingame Command: </label>
             <div class="input-group">
@@ -181,7 +181,7 @@
             </div>
 						<label>Harga Produk: </label>
             <div class="form-group">
-              <input type="number" name="price" class="form-control" placeholder="Insert product price without dot (.)" value="{{ old('price') }}" min="5000" required>
+              <input type="number" name="price" class="form-control" placeholder="Insert product price without dot (.)" value="{{ old('price') }}" min="10000" required>
             </div>
 						<label>Ingame Command: </label>
             <div class="input-group">

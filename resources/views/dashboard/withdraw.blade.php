@@ -21,6 +21,7 @@
 							<th>Jumlah Penarikan</th>
 							<th>Pajak</th>
 							<th>Total Diterima</th>
+							<th>Bukti</th>
 							<th>Status</th>
 						</tr>
 					</thead>
@@ -37,6 +38,13 @@
 										$total = $item->amount - $item->fee;
 									@endphp
 									@currency($total)
+								</td>
+								<td>
+									@if($item->proof)
+										<a href="{{ $item->proof }}" target="_blank" class="btn btn-sm btn-primary">Lihat</a>
+									@else
+										-
+									@endif
 								</td>
 								<td>
 									@if($item->status == 'success')
@@ -70,7 +78,8 @@
         <form action="{{ route('dash.withdraw.create') }}" method="POST">
 					@csrf
           <div class="modal-body">
-						<p>Jumlah yang bisa dicairkan: <b>@currency($wallet->seller->balance)</b></p>
+						<span>Jumlah yang bisa dicairkan: <b>@currency($wallet->seller->balance)</b></span>
+						<p>Minimal Jumlah Pencairan: <b>@currency(100000)</b></p>
 						<label>Jumlah yang ingin dicairkan: </label>
             <div class="form-group">
               <input type="number" name="amount" id="amount" class="form-control" placeholder="Masukkan jumlah penarikan" value="{{ old('amount') }}" min="100000" max="10000000" required>

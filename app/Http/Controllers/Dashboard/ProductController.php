@@ -46,7 +46,7 @@ class ProductController extends Controller
 			'id_category' => 'required|exists:category,id',
 			'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
 			'name' => 'required|string|min:3',
-			'price' => 'required|numeric|min:5000',
+			'price' => 'required|numeric|min:10000',
 			'description' => 'required|string|min:100',
 			'ingame_command' => 'required|string',
 		]);
@@ -84,7 +84,7 @@ class ProductController extends Controller
 			'id_category' => 'required|exists:category,id',
 			'image' => $rules_image,
 			'name' => 'required|string|min:3',
-			'price' => 'required|numeric|min:5000',
+			'price' => 'required|numeric|min:10000',
 			'description2' => 'required|string|min:100',
 			'ingame_command' => 'required|string',
 		]);
