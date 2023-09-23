@@ -36,7 +36,7 @@
 								<h5 class="ms-2 my-auto">{{ env('APP_NAME') }}</h5>
 							</a>
 						</div>
-						<h1 class="auth-title">Login.</h1>
+						<h1 class="auth-title">Register.</h1>
 						<p class="auth-subtitle mb-4">
 							Login menggunakan akun yang telah dibuat sebelumnya.
 						</p>
