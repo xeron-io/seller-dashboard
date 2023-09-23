@@ -82,7 +82,7 @@
 			</a>
 		</div> --}}
 		<div class="sidebar-menu mt-0">
-			<ul class="menu mb-5">
+			<ul class="menu">
 				<li class="sidebar-item {{ $title == 'Overview' ? 'active' : '' }}">
 					<a href="{{ route('dash.overview') }}" class="sidebar-link">
 						<i class="bi bi-grid-fill"></i>
