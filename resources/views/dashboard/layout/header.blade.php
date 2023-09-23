@@ -47,7 +47,7 @@
 				</a>
 
 				<a class="dropdown-item text-md" href="{{ route('dash.2fa') }}">
-					<i class="bi bi-shield-lock me-1"></i>
+					<i class="fa fa-lock me-1" aria-hidden="true"></i>
 					2FA
 				</a>
 
