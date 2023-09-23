@@ -40,7 +40,7 @@ class OverviewController extends Controller
 	{
 		$transactions = Transactions::whereHas('store', function ($query) {
 			$query->where('id_seller', AuthController::getJWT()->sub);
-		})->get();
+		})->where('status', 'PAID')->get();
 
 		// get transaction of the year per month (jan - dec) and if there is no transaction in a month, it will be 0
 		$transaction_categorized = [];
