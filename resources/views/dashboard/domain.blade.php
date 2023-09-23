@@ -27,7 +27,7 @@
 							<tr>
 								<td>{{ $loop->iteration }}</td>
 								<td>{{ $item->name }}</td>
-								<td>{{ $item->custom_domain }}</td>
+								<td><a href="https://{{ $item->custom_domain }}">{{ $item->custom_domain }}</a></td>
 								<td>
 									@if($item->status == 'active')
 										<span class="badge bg-success">Active</span>
