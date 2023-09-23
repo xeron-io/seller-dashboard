@@ -22,6 +22,7 @@ class Sellers extends Model
         'verification_token',
         'isVerified',
         'forget_password_token',
+        'status'
     ];
 
     public function membership()

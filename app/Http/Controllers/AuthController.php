@@ -35,6 +35,10 @@ class AuthController extends Controller
          return redirect()->back()->withErrors(['email' => 'Email anda belum terverifikasi.']);
       }
 
+      if($seller->status == 'suspended') {
+         return redirect()->back()->withErrors(['email' => 'Akun anda telah di suspend.']);
+      }
+
       if(Hash::check($request->password, $seller->password)) {
          $payload = [
             'iss' => "xeron.io",
