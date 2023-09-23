@@ -94,7 +94,7 @@
 				<div class="col-12">
 					<div class="card">
 						<div class="card-header">
-							<h4>Penjualan Toko Tahun Ini</h4>
+							<h4>Penjualan Anda Tahun Ini</h4>
 						</div>
 						<div class="card-body">
 						<div id="chart-transactions2"></div>
