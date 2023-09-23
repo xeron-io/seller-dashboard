@@ -55,7 +55,6 @@
 					<i class="fa fa-sign-out me-1" aria-hidden="true"></i>
 					Logout
 				</a>
-
       </div>
 		</div>
 	</div>
