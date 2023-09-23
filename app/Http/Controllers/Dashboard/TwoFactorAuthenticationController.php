@@ -75,6 +75,7 @@ class TwoFactorAuthenticationController extends Controller
         if($valid) {
             $seller->twoFactorAuthentication->google2fa_enable = 1;
             $seller->twoFactorAuthentication->save();
+            session()->put('2fa', true);
             return redirect('2fa')->with('success', "");
         }else {
             return redirect('2fa')->with('error',"Invalid verification Code, Please try again.");
