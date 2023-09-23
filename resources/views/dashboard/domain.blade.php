@@ -27,7 +27,7 @@
 							<tr>
 								<td>{{ $loop->iteration }}</td>
 								<td>{{ $item->name }}</td>
-								<td><a href="https://{{ $item->custom_domain }}">{{ $item->custom_domain }}</a></td>
+								<td><a href="https://{{ $item->custom_domain }}" target="_blank">{{ $item->custom_domain }}</a></td>
 								<td>
 									@if($item->status == 'active')
 										<span class="badge bg-success">Active</span>
@@ -50,7 +50,7 @@
 										class="dropdown-menu fade"
 										aria-labelledby="dropdownMenuButton"
 									>
-										<a class="dropdown-item" href="https://{{ $item->custom_domain }}">Lihat</a>
+										<a class="dropdown-item" href="https://{{ $item->custom_domain }}" target="_blank">Lihat</a>
 										<hr style="margin: 0;padding: 0;">
 										<form action="{{ route('dash.domain.delete', $item->id) }}" method="POST">
 											@csrf
