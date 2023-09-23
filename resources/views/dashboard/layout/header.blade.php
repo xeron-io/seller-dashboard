@@ -46,6 +46,11 @@
 					Upgrade
 				</a>
 
+				<a class="dropdown-item text-md" href="{{ route('dash.2fa') }}">
+					<i class="bi bi-shield-lock me-1"></i>
+					2FA
+				</a>
+
 				<a class="dropdown-item text-md" href="{{ route('logout') }}">
 					<i class="fa fa-sign-out me-1" aria-hidden="true"></i>
 					Logout

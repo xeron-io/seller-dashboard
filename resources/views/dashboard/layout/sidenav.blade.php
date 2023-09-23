@@ -174,15 +174,6 @@
 						<span>Tarik Saldo</span>
 					</a>
 				</li>
-
-				<li class="sidebar-title">Security</li>
-
-				<li class="sidebar-item {{ $title == '2FA' ? 'active' : '' }}">
-					<a href="{{ route('dash.2fa') }}" class="sidebar-link">
-						<i class="bi bi-shield-lock"></i>
-						<span>2FA</span>
-					</a>
-				</li>
 			</ul>
 		</div>
 	</div>
