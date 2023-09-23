@@ -17,6 +17,7 @@ class OverviewController extends Controller
 			$query->where('id_seller', AuthController::getJWT()->sub);
 		})->get();
 		$total_income = $transactions->sum('amount_bersih');
+		$not_yet_cleared = $transactions->where('cleared_at', null)->sum('amount_bersih');
 
 		$reviews = Reviews::whereHas('transaction', function ($query) {
 			$query->whereHas('store', function ($query) {
@@ -29,10 +30,8 @@ class OverviewController extends Controller
 			'subtitle' => '',
 			'transactions' => $transactions,
 			'reviews' => $reviews,
-			'products' => Product::whereHas('store', function ($query) {
-				$query->where('id_seller', AuthController::getJWT()->sub);
-			})->get(),
 			'total_income' => $total_income,
+			'not_yet_cleared' => $not_yet_cleared,
 			'seller' => Sellers::where('id', AuthController::getJWT()->sub)->first(),
 		]);
 	}
