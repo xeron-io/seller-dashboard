@@ -144,14 +144,14 @@
 				@if ($token->membership == 'Premium')
 					<li class="sidebar-title">Addons</li>
 
-					<li class="sidebar-item {{ $title == 'Domain' ? 'active' : '' }}">
+					<li class="sidebar-item {{ $title == 'Custom Domain' ? 'active' : '' }}">
 						<a href="{{ route('dash.domain') }}" class="sidebar-link">
 							<i class="bi bi-globe"></i>
 							<span>Custom Domain</span>
 						</a>
 					</li>
 
-					<li class="sidebar-item">
+					<li class="sidebar-item {{ $title == 'Custom Themes' ? 'active' : '' }}">
 						<a href="{{ route('dash.themes') }}" class="sidebar-link">
 							<i class="fa fa-picture-o" aria-hidden="true"></i>
 							<span>Custom Theme</span>
