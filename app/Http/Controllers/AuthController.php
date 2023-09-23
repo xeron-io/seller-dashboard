@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\UserVerification;
 use App\Mail\ResetPassword;
 use App\Models\Store;
+use App\Models\TwoFactorAuthentication;
 
 class AuthController extends Controller
 {
@@ -187,6 +188,32 @@ class AuthController extends Controller
       }
       else {
          return redirect()->route('login')->with('error', 'Token verifikasi tidak valid');
+      }
+   }
+
+   public static function twoFactor()
+   {
+      $seller = Sellers::where('id', self::getJWT()->sub)->first();
+      return view('auth.twofactor', [
+         'title' => '2FA',
+         'seller' => $seller,
+      ]);
+   }
+
+   public static function twoFactorVerify(Request $request)
+   {
+      $seller = Sellers::where('id', self::getJWT()->sub)->first();
+      $google2fa = (new \PragmaRX\Google2FAQRCode\Google2FA());
+
+      $pin = $request->input('pin');
+      $valid = $google2fa->verifyKey($seller->twoFactorAuthentication->google2fa_secret, $pin);
+
+      if($valid) {
+         session()->put('2fa', true);
+         return redirect()->route('dash.overview');
+      }
+      else {
+         return redirect()->back()->withErrors(['pin' => 'Kode verifikasi 2fa tidak valid']);
       }
    }
 }

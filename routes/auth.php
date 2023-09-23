@@ -10,6 +10,9 @@ Route::prefix('/auth')->group(function () {
     Route::get('/register', [AuthController::class, 'Register'])->name('register');
     Route::post('/register', [AuthController::class, 'RequestRegister'])->name('request_register');
 
+    Route::get('/2fa', [AuthController::class, 'twoFactor'])->name('2fa');
+    Route::post('/2fa', [AuthController::class, 'twoFactorVerify'])->name('2fa_verify');
+
     Route::get('/forget_password', [AuthController::class, 'ForgetPassword'])->name('forget_password');
     Route::post('/forget_password', [AuthController::class, 'RequestForgetPassword'])->name('request_forget_password');
 

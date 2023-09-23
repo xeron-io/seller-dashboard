@@ -29,4 +29,9 @@ class Sellers extends Model
     {
         return $this->belongsTo(Membership::class, 'id_membership', 'id');
     }
+
+    public function twoFactorAuthentication()
+    {
+        return $this->hasOne(TwoFactorAuthentication::class, 'id_seller', 'id');
+    }
 }

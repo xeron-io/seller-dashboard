@@ -16,9 +16,10 @@ use App\Http\Controllers\Dashboard\DomainController;
 use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\SetupController;
 use App\Http\Controllers\Dashboard\ThemesController;
+use App\Http\Controllers\Dashboard\TwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('jwt.auth')->group(function () {
+Route::middleware(['jwt.auth', '2fa'])->group(function () {
 	Route::get('/', [OverviewController::class, 'index'])->name('dash.overview');
 	Route::get('/transactions/year', [OverviewController::class, 'getTransactions']);
 
@@ -90,6 +91,12 @@ Route::middleware('jwt.auth')->group(function () {
 	Route::get('/setup/2', [SetupController::class, 'step2'])->name('dash.setup2');
 	Route::get('/setup/3', [SetupController::class, 'step3'])->name('dash.setup3');
 	Route::get('/setup/4', [SetupController::class, 'step4'])->name('dash.setup4');
+
+	// 2FA
+	Route::get('/2fa', [TwoFactorAuthenticationController::class, 'index'])->name('dash.2fa');
+	Route::post('/2fa/generateSecret', [TwoFactorAuthenticationController::class, 'generate2faSecret'])->name('generate2faSecret');
+	Route::post('/2fa/enable2fa', [TwoFactorAuthenticationController::class, 'enable2fa'])->name('enable2fa');
+	Route::post('/2fa/disable2fa', [TwoFactorAuthenticationController::class, 'disable2fa'])->name('disable2fa');
 
 	// Ping
 	Route::get('/ping/{ip}/{port}', [GameServerController::class, 'ping'])->name('dash.ping');

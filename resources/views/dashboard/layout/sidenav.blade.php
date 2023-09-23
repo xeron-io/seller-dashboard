@@ -82,7 +82,7 @@
 			</a>
 		</div> --}}
 		<div class="sidebar-menu mt-0">
-			<ul class="menu">
+			<ul class="menu mb-5">
 				<li class="sidebar-item {{ $title == 'Overview' ? 'active' : '' }}">
 					<a href="{{ route('dash.overview') }}" class="sidebar-link">
 						<i class="bi bi-grid-fill"></i>
@@ -172,6 +172,15 @@
 					<a href="{{ route('dash.withdraw') }}" class="sidebar-link">
 						<i class="bi bi-cash-stack"></i>
 						<span>Tarik Saldo</span>
+					</a>
+				</li>
+
+				<li class="sidebar-title">Security</li>
+
+				<li class="sidebar-item {{ $title == '2FA' ? 'active' : '' }}">
+					<a href="{{ route('dash.2fa') }}" class="sidebar-link">
+						<i class="bi bi-shield-lock"></i>
+						<span>2FA</span>
 					</a>
 				</li>
 			</ul>
