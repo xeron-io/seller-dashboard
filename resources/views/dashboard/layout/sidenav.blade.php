@@ -168,7 +168,7 @@
 					</a>
 				</li>
 
-				<li class="sidebar-item {{ $title == 'Penarikan Saldo' ? 'active' : '' }}">
+				<li class="sidebar-item mb-3 {{ $title == 'Penarikan Saldo' ? 'active' : '' }}">
 					<a href="{{ route('dash.withdraw') }}" class="sidebar-link">
 						<i class="bi bi-cash-stack"></i>
 						<span>Tarik Saldo</span>
