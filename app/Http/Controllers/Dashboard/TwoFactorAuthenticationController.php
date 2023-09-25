@@ -74,6 +74,8 @@ class TwoFactorAuthenticationController extends Controller
 
         if($valid) {
             $seller->twoFactorAuthentication->google2fa_enable = 1;
+            $seller->twoFactorAuthentication->ip_address = $request->ip();
+            $seller->twoFactorAuthentication->user_agent = $request->header('User-Agent');
             $seller->twoFactorAuthentication->save();
             session()->put('2fa', true);
             return redirect('2fa')->with('success', "");

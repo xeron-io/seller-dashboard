@@ -210,6 +210,11 @@ class AuthController extends Controller
 
       if($valid) {
          session()->put('2fa', true);
+         TwoFactorAuthentication::where('id_seller', $seller->id)->update([
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->header('User-Agent'),
+         ]);
+         
          return redirect()->route('dash.overview');
       }
       else {

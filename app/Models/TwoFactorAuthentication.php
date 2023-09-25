@@ -11,6 +11,10 @@ class TwoFactorAuthentication extends Model
     protected $table = 'two_factor_authentications';
     protected $fillable = [
         'id_seller',
+        'google2fa_enable',
+        'google2fa_secret',
+        'ip_address',
+        'user_agent',
     ];
 
     public function seller()
