@@ -30,14 +30,6 @@ class TwoFactorAuth
                         return redirect()->route('2fa');
                     }
                 }
-                else {
-                    if($two_factor_auth->ip_address == $request->ip() && $two_factor_auth->user_agent == $request->userAgent()) {
-                        return $next($request);
-                    }
-                    else {
-                        return redirect()->route('2fa');
-                    }
-                }
             }
         }
 
