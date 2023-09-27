@@ -19,7 +19,6 @@ class TwoFactorAuth
     public function handle($request, Closure $next)
     {
         $seller = Sellers::where('id', AuthController::getJWT()->sub)->first();
-        dd($request->ip());
         if($seller->twoFactorAuthentication()->exists()){
             if($seller->twoFactorAuthentication->google2fa_enable == 1){
                 $two_factor_auth = TwoFactorAuthentication::where('id_seller', $seller->id)->first();
