@@ -154,12 +154,13 @@ class AuthController extends Controller
 
    public function logout(Request $request)
    {
-      $request->session()->forget('token');
-      $request->session()->flush();
       TwoFactorAuthentication::where('id_seller', self::getJWT()->sub)->update([
          'ip_address' => '',
          'user_agent' => '',
       ]);
+      $request->session()->forget('token');
+      $request->session()->flush();
+      
       return redirect()->route('login');
    }
 
