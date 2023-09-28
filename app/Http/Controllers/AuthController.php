@@ -156,6 +156,10 @@ class AuthController extends Controller
    {
       $request->session()->forget('token');
       $request->session()->flush();
+      TwoFactorAuthentication::where('id_seller', self::getJWT()->sub)->update([
+         'ip_address' => '',
+         'user_agent' => '',
+      ]);
       return redirect()->route('login');
    }
 
