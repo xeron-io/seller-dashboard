@@ -15,31 +15,28 @@
                     Fitur gratis yang bisa anda dapatkan
                   </p>
                 </div>
-                <h1 class="price">$100</h1>
+                <h1 class="price fs-1">IDR 0</h1>
                 <ul>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Stores
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Products
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Vouchers
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Transactions
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Free SSL Certificate
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem dolor dolor
-                    sit amet
+                    <i class="bi bi-x-circle text-danger"></i>Custom Domain
+                  </li>
+                  <li>
+                    <i class="bi bi-x-circle text-danger"></i>Themes Selector
                   </li>
                 </ul>
                 <div class="card-footer">
@@ -57,31 +54,28 @@
                    Fitur premium yang bisa anda dapatkan
                   </p>
                 </div>
-                <h1 class="price text-white">$100</h1>
+                <h1 class="price text-white fs-1">IDR 100K</h1>
                 <ul>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Stores
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Products
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Vouchers
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Unlimited Transactions
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem ipsum dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Free SSL Certificate
                   </li>
                   <li>
-                    <i class="bi bi-check-circle"></i>Lorem dolor dolor
-                    sit amet
+                    <i class="bi bi-check-circle"></i>Custom Domain
+                  </li>
+                  <li>
+                    <i class="bi bi-check-circle"></i>Themes Selector
                   </li>
                 </ul>
                 <div class="card-footer">
