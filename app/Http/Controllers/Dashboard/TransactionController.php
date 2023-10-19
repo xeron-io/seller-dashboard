@@ -67,7 +67,7 @@ class TransactionController extends Controller
             return redirect()->back()->with('api_errors', 'Transaksi sudah selesai dalam proses kliring, tidak dapat direfund');
         }
 
-        $transaction->status = 'refunded';
+        $transaction->status = 'pending_refund';
         $transaction->save();
         return redirect()->back()->with('success', 'Transaksi berhasil direfund');
     }

@@ -57,6 +57,8 @@
 										<span class="badge bg-success">Paid</span>
 									@elseif(strtolower($item->status) == 'pending')
 										<span class="badge bg-warning">Pending</span>
+									@elseif(strtolower($item->status) == 'pending_refund')
+										<span class="badge bg-warning">Pending Refund</span>
 									@else
 										<span class="badge bg-danger">{{ ucwords($item->status) }}</span>
 									@endif

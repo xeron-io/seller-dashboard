@@ -78,8 +78,12 @@
         <form action="{{ route('dash.withdraw.create') }}" method="POST">
 					@csrf
           <div class="modal-body">
-						<span>Jumlah yang bisa dicairkan: <b>@currency($wallet->seller->balance)</b></span>
-						<p>Minimal Jumlah Pencairan: <b>@currency(100000)</b></p>
+						<div class="alert alert-primary" role="alert">
+							<h6>Ketentuan Penarikan Dana</h6>
+							<p>1. Jumlah yang bisa dicairkan: <b>@currency($wallet->seller->balance)</b></p>
+							<p>2. Minimal Jumlah Pencairan: <b>@currency(100000)</b></p>
+							<p>3. Maksimal Jumlah Pencairan: <b>@currency(10000000)</b></p>
+						</div>
 						<label>Jumlah yang ingin dicairkan: </label>
             <div class="form-group">
               <input type="number" name="amount" id="amount" class="form-control" placeholder="Masukkan jumlah penarikan" value="{{ old('amount') }}" min="100000" max="10000000" required>

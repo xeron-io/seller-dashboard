@@ -81,6 +81,15 @@
         <form action="{{ route('dash.domain.create') }}" method="POST">
 					@csrf
           <div class="modal-body">
+						{{-- Tutorial Add Custom Domain --}}
+						<div class="alert alert-primary" role="alert">
+							<h6>Tutorial Add Custom Domain</h6>
+							<p>1. Masukkan domain yang ingin anda tambahkan, tanpa http/https (example.com)</p>
+							<p>2. Tambahkan CNAME record pada domain anda dengan value <b>dns.xeron.io</b></p>
+							<p>3. Tunggu hingga status domain menjadi active</p>
+						</div>
+						{{-- End Tutorial Add Custom Domain --}}
+
 						<label>Pilih Toko: </label>
             <div class="form-group">
               <select name="id_store" class="form-select">

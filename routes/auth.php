@@ -10,6 +10,9 @@ Route::prefix('/auth')->group(function () {
     Route::get('/register', [AuthController::class, 'Register'])->name('register');
     Route::post('/register', [AuthController::class, 'RequestRegister'])->name('request_register');
 
+    Route::get('/register/verify', [AuthController::class, 'ResendVerify'])->name('resend_verify');
+    Route::post('/register/verify', [AuthController::class, 'RequestVerify'])->name('request_verify');
+
     Route::get('/2fa', [AuthController::class, 'twoFactor'])->name('2fa');
     Route::post('/2fa', [AuthController::class, 'twoFactorVerify'])->name('2fa_verify');
 

@@ -54,7 +54,7 @@
             {{-- success --}}
             @if(session('success'))
               <div class="alert alert-success fade show" role="alert">
-                {{ session('success') }} Tidak menerima email? <a href="#">Kirim ulang</a>.
+                {{ session('success') }} Tidak menerima email? <a href="{{ route('resend_verify') }}">Kirim ulang</a>.
               </div>
             @endif
 

@@ -88,6 +88,37 @@ class AuthController extends Controller
       return redirect()->route('register')->with('success', 'Akun anda berhasil dibuat. Silahkan cek email anda untuk verifikasi.');
    }
 
+   public function ResendVerify()
+   {
+      return view('auth.resend', [
+         'title' => 'Resend Verification',
+      ]);
+   }
+
+   public function RequestVerify(Request $request)
+   {
+      $request->validate([
+         'email' => 'required|email|exists:sellers,email',
+      ]);
+
+      // Cooldown 1 menit
+      if($request->session()->get('verification') > now()) {
+         return back()->withErrors(['email' => 'Silahkan Tunggu 1 menit untuk mengirimkan ulang email verifikasi']);
+      }
+
+      $seller = Sellers::where('email', $request->email)->first();
+      if($seller) {
+         // check if seller already verified
+         if($seller->isVerified == 1) {
+            return back()->withErrors(['email' => 'Akun anda sudah terverifikasi']);
+         }
+
+         Mail::to($seller->email)->send(new UserVerification($seller));
+         session()->put('verification', now()->addMinute());
+         return back()->with('success', 'Email verifikasi berhasil dikirim ulang.');
+      }
+   }
+
    public function ForgetPassword()
    {
       return view('auth.forget', [
