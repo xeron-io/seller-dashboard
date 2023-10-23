@@ -126,7 +126,6 @@ class ProductController extends Controller
 		$product = Product::where('id', $id)->whereHas('store', function($q) {
 			$q->where('id_seller', AuthController::getJWT()->sub);
 		})->delete();
-		$product->delete();
 
 		return redirect()->route('dash.product')->with('success', 'Produk berhasil dihapus');
 	}
