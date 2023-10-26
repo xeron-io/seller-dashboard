@@ -32,6 +32,8 @@
 						<span class="badge bg-success mt-1">Free</span>
 					@elseif ($token->membership == 'Premium')
 						<span class="badge bg-warning mt-1">Premium</span>
+					@else
+						<span class="badge bg-info mt-1">{{ $token->membership }}</span>
 					@endif
 				</div>
 

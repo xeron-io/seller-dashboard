@@ -41,14 +41,14 @@
 								</td>
 								<td>
 									@if($item->proof)
-										<a href="{{ $item->proof }}" target="_blank" class="btn btn-sm btn-primary">Lihat</a>
+										<a href="{{ $item->proof }}" target="_blank">Lihat</a>
 									@else
 										-
 									@endif
 								</td>
 								<td>
-									@if($item->status == 'success')
-										<span class="badge bg-success">Active</span>
+									@if($item->status == 'accepted')
+										<span class="badge bg-success">Accepted</span>
 									@elseif($item->status == 'pending')
 										<span class="badge bg-warning">Pending</span>
 									@else
