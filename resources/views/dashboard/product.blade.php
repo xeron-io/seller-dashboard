@@ -124,7 +124,8 @@
               <span class="input-group-text" id="basic-addon1">When the product is purchased:</span>
               <input type="text" name="ingame_command" class="form-control" placeholder="Insert ingame command without slash (/)." value="{{ old('ingame_command') }}">
             </div>
-						<p><small class="text-muted">Gunakan variabel <b>{id}</b> untuk mendapatkan user ingame id</small></p>
+						<p><small class="text-muted">FiveM: Gunakan variabel <b>{id}</b> untuk mendapatkan user ingame id</small></p>
+						<p><small class="text-muted">Minecraft: Gunakan variabel <b>{username}</b> untuk mendapatkan username</small></p>
 						<label>Gambar Produk: </label>
 						<div class="form-group">
               <input type="file" name="image" class="form-control" placeholder="Upload gambar produk" value="{{ old('image') }}" accept="image/*" onchange="showPreview(event);" required>
@@ -189,7 +190,6 @@
               <input type="text" name="ingame_command" class="form-control" placeholder="Insert ingame command without slash (/)." value="{{ old('ingame_command') }}">
             </div>
 						<p><small class="text-muted">FiveM: Gunakan variabel <b>{id}</b> untuk mendapatkan user ingame id</small></p>
-						<label>Gambar Produk: </label>
 						<p><small class="text-muted">Minecraft: Gunakan variabel <b>{username}</b> untuk mendapatkan username</small></p>
 						<label>Gambar Produk: </label>
 						<div class="form-group">
