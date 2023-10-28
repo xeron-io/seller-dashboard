@@ -52,7 +52,7 @@
 									@elseif($item->status == 'pending')
 										<span class="badge bg-warning">Pending</span>
 									@else
-										<span class="badge bg-danger">{{ $item->status }}</span>
+										<span class="badge bg-danger">{{ ucwords($item->status) }}</span>
 									@endif
 								</td>
 							</tr>
