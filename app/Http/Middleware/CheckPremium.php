@@ -19,7 +19,7 @@ class CheckPremium
     public function handle(Request $request, Closure $next)
     {
         $seller = Sellers::where('id', AuthController::getJWT()->sub)->with('membership')->first();
-        if($seller->membership->name != 'Premium') return abort(403);
+        if($seller->membership->name == 'Free') return abort(403);
         return $next($request);
     }
 }

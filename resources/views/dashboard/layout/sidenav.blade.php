@@ -141,7 +141,7 @@
 					</a>
 				</li>
 
-				@if ($token->membership == 'Premium')
+				@if ($token->membership != 'Free')
 					<li class="sidebar-title">Addons</li>
 
 					<li class="sidebar-item {{ $title == 'Custom Domain' ? 'active' : '' }}">
