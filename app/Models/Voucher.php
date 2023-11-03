@@ -29,6 +29,6 @@ class Voucher extends Model
 
     public function getUsage()
     {
-        return Transactions::where('id_voucher', $this->id)->count();
+        return Transactions::where('id_voucher', $this->id)->where('status', 'PAID')->count();
     }
 }
