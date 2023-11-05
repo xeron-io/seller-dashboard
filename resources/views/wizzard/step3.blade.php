@@ -59,11 +59,20 @@
 									<p class="mb-0">Silahkan download plugin dari link berikut:</p>
 									<ul class="ms-4 mb-1">
 										<li>FiveM: <a href="https://github.com/xeron-io/fivem-plugin/releases">https://github.com/xeron-io/fivem-plugin/releases</a></li>
-										<li>Minecraft: <a href="#">Segera hadir</a></li>
+										<li>Minecraft: <a href="https://github.com/xeron-io/minecraft-plugin/releases">https://github.com/xeron-io/minecraft-plugin/releases</a></li>
 									</ul>
-									<p class="mb-0">Setelah itu, silahkan ikuti langkah-langkah berikut:</p>
-									<p class="mb-0">1. Extract file tersebut dan copy ke folder resources pada server FiveM anda.</p>
-									<p class="mb-2">2. Rename folder tersebut menjadi <strong>xeron</strong>.</p>
+									<h6 class="mb-0 mt-1">Minecraft:</h6>
+									<p class="mb-0">Untuk game Minecraft, silahkan ikuti langkah-langkah berikut:</p>
+									<p class="mb-0">1. Download plugin dari link yang telah disediakan dan masukkan ke dalam folder <strong>plugins</strong> server anda</p>
+									<p class="mb-0">2. Restart server anda dan buka config dari <strong>plugin xeron</strong>.</p>
+									<p class="mb-0">3. Isikan  <strong>Api Key & Private Key</strong> sesuai yang terdapat diatas halaman ini.</p>
+									<p class="mb-0">4. Restart kembali server anda, agar perubahan dapat  <strong>tersimpan</strong></p>
+									<p class="mb-0">5.  <strong>Selesai,</strong> toko anda siap digunakan</p>
+									<h6 class="mb-0 mt-2">FiveM:</h6>
+									<p class="mb-0">Untuk game FiveM, silahkan ikuti langkah-langkah berikut:</p>
+									<p class="mb-0">1. Download plugin dari link yang telah disediakan</p>
+									<p class="mb-0">2. Extract file tersebut dan copy ke folder resources pada server FiveM anda.</p>
+									<p class="mb-2">3. Rename folder tersebut menjadi <strong>xeron</strong>.</p>
 									<h6 class="mb-1">● Konfigurasi Rcon</h6>
 									<p class="mb-2">3. Buka file <strong>server.cfg</strong> yang terletak pada root direktori server anda dan tambahkan baris baru berikut: <strong>rcon_password "passwordAnda"</strong>. Ubah password sesuai dengan yang anda inginkan.</p>
 									<h6 class="mb-1">● Konfigurasi Config</h6>

@@ -23,11 +23,13 @@ class SetupController extends Controller
 	public function step2()
 	{
 		$store = Store::where('id_seller', AuthController::getJWT()->sub)->first();
+		$domain = explode('.', $store->domain);
 
 		return view('wizzard.step2', [
 			'title' => 'Setup Your Store',
 			'gameserver' => GameServer::where('id_seller', AuthController::getJWT()->sub)->first(),
 			'store' => $store,
+			'domain' => $domain[0],
 		]);
 	}
 

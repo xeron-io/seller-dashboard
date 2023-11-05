@@ -52,7 +52,7 @@
 										<label>Store Domain: </label>
 										<div class="input-group">
 											@if($store)
-												<input type="text" name="domain" class="form-control" placeholder="Store Domain" value="{{ $store->domain }}" minlength="4" readonly>
+												<input type="text" name="domain" class="form-control" placeholder="Store Domain" value="{{ $domain }}" minlength="4" readonly>
 												<span class="input-group-text" id="domain">{{ env('STORE_DOMAIN') }}</span>
 											@else
 												<input type="text" name="domain" class="form-control" placeholder="Store Domain" value="{{ old('domain') }}" minlength="4" required>
