@@ -63,11 +63,11 @@
 									</ul>
 									<h6 class="mb-0 mt-1">Minecraft:</h6>
 									<p class="mb-0">Untuk game Minecraft, silahkan ikuti langkah-langkah berikut:</p>
-									<p class="mb-0">1. Download plugin dari link yang telah disediakan dan masukkan ke dalam folder <strong>plugins</strong> server anda</p>
+									<p class="mb-0">1. Download plugin dari link yang telah disediakan dan masukkan ke dalam folder <strong>plugins</strong> server anda.</p>
 									<p class="mb-0">2. Restart server anda dan buka config dari <strong>plugin xeron</strong>.</p>
 									<p class="mb-0">3. Isikan  <strong>Api Key & Private Key</strong> sesuai yang terdapat diatas halaman ini.</p>
-									<p class="mb-0">4. Restart kembali server anda, agar perubahan dapat  <strong>tersimpan</strong></p>
-									<p class="mb-0">5.  <strong>Selesai,</strong> toko anda siap digunakan</p>
+									<p class="mb-0">4. Restart kembali server anda, agar perubahan dapat  <strong>tersimpan</strong>.</p>
+									<p class="mb-0">5. <strong>Selesai,</strong> toko anda siap digunakan.</p>
 									<h6 class="mb-0 mt-2">FiveM:</h6>
 									<p class="mb-0">Untuk game FiveM, silahkan ikuti langkah-langkah berikut:</p>
 									<p class="mb-0">1. Download plugin dari link yang telah disediakan</p>
