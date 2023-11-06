@@ -270,7 +270,7 @@
 								<label>Command: (opsional)</label>
 								<div class="form-group">
 									<input type="text" name="command" id="command" placeholder="Masukkan command" class="form-control" value="{{ old('command') }}">
-									<p><small class="text-muted">Command yang digunakan pada tampilan transaksi sukses<br>Catatan: Kosongkan input ini apabila anda tidak mengerti, apa yang anda lakukan</small></p>
+									<p><small class="text-muted">Command yang digunakan pada tampilan transaksi sukses<br>Catatan: Biarkan input ini apabila anda tidak mengerti, apa yang anda lakukan</small></p>
 								</div>
 							</div>
 						</div>
