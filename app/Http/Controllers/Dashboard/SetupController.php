@@ -31,7 +31,7 @@ class SetupController extends Controller
 			'title' => 'Setup Your Store',
 			'gameserver' => GameServer::where('id_seller', AuthController::getJWT()->sub)->first(),
 			'store' => $store,
-			'domain' => $domain[0],
+			'domain' => $store ? $domain[0] : null,
 		]);
 	}
 
