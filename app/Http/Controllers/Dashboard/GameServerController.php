@@ -71,7 +71,8 @@ class GameServerController extends Controller
 			'name' => 'required|string|min:3|max:255',
 			'game' => 'required|string|max:255',
 			'ip' => 'required|string|max:255',
-			'port' => 'required|string|max:25'
+			'port' => 'required|string|max:25',
+			'domain' => 'nullable|string|max:255',
 		]);
 
 		GameServer::where('id_seller', AuthController::getJWT()->sub)->where('id', $id)->update([
@@ -79,6 +80,7 @@ class GameServerController extends Controller
 			'game' => $request->game,
 			'ip' => $request->ip,
 			'port' => $request->port,
+			'domain' => $request->domain ? $request->domain : null,
 		]);
 
 		return redirect()->back()->with('success', 'Berhasil mengupdate game server');

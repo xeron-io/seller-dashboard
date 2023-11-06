@@ -77,6 +77,7 @@ class StoreController extends Controller
 			'facebook' => $request->facebook ? $request->facebook : '-',
 			'status' => 'active', // 'pending', 'active', 'suspended
 			'logo' => $img_url,
+			'command' => $request->command ? $request->command : 'redeem',
 			'api_key' => $api_key,
 			'private_key' => Str::uuid(),
 		]);
@@ -142,6 +143,7 @@ class StoreController extends Controller
 			'phone' => $request->phone ? $request->phone : '-',
 			'facebook' => $request->facebook ? $request->facebook : '-',
 			'logo' => $request->file('logo') ? $img_url : $oldData->logo,
+			'command' => $request->command ? $request->command : $oldData->command,
 		]);
 
 		return redirect()->route('dash.store')->with('success', 'Toko anda berhasil di update');

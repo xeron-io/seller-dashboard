@@ -156,6 +156,11 @@
 								<div class="form-group">
 									<input type="url" name="facebook" placeholder="Link facebook toko" class="form-control" value="{{ old('facebook') }}">
 								</div>
+								<label>Command: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="command" placeholder="Masukkan command" class="form-control" value="{{ old('command') }}">
+									<p><small class="text-muted">Command yang digunakan pada tampilan transaksi sukses<br>Catatan: Kosongkan input ini apabila anda tidak mengerti, apa yang anda lakukan</small></p>
+								</div>
 							</div>
 						</div>
           </div>
@@ -262,6 +267,11 @@
 										<i class="fa fa-clipboard" aria-hidden="true"></i>
 									</button>
 								</div>
+								<label>Command: (opsional)</label>
+								<div class="form-group">
+									<input type="text" name="command" id="command" placeholder="Masukkan command" class="form-control" value="{{ old('command') }}">
+									<p><small class="text-muted">Command yang digunakan pada tampilan transaksi sukses<br>Catatan: Kosongkan input ini apabila anda tidak mengerti, apa yang anda lakukan</small></p>
+								</div>
 							</div>
 						</div>
           </div>
@@ -303,6 +313,7 @@
 				$('#editStore form img').attr('src', data.logo);
 				$('#editStore form input[name="api_key"]').val(data.api_key);
 				$('#editStore form input[name="private_key"]').val(data.private_key);
+				$('#editStore form input[name="command"]').val(data.command);
       }) 
     });
 	</script>

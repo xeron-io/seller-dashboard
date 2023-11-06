@@ -27,6 +27,7 @@ class Store extends Model
         'discord',
         'status',
         'logo',
+        'command',
         'api_key',
         'private_key'
     ];
@@ -38,7 +39,6 @@ class Store extends Model
     
     public function gameserver()
     {
-        // get trashed data too
         return $this->belongsTo(GameServer::class, 'id_gameserver', 'id')->withTrashed();
     }
 
