@@ -11,6 +11,8 @@ use App\Models\Transactions;
 use App\Models\Store;
 use App\Http\Controllers\AuthController;
 use App\Models\ClaimLog;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransactionDelivery;
 
 class TransactionController extends Controller
 {
@@ -77,10 +79,12 @@ class TransactionController extends Controller
         $transaction = Transactions::where('id', $id)->where('status', 'paid')->whereHas('store', function ($query) {
             $query->where('id_seller', AuthController::getJWT()->sub);
         })->first();
+        $store = Store::where('id', $transaction->id_store)->first();
         if($transaction == null) {
             return redirect()->back()->with('api_errors', 'Transaksi tidak ditemukan');
         }
         
+        Mail::to($transaction->buyer_email )->send(new TransactionDelivery($store, $transaction));
         ClaimLog::where('id_transaction', $id)->delete();
         return redirect()->back()->with('success', 'Transaksi berhasil dikirim ulang');
     }

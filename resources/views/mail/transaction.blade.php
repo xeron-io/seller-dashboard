@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Reset Password</title>
+    <title>Product Delivered</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
     /**
@@ -125,7 +125,7 @@
             <tr>
               <td align="center" valign="top" style="padding-top: 30px;">
                 <a href="https://xeron.io/" target="_blank" style="display: inline-block;">
-                  <img src="https://i.imgur.com/4xSN711.png" alt="Logo" border="0" width="150" style="display: block; width: 100px; max-width: 100px; min-width: 100px;margin-bottom: 20px;">
+                  <img src="https://i.imgur.com/4xSN711.png" border="0" width="150" style="display: block; width: 100px; max-width: 100px; min-width: 100px;margin-bottom: 20px;">
                 </a>
               </td>
             </tr>
@@ -150,7 +150,7 @@
           <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
             <tr>
               <td align="left" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #3182CE;">
-                <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Reset Your Password</h1>
+                <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Claim Your Order</h1>
               </td>
             </tr>
           </table>
@@ -176,7 +176,7 @@
             <tr>
               <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                 <p style="margin: 0;">
-                  Halo {{ $user->firstname }},
+                  Halo {{ $transaction->buyer_name }},
                 </p>
               </td>
             </tr>
@@ -185,7 +185,7 @@
             <tr>
               <td align="left" bgcolor="#ffffff" style="padding: 0px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                 <p style="margin: 0;">
-                  Anda menerima email ini karena kami menerima permintaan untuk mengatur ulang kata sandi untuk akun Anda. Silahkan klik tombol di bawah ini untuk mengatur ulang kata sandi Anda.
+                  Anda menerima email ini karena transaksi anda (<b>{{ $transaction->product->name }}</b>) telah dikirim ulang oleh seller. Untuk melihat detail transaksi lebih lanjut, anda dapat membuka link dengan menekan tombol dibawah ini.
                 </p>
               </td>
             </tr>
@@ -200,7 +200,7 @@
                       <table border="0" cellpadding="0" cellspacing="0">
                         <tr>
                           <td align="center" bgcolor="#3182CE" style="border-radius: 6px;">
-                            <a href="{{ route('reset_password', $user->forget_password_token) }}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Reset Now</a>
+                            <a href="https://{{ $store->custom_dmain ? $store->custom_dmain : $store->domain . '/review/' . $transaction->merchant_ref }}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">See More</a>
                           </td>
                         </tr>
                       </table>
@@ -217,7 +217,7 @@
                 <p style="margin: 0;">
                   Jika tombol di atas tidak berfungsi, Anda dapat mengklik tautan di bawah ini untuk mengatur ulang kata sandi Anda:
                 </p>
-                <p style="margin: 0;"><a href="{{ route('reset_password', $user->forget_password_token) }}" target="_blank">Klik disini</a></p>
+                <p style="margin: 0;"><a href="https://{{ $store->custom_dmain ? $store->custom_dmain : $store->domain . '/review/' . $transaction->merchant_ref }}" target="_blank">Klik disini</a></p>
               </td>
             </tr>
             <!-- end copy -->
@@ -254,7 +254,7 @@
             <tr>
               <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
                 <p style="margin: 0;">
-                  Anda ({{ $user->email }}) menerima email ini karena kami menerima permintaan untuk mengatur ulang kata sandi untuk akun Anda.
+                  Anda ({{ $transaction->buyer_email }}) menerima email ini karena anda telah berhasil melakukan pembayaran untuk transaksi ini.
                 </p>
               </td>
             </tr>
