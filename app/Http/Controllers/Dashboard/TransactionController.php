@@ -84,7 +84,7 @@ class TransactionController extends Controller
             return redirect()->back()->with('api_errors', 'Transaksi tidak ditemukan');
         }
         
-        Mail::to($transaction->buyer_email )->send(new TransactionDelivery($store, $transaction));
+        Mail::to($transaction->buyer_email)->send(new TransactionDelivery($store, $transaction));
         ClaimLog::where('id_transaction', $id)->delete();
         return redirect()->back()->with('success', 'Transaksi berhasil dikirim ulang');
     }
