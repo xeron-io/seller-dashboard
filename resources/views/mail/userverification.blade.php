@@ -125,7 +125,7 @@
             <tr>
               <td align="center" valign="top" style="padding-top: 30px;">
                 <a href="https://xeron.io/" target="_blank" style="display: inline-block;">
-                  <img src="https://i.imgur.com/4xSN711.png" alt="Logo" border="0" width="150" style="display: block; width: 100px; max-width: 100px; min-width: 100px;margin-bottom: 20px;">
+                  <img src="https://i.imgur.com/4xSN711.png" border="0" width="150" style="display: block; width: 100px; max-width: 100px; min-width: 100px;margin-bottom: 20px;">
                 </a>
               </td>
             </tr>
