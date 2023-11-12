@@ -58,7 +58,7 @@ class StoreController extends Controller
 		$payload = [
 			'iss' => "xeron.io",
 			'id_seller' => AuthController::getJWT()->sub,
-			'id_store' => $check_domain->id,
+			'salt' => Str::random(6)
     ];
 
     $api_key = JWT::encode($payload, env('JWT_KEY'), 'HS256');
