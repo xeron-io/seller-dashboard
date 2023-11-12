@@ -33,6 +33,7 @@
 							<th>Toko</th>
 							<th>Produk</th>
 							<th>Jumlah</th>
+							<th>isClaimed</th>
 							<th>Nama Pembeli</th>
 							<th>Pendapatan Kotor</th>
 							<th>Pajak</th>
@@ -48,6 +49,9 @@
 								<td>{{ $item->store->name }}</td>
 								<td>{{ Str::limit($item->product->name, 30, '...') }}</td>
 								<td>{{ $item->quantity }}</td>
+								<td>
+									{{ $usage = $item->IsClaimed($item->id) ? 'Yes' : 'No' }}
+								</td>
 								<td>{{ $item->buyer_name }}</td>
 								<td>Rp {{ number_format($item->amount) }}</td>
 								<td>Rp {{ number_format($item->pajak) }}</td>

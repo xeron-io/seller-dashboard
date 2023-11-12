@@ -46,4 +46,13 @@ class Transactions extends Model
     {
         return $this->belongsTo(Product::class, 'id_product', 'id')->withTrashed();
     }
+    
+    public function IsClaimed($id_transaction)
+    {
+        if(ClaimLog::where('id_transaction', $id_transaction)->first()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
