@@ -215,7 +215,7 @@
             <tr>
               <td align="left" bgcolor="#ffffff" style="padding: 0px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                 <p style="margin: 0;">
-                  Jika tombol di atas tidak berfungsi, Anda dapat mengklik tautan di bawah ini untuk mengatur ulang kata sandi Anda:
+                  Jika tombol di atas tidak berfungsi, Anda dapat mengklik tautan di bawah ini untuk melihat detail transaksi anda:
                 </p>
                 <p style="margin: 0;"><a href="https://{{ $store->custom_dmain ? $store->custom_dmain : $store->domain . '/review/' . $transaction->merchant_ref }}" target="_blank">Klik disini</a></p>
               </td>
