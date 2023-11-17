@@ -128,6 +128,11 @@
 							<li><small class="text-muted">FiveM: Gunakan variabel <b>{id}</b> untuk mendapatkan user ingame id</small></li>
 							<li><small class="text-muted">Minecraft: Gunakan variabel <b>{username}</b> untuk mendapatkan username</small></li>
 						</ul>
+						<label>Minimum Empty Slot: (For Minecraft Only)</label>
+						<div class="form-group">
+							<input type="number" name="min_slot" class="form-control" placeholder="Insert mininum slot players has to empty" value="0" required>
+							<p><small class="text-muted">Minimum empty slot adalah berapa banyak minimal slot kosong pada player saat akan redeem transaksi</small></p>
+						</div>
 						<label>Gambar Produk: </label>
 						<div class="form-group">
               <input type="file" name="image" class="form-control" placeholder="Upload gambar produk" value="{{ old('image') }}" accept="image/*" onchange="showPreview(event);" required>
@@ -195,6 +200,11 @@
 							<li><small class="text-muted">FiveM: Gunakan variabel <b>{id}</b> untuk mendapatkan user ingame id</small></li>
 							<li><small class="text-muted">Minecraft: Gunakan variabel <b>{username}</b> untuk mendapatkan username</small></li>
 						</ul>
+						<label>Minimum Empty Slot: (For Minecraft Only)</label>
+						<div class="form-group">
+							<input type="number" name="min_slot" class="form-control" placeholder="Insert mininum slot players has to empty" value="0" required>
+							<p><small class="text-muted">Minimum empty slot adalah berapa banyak minimal slot kosong pada player saat akan redeem transaksi</small></p>
+						</div>
 						<label>Gambar Produk: </label>
 						<div class="form-group">
               <input type="file" name="image" class="form-control" placeholder="Upload gambar produk" value="{{ old('image') }}" accept="image/*" onchange="showPreview2(event);">
@@ -308,6 +318,7 @@
 				$('#editProduct form input[name="name"]').val(data.name);
 				$('#editProduct form input[name="price"]').val(data.price);
 				$('#editProduct form input[name="ingame_command"]').val(data.ingame_command);
+				$('#editProduct form input[name="min_slot"]').val(data.min_slot);
 				$('#editProduct form img').attr('src', data.image);
 				$('#editProduct form input[name="description2"]').val(data.description);
 				$('#editProduct form select[name="id_category"]').val(data.id_category);

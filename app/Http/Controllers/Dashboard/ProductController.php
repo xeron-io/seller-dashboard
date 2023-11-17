@@ -49,6 +49,7 @@ class ProductController extends Controller
 			'price' => 'required|numeric|min:10000',
 			'description' => 'required|string|min:100',
 			'ingame_command' => 'required|string',
+			'min_slot' => 'required|numeric|min:0',
 		]);
 
 		$category = Category::where('id', $request->id_category)->whereHas('store', function($q) {
@@ -72,6 +73,7 @@ class ProductController extends Controller
 			'price' => $request->price,
 			'image' => $img_url,
 			'ingame_command' => $request->ingame_command,
+			'min_slot' => $request->min_slot,
 		]);
 
 		return redirect()->route('dash.product')->with('success', 'Produk berhasil ditambahkan');
@@ -87,6 +89,7 @@ class ProductController extends Controller
 			'price' => 'required|numeric|min:10000',
 			'description2' => 'required|string|min:100',
 			'ingame_command' => 'required|string',
+			'min_slot' => 'required|numeric|min:0',
 		]);
 
 		$category = Category::where('id', $request->id_category)->whereHas('store', function($q) {
@@ -116,6 +119,7 @@ class ProductController extends Controller
 			'price' => $request->price,
 			'image' => $request->file('image') ? $img_url : $oldData->image,
 			'ingame_command' => $request->ingame_command,
+			'min_slot' => $request->min_slot,
 		]);
 
 		return redirect()->route('dash.product')->with('success', 'Produk berhasil diubah');

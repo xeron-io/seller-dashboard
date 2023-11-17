@@ -20,6 +20,7 @@ class Product extends Model
         'image',
         'ingame_command',
         'description',
+        'min_slot'
     ];
 
     public function store()
