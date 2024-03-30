@@ -17,7 +17,8 @@
 						<tr>
 							<th>No</th>
 							<th>Toko</th>
-							<th>Domain</th>
+							<th>Default Domain</th>
+							<th>Custom Domain</th>
 							<th>Status</th>
 							<th>Opsi</th>
 						</tr>
@@ -27,6 +28,7 @@
 							<tr>
 								<td>{{ $loop->iteration }}</td>
 								<td>{{ $item->name }}</td>
+								<td><a href="https://{{ $item->domain }}" target="_blank">{{ $item->domain }}</a></td>
 								<td><a href="https://{{ $item->custom_domain }}" target="_blank">{{ $item->custom_domain }}</a></td>
 								<td>
 									@if($item->status == 'active')
