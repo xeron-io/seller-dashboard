@@ -41,7 +41,7 @@
 		<section class="section mt-3 d-none" id="theme-section-{{ $data->id }}">
 			<div class="row">
 				@foreach($themes as $theme)
-					<div class="col-lg-3 col-12 position-relative">
+					<div class="col-lg-3 col-md-5 col-12 position-relative">
 						<div class="card {{ $theme->id == $data->id_theme ? 'border border-success border-3' : '' }}">
 							<div class="card-content">
 								<img src="{{ $theme->thumbnail }}" class="card-img-to" style="height: 13rem;width: 100%;border-radius:10px 10px 0px 0px;" alt="singleminded">
