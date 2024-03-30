@@ -36,7 +36,7 @@
                       </form>
                   @elseif(!$data['seller']->twoFactorAuthentication->google2fa_enable)
                       <span>1. Scan this QR code with your Google Authenticator App. Alternatively, you can use the code: </span><code>{{ $data['secret'] }}</code><br/>
-                      <img src="{{ $data['google2fa_url'] }}" alt="">
+                      {{ $data['google2fa_url'] }}
                       <br/><br/>
                       <span class="mt-2">2. Enter the pin from <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en">Google Authenticator app</a>:</span>
                       <form class="form-horizontal mt-1" method="POST" action="{{ route('enable2fa') }}">
