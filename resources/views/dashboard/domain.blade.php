@@ -73,7 +73,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title text-white" id="myModalLabel33">
+          <h4 class="modal-title" id="myModalLabel33">
             Tambah Custom Domain
           </h4>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -85,7 +85,7 @@
           <div class="modal-body">
 						{{-- Tutorial Add Custom Domain --}}
 						<div class="alert alert-primary" role="alert">
-							<h6>Tutorial Add Custom Domain</h6>
+							<h6 class="text-white">Tutorial Add Custom Domain</h6>
 							<p>1. Masukkan domain yang ingin anda tambahkan, tanpa http/https (example.com)</p>
 							<p>2. Tambahkan CNAME record pada domain anda dengan value <b>dns.xeron.io</b></p>
 							<p>3. Tunggu hingga status domain menjadi active</p>
